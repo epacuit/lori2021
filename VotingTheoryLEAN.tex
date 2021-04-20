@@ -14,6 +14,16 @@
 % to display URLs in blue roman font according to Springer's eBook style:
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
 
+\usepackage[draft,inline]{fixme}
+
+\FXRegisterAuthor{wh}{awh}{WH}%Wes
+\FXRegisterAuthor{cn}{acn}{CN}%Chase
+\FXRegisterAuthor{ep}{aep}{EP}%Eric
+
+\newcommand{\whnt}[1]{\whnote[inline,marginclue]{\textcolor{brickred}{#1}}} 
+\newcommand{\cnnt}[1]{\ydnote[inline,marginclue]{\textcolor{cobalt}{#1}}} 
+\newcommand{\epnt}[1]{\epnote[inline,marginclue]{\textcolor{cobalt}{#1}}} 
+
 
 \begin{document}
 %
@@ -59,6 +69,8 @@ For the following definition, we fix infinite sets $\mathcal{V}$ and $\mathcal{X
 \begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
 \end{definition}
 
+\whnote{One problem with the above definition is that we cannot extract $X$ from $\mathbf{Q}$, because, e.g., $\mathcal{B}(X)$ may be empty.... In our previous papers, where $\mathbf{Q}(i)$ had to be a linear order, we can extract $X$ from $\mathbf{Q}$---provided there is more than one candidate. If there is only one candidate for $\mathbf{Q}$,  then we cannot extract $X$ from $\mathbf{Q}$....}
+
 Depending on the application, one can interpret $x\mathbf{Q}_i y$ to mean either (i) that voter $i$ strictly prefers $x$ to $y$ or (ii) that voter $i$ strictly prefers $x$ to $y$ or is indifferent between $x$ and $y$. Under interpretation (i), we use `$\mathbf{P}$' for a profile; under interpretation (ii), we use `$\mathbf{R}$' for a profile.\footnote{\label{VoterNote}Approach (ii) is more general, since it allows one to distinguish between voter $i$ being \textit{indifferent} between $x$ and $y$, defined as $x\mathbf{R}_iy$ and $y\mathbf{R}_ix$, vs. $x$ and $y$ being \textit{noncomparable} for $i$, defined as \textit{neither} $x\mathbf{R}_iy$ \textit{nor} $y\mathbf{R}_ix$. When the distinction between voter indifference and noncomparability is not needed, approach (i) can be simpler.} A profile $\mathbf{Q}$ is said to be \emph{asymmetric} (\emph{transitive}, etc.) if for every $i\in V$, $\mathbf{Q}_i$ is asymmetric (transitive, etc.). Of course, asymmetric profiles only make sense under interpretation (i), whereas under interpretation (ii), profiles should be reflexive.
 
 In LEAN, ...
@@ -68,6 +80,23 @@ Next we define two kinds of functions that take profiles as inputs. The first, w
 
 \begin{definition} \textnormal{A \emph{voting method} is a function $F$ on $\mathsf{Prof}$ such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$. We abuse terminology and call the set $\{\mathbf{Q}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the voting method.}
 \end{definition}
+
+\whnote{Here's another approach, which seems closer to what we do with dependent types in Lean.}
+
+\begin{definition} \textnormal{For nonempty finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \emph{$(V,X)$-profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$. A \textit{profile} is a $(V,X)$-profile for some nonempty finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}(V,X)$ be the set of all $(V,X)$-profiles and $\mathsf{Prof}$ the set of all profiles.}\end{definition}
+
+\begin{definition} \textnormal{For nonempty finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{social choice correspondence for $(V,X)$} (or $(V,X)$-SCC) is a function  $F: \mathsf{Prof}(V,X)\to \wp(X)$.}
+
+\textnormal{We abuse notation and call the set $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid F(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
+\end{definition}
+
+\begin{definition} \textnormal{A \textit{variable-election social choice correspondence} (VSCC) is a function $F$ that assigns to each pair $(V,X)$ of a nonempty finite $V\subseteq \mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-SCC.}
+
+\textnormal{We abuse notation and call the set $\{\mathbf{Q}\in\mathsf{Prof}\mid F(V(\mathbf{Q}),X(\mathbf{Q}))(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
+\end{definition}
+
+\whnote{That definition of VSCC makes the connection with dependent types obviously.}
+
 
 In LEAN, ...
 
