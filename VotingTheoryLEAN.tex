@@ -5,6 +5,8 @@
 \documentclass[runningheads]{llncs}
 %
 \usepackage{graphicx}
+%\usepackage{amsmath,amsthm,amssymb} 
+
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -12,9 +14,10 @@
 % to display URLs in blue roman font according to Springer's eBook style:
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
 
+
 \begin{document}
 %
-\title{Contribution Title\thanks{Supported by organization x.}}
+\title{Voting Theory in the LEAN Theorem Prover\thanks{Supported by organization x.}}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -46,6 +49,47 @@ The abstract should briefly summarize the contents of the paper in
 %
 %
 %
+
+\section{Introduction}
+
+\section{Framework}
+
+For the following definition, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. Given a binary relation $S$ on $X$ and $x,y\in X$, we write `$xSy$' for $(x,y)\in S$.
+
+\begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
+\end{definition}
+
+Depending on the application, one can interpret $x\mathbf{Q}_i y$ to mean either (i) that voter $i$ strictly prefers $x$ to $y$ or (ii) that voter $i$ strictly prefers $x$ to $y$ or is indifferent between $x$ and $y$. Under interpretation (i), we use `$\mathbf{P}$' for a profile; under interpretation (ii), we use `$\mathbf{R}$' for a profile.\footnote{\label{VoterNote}Approach (ii) is more general, since it allows one to distinguish between voter $i$ being \textit{indifferent} between $x$ and $y$, defined as $x\mathbf{R}_iy$ and $y\mathbf{R}_ix$, vs. $x$ and $y$ being \textit{noncomparable} for $i$, defined as \textit{neither} $x\mathbf{R}_iy$ \textit{nor} $y\mathbf{R}_ix$. When the distinction between voter indifference and noncomparability is not needed, approach (i) can be simpler.} A profile $\mathbf{Q}$ is said to be \emph{asymmetric} (\emph{transitive}, etc.) if for every $i\in V$, $\mathbf{Q}_i$ is asymmetric (transitive, etc.). Of course, asymmetric profiles only make sense under interpretation (i), whereas under interpretation (ii), profiles should be reflexive.
+
+In LEAN, ...
+
+
+Next we define two kinds of functions that take profiles as inputs. The first, which we call \textit{voting methods} (also known as \textit{social choice correspondences}), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the voting method is defined. Thus, one may define a voting method as a function on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our purposes, it is more convenient to use the following equivalent approach.
+
+\begin{definition} \textnormal{A \emph{voting method} is a function $F$ on $\mathsf{Prof}$ such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$. We abuse terminology and call the set $\{\mathbf{Q}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the voting method.}
+\end{definition}
+
+In LEAN, ...
+
+The second type of function we consider assigns to a given profile a binary relation on the set of candidates in the profile. We call such functions \textit{variable-election collective choice rules}.\footnote{About CCRs...}  
+
+\begin{definition} \textnormal{A \emph{variable-election collective choice rule} (VCCR) is a function $f$ on $\mathsf{Prof}$ such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.}
+\end{definition}
+Depending on the application, one can interpret $xf(\mathbf{Q})y$ as either (a) $x$ defeats $y$ socially or (b) $x$ defeats or is tied with $y$ socially.\footnote{As in Footnote \ref{VoterNote}, approach (b) is more general, since it allows one to distinguish between ``social indifference'' and ``social noncomparability'' (see, e.g., ...). When notions of social indifference and noncomparability are not needed, approach (a) can be simpler.} Once again, there is also the issue of ``domain restrictions.'' Under approach $(a)$, we can mark that the VCCR is ``undefined'' on a profile $\mathbf{Q}$ by setting $f(\mathbf{Q})= X(\mathbf{Q})\times X(\mathbf{Q})$. Then we can abuse terminology and call $\{\mathbf{Q}\mid f(\mathbf{Q})\neq X(\mathbf{Q})\times X(\mathbf{Q}) \}$ the \textit{domain} of $f$. Under approach (b), we can mark that the VCCR is ``undefined'' on $\mathbf{Q}$ by setting $f(\mathbf{Q})=\emptyset$. Then we can abuse terminology and call $\{\mathbf{Q}\mid f(\mathbf{Q})\neq \emptyset\}$ the \textit{domain} of $f$. A VCCR $f$ is said to be \textit{asymmetric} (resp.~\textit{transitive}, etc.), if for all $\mathbf{Q}$ in the domain of $f$, $f(\mathbf{Q})$ is asymmetric (transitive, etc.). Of course, asymmetric VCCRs only make sense under interpretation (a), whereas under interpretation (b), VCCRs should be reflexive.
+
+In LEAN, ...
+
+\section{Theorems}
+
+\section{Discussion}
+
+\section{Conclusion}
+
+
+
+
+\newpage
+
 \section{First Section}
 \subsection{A Subsection Sample}
 Please note that the first paragraph of a section or subsection is
