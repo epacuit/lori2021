@@ -16,6 +16,8 @@
 
 \usepackage[draft,inline]{fixme}
 
+\usepackage{pygmentex}
+
 \FXRegisterAuthor{wh}{awh}{WH}%Wes
 \FXRegisterAuthor{cn}{acn}{CN}%Chase
 \FXRegisterAuthor{ep}{aep}{EP}%Eric
@@ -64,38 +66,52 @@ The abstract should briefly summarize the contents of the paper in
 
 \section{Framework}
 
-For the following definition, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. Given a binary relation $S$ on $X$ and $x,y\in X$, we write `$xSy$' for $(x,y)\in S$.
+In this section, we define the basic objects of voting theory: profiles, social choice correspondences, etc. We give both standard set-theoretic definitions and their type-theoretic counterparts in Lean syntax.
 
-\begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
-\end{definition}
+For the following set-theoretic definition, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. To better match our Lean formalization, we take a binary relation on $X$ to be a function $S: X\times X \to \{0,1\}$. Given $x,y\in X$, we write `$xSy$' for $S(x,y)=1$.
 
-\whnote{One problem with the above definition is that we cannot extract $X$ from $\mathbf{Q}$, because, e.g., $\mathcal{B}(X)$ may be empty.... In our previous papers, where $\mathbf{Q}(i)$ had to be a linear order, we can extract $X$ from $\mathbf{Q}$---provided there is more than one candidate. If there is only one candidate for $\mathbf{Q}$,  then we cannot extract $X$ from $\mathbf{Q}$....}
+%\begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
+%\end{definition}
+
+\begin{definition}\label{ProfileDef} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \emph{$(V,X)$-profile} is a map $\mathbf{Q}:V\to \mathcal{B}(X)$. Given a $(V,X)$-profile $\mathbf{Q}$, we write $V(\mathbf{Q})$ for $V$ and $X(\mathbf{Q})$  for $X$. A \textit{profile} is a $(V,X)$-profile for some $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. }
+
+\textnormal{Let $\mathsf{Prof}(V,X)$ be the set of all $(V,X)$-profiles and $\mathsf{Prof}$ the set of all profiles.}\end{definition}
+
+%\whnote{One problem with the above definition is that we cannot extract $X$ from $\mathbf{Q}$, because, e.g., $\mathcal{B}(X)$ may be empty.... In our previous papers, where $\mathbf{Q}(i)$ had to be a linear order, we can extract $X$ from $\mathbf{Q}$---provided there is more than one candidate. If there is only one candidate for $\mathbf{Q}$,  then we cannot extract $X$ from $\mathbf{Q}$....}
+
+
 
 Depending on the application, one can interpret $x\mathbf{Q}_i y$ to mean either (i) that voter $i$ strictly prefers $x$ to $y$ or (ii) that voter $i$ strictly prefers $x$ to $y$ or is indifferent between $x$ and $y$. Under interpretation (i), we use `$\mathbf{P}$' for a profile; under interpretation (ii), we use `$\mathbf{R}$' for a profile.\footnote{\label{VoterNote}Approach (ii) is more general, since it allows one to distinguish between voter $i$ being \textit{indifferent} between $x$ and $y$, defined as $x\mathbf{R}_iy$ and $y\mathbf{R}_ix$, vs. $x$ and $y$ being \textit{noncomparable} for $i$, defined as \textit{neither} $x\mathbf{R}_iy$ \textit{nor} $y\mathbf{R}_ix$. When the distinction between voter indifference and noncomparability is not needed, approach (i) can be simpler.} A profile $\mathbf{Q}$ is said to be \emph{asymmetric} (\emph{transitive}, etc.) if for every $i\in V$, $\mathbf{Q}_i$ is asymmetric (transitive, etc.). Of course, asymmetric profiles only make sense under interpretation (i), whereas under interpretation (ii), profiles should be reflexive.
 
-In LEAN, ...
+To translate Definition \ref{ProfileDef} into Lean, we first think of $V$ and $X$ as types, rather than sets, and then define a \texttt{Profile} type as follows:\footnote{When writing type expressions, arrows associate to the right, so, e.g.,  `\texttt{Type $\to$ Type $\to$ Type}' means \texttt{Type $\to$ (Type $\to$ Type)}.}
+\begin{itemize}
+\item[] \texttt{def Profile: Type $\to$ Type $\to$ Type := 
+\item[] \qquad\qquad\qquad\, $\lambda$ (V X : Type), V $\to$ X $\to$ X $\to$ Prop}
+\end{itemize}
+Here \texttt{Type} is the 0-th level of an infinite hierarchy of types, and \texttt{Prop} is a special type that plays the role of $\{0,1\}$ in the formalization of binary relations mentioned above.  The definition states that \texttt{Profile} is a function, whose type is \texttt{Type $\to$ Type $\to$ Type}, defined as follows: given two types, \texttt{V} and \texttt{X}, output the type  \texttt{V $\to$ X $\to$ X $\to$ Prop}. As \texttt{X $\to$ X $\to$ Prop} is the type of binary relations on \texttt{X}, an inhabitant of the type \texttt{V $\to$ X $\to$ X $\to$ Prop} can be viewed as a $(V,X)$-profile. Thus, we may think of \texttt{Profile V X} as the type of $(V,X)$-profiles.
 
 
-Next we define two kinds of functions that take profiles as inputs. The first, which we call \textit{voting methods} (also known as \textit{social choice correspondences}), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the voting method is defined. Thus, one may define a voting method as a function on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our purposes, it is more convenient to use the following equivalent approach.
 
-\begin{definition} \textnormal{A \emph{voting method} is a function $F$ on $\mathsf{Prof}$ such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$. We abuse terminology and call the set $\{\mathbf{Q}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the voting method.}
+
+Next we define two kinds of functions that take profiles as inputs. The first, called a \textit{social choice correspondences} (SCC), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the SCC is defined. Thus, one may define an SCC as a function on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our purposes, it is more convenient to use the following equivalent approach.
+
+%\begin{definition} \textnormal{A \emph{voting method} is a function $F$ on $\mathsf{Prof}$ such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$. We abuse terminology and call the set $\{\mathbf{Q}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the voting method.}
+%\end{definition}
+
+%\whnote{Here's another approach, which seems closer to what we do with dependent types in Lean.}
+
+
+\begin{definition} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{social choice correspondence for $(V,X)$} (or $(V,X)$-SCC) is a function  $F: \mathsf{Prof}(V,X)\to \wp(X)$. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid F(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
 \end{definition}
 
-\whnote{Here's another approach, which seems closer to what we do with dependent types in Lean.}
+Most voting methods (e.g., Plurality, Borda, Instant Runoff) are defined not only for a fixed set of voters and candidates but for any set of voters and candidates, which motivates the following definition.
 
-\begin{definition} \textnormal{For nonempty finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \emph{$(V,X)$-profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$. A \textit{profile} is a $(V,X)$-profile for some nonempty finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}(V,X)$ be the set of all $(V,X)$-profiles and $\mathsf{Prof}$ the set of all profiles.}\end{definition}
-
-\begin{definition} \textnormal{For nonempty finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{social choice correspondence for $(V,X)$} (or $(V,X)$-SCC) is a function  $F: \mathsf{Prof}(V,X)\to \wp(X)$.}
-
-\textnormal{We abuse notation and call the set $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid F(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
+\begin{definition}\label{VSCC} \textnormal{A \textit{variable-election social choice correspondence} (VSCC) is a function $F$ that assigns to each pair $(V,X)$ of a nonempty finite $V\subseteq \mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-SCC. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}\mid F(V(\mathbf{Q}),X(\mathbf{Q}))(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
 \end{definition}
 
-\begin{definition} \textnormal{A \textit{variable-election social choice correspondence} (VSCC) is a function $F$ that assigns to each pair $(V,X)$ of a nonempty finite $V\subseteq \mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-SCC.}
+An equivalent but perhaps more intuitive approach defines a \textit{voting method} to be a function on $\mathsf{Prof}$ such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$.\footnote{This is the definition of a voting method used in \cite{} with the additional stipulations that $F(\mathbf{Q})\neq\emptyset$ and  that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} Abusing terminology, we could call the set $\{\mathbf{Q}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the voting method. However, we have presented Definition \ref{VSCC} above because it nicely connects with our formalization in Lean.
 
-\textnormal{We abuse notation and call the set $\{\mathbf{Q}\in\mathsf{Prof}\mid F(V(\mathbf{Q}),X(\mathbf{Q}))(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
-\end{definition}
-
-\whnote{That definition of VSCC makes the connection with dependent types obviously.}
+%\whnote{That definition of VSCC makes the connection with dependent types obviously.}
 
 
 In LEAN, ...
