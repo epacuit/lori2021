@@ -5,7 +5,7 @@
 \documentclass[runningheads]{llncs}
 %
 \usepackage{graphicx}
-%\usepackage{amsmath,amsthm,amssymb} 
+\usepackage{amssymb} 
 
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
@@ -29,7 +29,9 @@
 
 \begin{document}
 %
-\title{Voting Theory in the LEAN Theorem Prover\thanks{Supported by organization x.}}
+\title{Voting Theory in the Lean Theorem Prover}
+
+%\thanks{Supported by organization x.}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -56,7 +58,7 @@ ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
 The abstract should briefly summarize the contents of the paper in
 150--250 words.
 
-\keywords{First keyword  \and Second keyword \and Another keyword.}
+\keywords{voting theory  \and social choice theory \and interactive theorem proving \and Lean}
 \end{abstract}
 %
 %
@@ -66,14 +68,14 @@ The abstract should briefly summarize the contents of the paper in
 
 \section{Framework}
 
-In this section, we define the basic objects of voting theory: profiles, social choice correspondences, etc. We give both standard set-theoretic definitions and their type-theoretic counterparts in Lean syntax.
+In this section, we define the basic objects of voting theory: profiles, social choice correspondences, etc. We first give standard set-theoretic definitions and then their type-theoretic counterparts in Lean syntax.
 
-For the following set-theoretic definition, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. To better match our Lean formalization, we take a binary relation on $X$ to be a function $S: X\times X \to \{0,1\}$. Given $x,y\in X$, we write `$xSy$' for $S(x,y)=1$.
+For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. To better match our Lean formalization, we take a binary relation on $X$ to be a function $S: X\times X \to \{0,1\}$. Given $x,y\in X$, we write `$xSy$' for $S(x,y)=1$.
 
 %\begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
 %\end{definition}
 
-\begin{definition}\label{ProfileDef} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \emph{$(V,X)$-profile} is a map $\mathbf{Q}:V\to \mathcal{B}(X)$. Given a $(V,X)$-profile $\mathbf{Q}$, we write $V(\mathbf{Q})$ for $V$ and $X(\mathbf{Q})$  for $X$. A \textit{profile} is a $(V,X)$-profile for some $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. }
+\begin{definition}\label{ProfileDef} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \emph{$(V,X)$-profile} is a map $\mathbf{Q}:V\to \mathcal{B}(X)$. We write `$\mathbf{Q}_i$' for the relation $\mathbf{Q}(i)$. Given a $(V,X)$-profile $\mathbf{Q}$, let $V(\mathbf{Q})$ be $V$ and $X(\mathbf{Q})$  be $X$. A \textit{profile} is a $(V,X)$-profile for some $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. }
 
 \textnormal{Let $\mathsf{Prof}(V,X)$ be the set of all $(V,X)$-profiles and $\mathsf{Prof}$ the set of all profiles.}\end{definition}
 
@@ -83,14 +85,12 @@ For the following set-theoretic definition, we fix infinite sets $\mathcal{V}$ a
 
 Depending on the application, one can interpret $x\mathbf{Q}_i y$ to mean either (i) that voter $i$ strictly prefers $x$ to $y$ or (ii) that voter $i$ strictly prefers $x$ to $y$ or is indifferent between $x$ and $y$. Under interpretation (i), we use `$\mathbf{P}$' for a profile; under interpretation (ii), we use `$\mathbf{R}$' for a profile.\footnote{\label{VoterNote}Approach (ii) is more general, since it allows one to distinguish between voter $i$ being \textit{indifferent} between $x$ and $y$, defined as $x\mathbf{R}_iy$ and $y\mathbf{R}_ix$, vs. $x$ and $y$ being \textit{noncomparable} for $i$, defined as \textit{neither} $x\mathbf{R}_iy$ \textit{nor} $y\mathbf{R}_ix$. When the distinction between voter indifference and noncomparability is not needed, approach (i) can be simpler.} A profile $\mathbf{Q}$ is said to be \emph{asymmetric} (\emph{transitive}, etc.) if for every $i\in V$, $\mathbf{Q}_i$ is asymmetric (transitive, etc.). Of course, asymmetric profiles only make sense under interpretation (i), whereas under interpretation (ii), profiles should be reflexive.
 
-To translate Definition \ref{ProfileDef} into Lean, we first think of $V$ and $X$ as types, rather than sets, and then define a \texttt{Profile} type as follows:\footnote{When writing type expressions, arrows associate to the right, so, e.g.,  `\texttt{Type $\to$ Type $\to$ Type}' means \texttt{Type $\to$ (Type $\to$ Type)}.}
+To translate Definition \ref{ProfileDef} into Lean, we first think of $V$ and $X$ as types, rather than sets, and then define a \texttt{Profile} type as follows:\footnote{When writing type expressions, arrows associate to the right, so, e.g., the expression  `\texttt{Type $\to$ Type $\to$ Type}' stands for \texttt{Type $\to$ (Type $\to$ Type)}.}
 \begin{itemize}
 \item[] \texttt{def Profile: Type $\to$ Type $\to$ Type := 
 \item[] \qquad\qquad\qquad\, $\lambda$ (V X : Type), V $\to$ X $\to$ X $\to$ Prop}
 \end{itemize}
 Here \texttt{Type} is the 0-th level of an infinite hierarchy of types, and \texttt{Prop} is a special type that plays the role of $\{0,1\}$ in the formalization of binary relations mentioned above.  The definition states that \texttt{Profile} is a function, whose type is \texttt{Type $\to$ Type $\to$ Type}, defined as follows: given two types, \texttt{V} and \texttt{X}, output the type  \texttt{V $\to$ X $\to$ X $\to$ Prop}. As \texttt{X $\to$ X $\to$ Prop} is the type of binary relations on \texttt{X}, an inhabitant of the type \texttt{V $\to$ X $\to$ X $\to$ Prop} can be viewed as a $(V,X)$-profile. Thus, we may think of \texttt{Profile V X} as the type of $(V,X)$-profiles.
-
-
 
 
 Next we define two kinds of functions that take profiles as inputs. The first, called a \textit{social choice correspondences} (SCC), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the SCC is defined. Thus, one may define an SCC as a function on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our purposes, it is more convenient to use the following equivalent approach.
@@ -101,28 +101,54 @@ Next we define two kinds of functions that take profiles as inputs. The first, c
 %\whnote{Here's another approach, which seems closer to what we do with dependent types in Lean.}
 
 
-\begin{definition} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{social choice correspondence for $(V,X)$} (or $(V,X)$-SCC) is a function  $F: \mathsf{Prof}(V,X)\to \wp(X)$. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid F(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
+\begin{definition} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{social choice correspondence for $(V,X)$}, or $(V,X)$-SCC, is a function  $F: \mathsf{Prof}(V,X)\to \wp(X)$. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid F(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
 \end{definition}
 
 Most voting methods (e.g., Plurality, Borda, Instant Runoff) are defined not only for a fixed set of voters and candidates but for any set of voters and candidates, which motivates the following definition.
 
-\begin{definition}\label{VSCC} \textnormal{A \textit{variable-election social choice correspondence} (VSCC) is a function $F$ that assigns to each pair $(V,X)$ of a nonempty finite $V\subseteq \mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-SCC. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}\mid F(V(\mathbf{Q}),X(\mathbf{Q}))(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
+\begin{definition}\label{VSCC} \textnormal{A \textit{variable-election social choice correspondence} (VSCC) is a function $F$ that assigns to each pair $(V,X)$ of a $V\subseteq \mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-SCC. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}\mid F(V(\mathbf{Q}),X(\mathbf{Q}))(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the VSCC.}
 \end{definition}
 
-An equivalent but perhaps more intuitive approach would define a VSCC to be a function on $\mathsf{Prof}$ (rather than $\mathcal{V}\times\mathcal{X}$) such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$;\footnote{This is the definition of a \textit{voting method} used in \cite{} with the additional stipulations that $F(\mathbf{Q})\neq\emptyset$ and  that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} abusing terminology, we could then call the set $\{\mathbf{Q}\in\mathsf{Prop}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the voting method. However, we have presented Definition \ref{VSCC} above because it nicely connects with our formalization in Lean.
+\noindent An equivalent but perhaps more intuitive approach would define a VSCC to be a function on $\mathsf{Prof}$ (rather than $\mathcal{V}\times\mathcal{X}$) such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$;\footnote{This is the definition of a \textit{voting method} used in \cite{} with the additional stipulations that $F(\mathbf{Q})\neq\emptyset$ and  that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} abusing terminology, we could then call the set $\{\mathbf{Q}\in\mathsf{Prop}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the VSCC. However, we have presented Definition \ref{VSCC} above because it nicely connects with our formalization in Lean.
 
 %\whnote{That definition of VSCC makes the connection with dependent types obviously.}
 
 
-In LEAN, ...
+In Lean, we define a \textit{dependent function type}  \texttt{VSCC} as follows:
+\begin{itemize}
+\item[] \texttt{def VSCC := ...}
+\end{itemize}
+...
 
-The second type of function we consider assigns to a given profile a binary relation on the set of candidates in the profile. We call such functions \textit{variable-election collective choice rules}.\footnote{About CCRs...}  
+The second type of function we consider assigns to a given profile a binary relation on the set of candidates in the profile. %We call such functions \textit{variable-election collective choice rules}.\footnote{About CCRs...}  
 
-\begin{definition} \textnormal{A \emph{variable-election collective choice rule} (VCCR) is a function $f$ on $\mathsf{Prof}$ such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.}
+\begin{definition}\textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{collective choice rule for $(V,X)$}, or $(V,X)$-CCR, is a function  $f: \mathsf{Prof}(V,X)\to \mathcal{B}(X)$.}\end{definition}
+
+\noindent Depending on the application, one can interpret the binary relation $f(\mathbf{Q})$ in one of two ways: $xf(\mathbf{Q})y$ can mean (a) $x$ defeats $y$ socially or (b) $x$ defeats or is tied with $y$ socially.\footnote{As in Footnote \ref{VoterNote}, approach (b) is more general, since it allows one to distinguish between ``social indifference'' and ``social noncomparability'' (see, e.g., ...). When notions of social indifference and noncomparability are not needed, approach (a) can be simpler.} Once again, there is also the issue of ``domain restrictions.'' Under approach $(a)$, we can mark that the CCR is ``undefined'' on a profile $\mathbf{Q}$ by setting $f(\mathbf{Q})= X(\mathbf{Q})\times X(\mathbf{Q})$. Then we can abuse terminology and call $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid f(\mathbf{Q})\neq X(\mathbf{Q})\times X(\mathbf{Q}) \}$ the domain of $f$. Under approach (b), we can mark that the CCR is ``undefined'' on $\mathbf{Q}$ by setting $f(\mathbf{Q})=\emptyset$. Then we can abuse terminology and call $\{\mathbf{Q}\in\mathsf{Prop}(V,X)\mid f(\mathbf{Q})\neq \emptyset\}$ the domain of~$f$. 
+
+A CCR $f$ is said to be \textit{asymmetric} (resp.~\textit{transitive}, etc.), if for all $\mathbf{Q}$ in the domain of $f$, $f(\mathbf{Q})$ is asymmetric (transitive, etc.). Of course, asymmetric CCRs only make sense under interpretation (a) above, whereas under interpretation (b), CCRs should be reflexive.
+
+Once again, we can consider functions that are not restricted to a fixed set of voters and candidates.
+
+\begin{definition}\label{VCCR} \textnormal{A \emph{variable-election collective choice rule} (VCCR) is a function that assigns to each pair $(V,X)$ of a $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-CCR.}% such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.}
 \end{definition}
-Depending on the application, one can interpret $xf(\mathbf{Q})y$ as either (a) $x$ defeats $y$ socially or (b) $x$ defeats or is tied with $y$ socially.\footnote{As in Footnote \ref{VoterNote}, approach (b) is more general, since it allows one to distinguish between ``social indifference'' and ``social noncomparability'' (see, e.g., ...). When notions of social indifference and noncomparability are not needed, approach (a) can be simpler.} Once again, there is also the issue of ``domain restrictions.'' Under approach $(a)$, we can mark that the VCCR is ``undefined'' on a profile $\mathbf{Q}$ by setting $f(\mathbf{Q})= X(\mathbf{Q})\times X(\mathbf{Q})$. Then we can abuse terminology and call $\{\mathbf{Q}\mid f(\mathbf{Q})\neq X(\mathbf{Q})\times X(\mathbf{Q}) \}$ the \textit{domain} of $f$. Under approach (b), we can mark that the VCCR is ``undefined'' on $\mathbf{Q}$ by setting $f(\mathbf{Q})=\emptyset$. Then we can abuse terminology and call $\{\mathbf{Q}\mid f(\mathbf{Q})\neq \emptyset\}$ the \textit{domain} of $f$. A VCCR $f$ is said to be \textit{asymmetric} (resp.~\textit{transitive}, etc.), if for all $\mathbf{Q}$ in the domain of $f$, $f(\mathbf{Q})$ is asymmetric (transitive, etc.). Of course, asymmetric VCCRs only make sense under interpretation (a), whereas under interpretation (b), VCCRs should be reflexive.
 
-In LEAN, ...
+\noindent An equivalent but perhaps more intuitive definition takes a VCCR to be a function $f$ on $\mathsf{Prof}$ (instead of $\mathcal{V}\times\mathcal{X}$) such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.\footnote{This is the definition of a VCCR used in \cite{} with the aditional stipulation that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} However, we have presented Definition \ref{VCCR} above because it nicely connects with our formalization in Lean.
+
+
+
+
+
+
+
+In Lean, ...
+
+
+
+\begin{definition}\textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{functional collective choice rule for $(V,X)$}, or \textit{$(V,X)$-FCCR}, is a function $\mathbb{F}$ that assigns to each $\mathbf{Q}\in  \mathsf{Prof}(V,X)$ a choice function on $X$.}\end{definition}
+
+\begin{definition}\label{VCCR} \textnormal{A \emph{variable-election functional collective choice rule} (VFCCR) is a function $f$ that assigns to each pair $(V,X)$ of a $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-FCCR.}% such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.}
+\end{definition}
 
 \section{Theorems}
 
