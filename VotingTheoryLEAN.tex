@@ -98,6 +98,10 @@ To translate Definition \ref{ProfileDef} into Lean, we first think of $V$ and $X
 \end{itemize}
 Here \texttt{Prop} is a special type that plays the role of $\{0,1\}$ in the formalization of binary relations mentioned above.  The definition states that \texttt{Prof} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{V $\to$ X $\to$ X $\to$ Prop}. Because \texttt{X $\to$ X $\to$ Prop} is the type of binary relations on \texttt{X}, an inhabitant of the type \texttt{V $\to$ X $\to$ X $\to$ Prop} can be viewed as a $(V,X)$-profile. Thus, we may think of \texttt{Prof V X} as the type of $(V,X)$-profiles.
 
+\begin{definition} Margin...
+\end{definition}
+
+
 % whose type is \texttt{Type $\to$ Type $\to$ Type}, 
 
 
@@ -119,6 +123,14 @@ We represent the function $\mathsf{SCC}$ in Lean as follows, where \texttt{set X
 \item[] \texttt{def SCC := $\lambda$ (V X : Type), Prof V X $\to$ set X}
 \end{itemize}
 The definition states that \texttt{SCC} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{Prof V X $\to$ set X}, which is the type of $(V,X)$-SCCs.
+
+\begin{example} Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that \textit{$x$ is a Condorcet winner in $\mathbf{P}$} if $V$ is finite and for each $y\in X(\mathbf{P})\setminus \{x\}$, $Margin_\mathbf{P}(x,y)>0$.  For $(V,X)$, consider the Condorcet SCC for $(V,X)$ defined as follows:
+\[\mathrm{Cond}_{(V,X)}(\mathbf{P})=\begin{cases} \{x\} & \mbox{if $x$ is a Condorcet winner in $\mathbf{P}$} \\ X(\mathbf{P}) & \mbox{otherwise}\end{cases}.\]
+We represent this $(V,X)$-SCC in Lean as follows:
+\begin{itemize}
+\item[] ...
+\end{itemize}
+\end{example}
 
 Most voting methods (e.g., Plurality, Borda, Instant Runoff) are defined not only for a fixed set of voters and candidates but for any set of voters and candidates, which motivates the following definition.
 
@@ -157,6 +169,9 @@ Once again, we can consider functions that are not restricted to a fixed set of 
 \begin{itemize}
 \item[] \texttt{def VCCR := $\Pi$ (V X : Type), CCR V X.}
 \end{itemize}
+The definition states that a VCCR is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{CCR V X}, i.e., a $(V,X)$-CCR.
+
+\newpage
 
 
 \whnote{Let's think about how to formalize the following...}
