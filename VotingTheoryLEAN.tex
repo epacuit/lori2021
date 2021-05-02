@@ -6,6 +6,7 @@
 %
 \usepackage{graphicx}
 \usepackage{amssymb,amsmath} 
+\usepackage{hyperref}
 
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
@@ -70,6 +71,8 @@ The abstract should briefly summarize the contents of the paper in
 
 In this section, we define the basic objects of voting theory: profiles, social choice correspondences, etc. We first give standard set-theoretic definitions and then their type-theoretic counterparts in Lean syntax.
 
+\subsection{Profiles}
+
 For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. To better match our Lean formalization, we take a binary relation on $X$ to be a function $S: X\times X \to \{0,1\}$. Given $x,y\in X$, we write `$xSy$' for $S(x,y)=1$.
 
 %\begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
@@ -94,16 +97,33 @@ To translate Definition \ref{ProfileDef} into Lean, we first think of $V$ and $X
 %\item[] \qquad\qquad\,\,\, $\lambda$ (V X : Type), V $\to$ X $\to$ X $\to$ Prop}
 %\end{itemize}
 \begin{itemize}
-\item[] \texttt{def Prof := $\lambda$ (V X : Type), V $\to$ X $\to$ X $\to$ Prop}
+\item[] \texttt{def Prof : Type $\to$ Type $\to$ Type := }\\\texttt{$\lambda$ (V X : Type), V $\to$ X $\to$ X $\to$ Prop}
 \end{itemize}
 Here \texttt{Prop} is a special type that plays the role of $\{0,1\}$ in the formalization of binary relations mentioned above.  The definition states that \texttt{Prof} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{V $\to$ X $\to$ X $\to$ Prop}. Because \texttt{X $\to$ X $\to$ Prop} is the type of binary relations on \texttt{X}, an inhabitant of the type \texttt{V $\to$ X $\to$ X $\to$ Prop} can be viewed as a $(V,X)$-profile. Thus, we may think of \texttt{Prof V X} as the type of $(V,X)$-profiles.
 
 \begin{definition} Margin...
 \end{definition}
 
+\begin{itemize}
+\item[] \texttt{def margin $\{$V X: Type$\}$  [fintype V] : Prof V X $\to$ X $\to$ X $\to$ $\mathbb{Z}$ := } \texttt{
+    $\lambda$ P x$_1$ x$_2$, $\uparrow$(finset.univ.filter ($\lambda$ v, P v x$_1$ x$_2$)).card
+        -} \\ \texttt{$\uparrow$(finset.univ.filter ($\lambda$ v, P v x$_2$ x$_1$)).card}
+\end{itemize}
+Here `\texttt{$\{$V X: Type$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments to \texttt{margin} of type \texttt{Type}, and `\texttt{[fintype V]}' can roughly be understood as an implicit assumption that \texttt{V} is finite.\footnote{See \href{https://leanprover.github.io/reference/expressions.html\#implicit-arguments}{Section 3.3} of the Lean documentation and the Lean community page on \href{https://leanprover-community.github.io/theories/sets.html\#finite-types}{Sets and set-like objects}.} The \texttt{margin} function takes in explicit arguments of a $(V,X)$-profile and two candidates  and return the margin of the first over the second; here `\texttt{finset.univ.filter ($\lambda$ v, P v x$_1$ x$_2$)}' is syntax for constructing $\{v\in V(\mathbf{P})\mid x_1\mathbf{P}_v x_2\}$, \texttt{.card} takes the cardinality of the set (a natural number), and $\uparrow$ shifts the type from natural number to integer. 
+
+
+
+
+\begin{definition} Condorcet winner...
+\end{definition}
+
+\begin{itemize}
+\item[] \texttt{def condorcet\_winner [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{Prop := $\forall y \neq x$, margin\_pos P x y}
+\end{itemize}
 
 % whose type is \texttt{Type $\to$ Type $\to$ Type}, 
 
+\subsection{Functions on profiles}
 
 Next we define two kinds of functions that take profiles as inputs. The first, called a \textit{social choice correspondences} (SCC), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the SCC is defined. Thus, one may define an SCC as a function on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our purposes, it is more convenient to use the following equivalent approach.
 
@@ -144,7 +164,7 @@ Most voting methods (e.g., Plurality, Borda, Instant Runoff) are defined not onl
 
 In Lean, we define the type of VSCCs as a \textit{dependent function type}:
 \begin{itemize}
-\item[] \texttt{def VSCC := $\Pi$ (V X : Type), SCC V X.}
+\item[] \texttt{def VSCC : Type 1 := $\Pi$ (V X : Type), SCC V X.}
 \end{itemize}
 The definition states that a VSCC is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{SCC V X}, i.e., a $(V,X)$-SCC.
 
