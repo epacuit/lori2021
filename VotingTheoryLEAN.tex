@@ -56,10 +56,15 @@ ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-The abstract should briefly summarize the contents of the paper in
-150--250 words.
+There is a long tradition of fruitful interaction between logic and social choice theory. In recent years, much of this interaction has focused on computer-aided methods such as SAT solving and interactive theorem proving. In this paper, we report on the development of a framework for formalizing voting theory in the Lean theorem prover, which we have applied to verify all of the claimed properties of a recently proposed voting method. While previous  applications of interactive theorem proving to social choice (using Isabelle/HOL and Mizar) have focused on the verification of impossibility theorems, we aim to cover a variety of results ranging from impossibility theorems to the verification of properties of specific voting methods (e.g., Condorcet consistency, independence of clones, etc.). In order to formalize voting theoretic axioms concerning adding or removing candidates and voters, we work in a variable-election setting whose formalization makes use of dependent types in Lean.
+% a project of formalizing definitions and theorems from voting theory in the Lean theorem prover. 
 
-\keywords{voting theory  \and social choice theory \and interactive theorem proving \and Lean}
+% In recent years, there has been extensive use of logical methods to study questions in social choice theory. 
+
+%The abstract should briefly summarize the contents of the paper in
+%150--250 words.
+
+\keywords{logic and social choice theory \and voting theory \and interactive theorem proving \and Lean}
 \end{abstract}
 %
 %
@@ -73,7 +78,7 @@ In this section, we define the basic objects of voting theory: profiles, social 
 
 \subsection{Profiles}
 
-For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. To better match our Lean formalization, we take a binary relation on $X$ to be a function $S: X\times X \to \{0,1\}$. Given $x,y\in X$, we write `$xSy$' for $S(x,y)=1$.
+For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. Instead of thinking of a binary relation as a set of ordered pairs, it is more convenient to think of a binary on $X$ as a function $S: X\times X \to \{0,1\}$. In fact, to better match our Lean formalization, we ``curry'' all functions with multiple arguments, transforming them into functions with single arguments that output functions. Thus, we regard a binary relation on $X$ as a function  $S:X\to \{0,1\}^X$, where $\{0,1\}^X$ is the set of functions from $X$ to $\{0,1\}$. For any $x\in X$, $S(x): X\to \{0,1\}$, and $S(x)(y)=1$ means that the binary relation $S$ holds of $(x,y)$. In what follows, we write `$xSy$' instead of $S(x)(y)=1$.
 
 %\begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
 %\end{definition}
@@ -97,28 +102,70 @@ To translate Definition \ref{ProfileDef} into Lean, we first think of $V$ and $X
 %\item[] \qquad\qquad\,\,\, $\lambda$ (V X : Type), V $\to$ X $\to$ X $\to$ Prop}
 %\end{itemize}
 \begin{itemize}
-\item[] \texttt{def Prof : Type $\to$ Type $\to$ Type := }\\\texttt{$\lambda$ (V X : Type), V $\to$ X $\to$ X $\to$ Prop}
+\item[] \texttt{\textcolor{blue}{def} Prof : \textcolor{blue}{Type} $\to$ \textcolor{blue}{Type} $\to$ \textcolor{blue}{Type} := }\\\texttt{$\textcolor{blue}{\lambda}$ (V X : \textcolor{blue}{Type}), V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
 \end{itemize}
-Here \texttt{Prop} is a special type that plays the role of $\{0,1\}$ in the formalization of binary relations mentioned above.  The definition states that \texttt{Prof} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{V $\to$ X $\to$ X $\to$ Prop}. Because \texttt{X $\to$ X $\to$ Prop} is the type of binary relations on \texttt{X}, an inhabitant of the type \texttt{V $\to$ X $\to$ X $\to$ Prop} can be viewed as a $(V,X)$-profile. Thus, we may think of \texttt{Prof V X} as the type of $(V,X)$-profiles.
+Here \textcolor{blue}{\texttt{Prop}} is a special type that here plays the role of $\{0,1\}$ in the formalization of binary relations mentioned above.  The definition states that \texttt{Prof} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}. Because \texttt{X $\to$ X $\to$ \textcolor{blue}{Prop}} is the type of binary relations on \texttt{X}, an inhabitant of the type \texttt{V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}} can be viewed as a $(V,X)$-profile. Thus, we may think of \texttt{Prof V X} as the type of $(V,X)$-profiles.
 
-\begin{definition} Margin...
+One of the most important kinds of information to read off from a profile is the majority margin between two candidates.
+
+\begin{definition}\label{MarginDef} \textnormal{Given a profile $\mathbf{P}$ and $x_1,x_2\in X(\mathbf{P})$, the \textit{margin of $x_1$ over $x_2$ in $\mathbf{P}$}, denoted $Margin_\mathbf{P}(x_1,x_2)$, is $|\{i\in V(\mathbf{P})\mid x_1\mathbf{P}_ix_2\}|-|\{i\in V(\mathbf{P})\mid x_2\mathbf{P}_ix_1\}|$.}
 \end{definition}
+\noindent In Lean, Definition \ref{MarginDef} becomes:
 
 \begin{itemize}
-\item[] \texttt{def margin $\{$V X: Type$\}$  [fintype V] : Prof V X $\to$ X $\to$ X $\to$ $\mathbb{Z}$ := } \texttt{
-    $\lambda$ P x$_1$ x$_2$, $\uparrow$(finset.univ.filter ($\lambda$ v, P v x$_1$ x$_2$)).card
-        -} \\ \texttt{$\uparrow$(finset.univ.filter ($\lambda$ v, P v x$_2$ x$_1$)).card}
+\item[] \texttt{\textcolor{blue}{def} margin $\{$V X: \textcolor{blue}{Type}$\}$  [fintype V] : Prof V X $\to$ X $\to$ X $\to$ $\mathbb{Z}$ := } \texttt{
+    \textcolor{blue}{$\lambda$} P x$_1$ x$_2$, $\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_1$ x$_2$)).card
+        -} \\ \texttt{$\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_2$ x$_1$)).card}
 \end{itemize}
-Here `\texttt{$\{$V X: Type$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments to \texttt{margin} of type \texttt{Type}, and `\texttt{[fintype V]}' can roughly be understood as an implicit assumption that \texttt{V} is finite.\footnote{See \href{https://leanprover.github.io/reference/expressions.html\#implicit-arguments}{Section 3.3} of the Lean documentation and the Lean community page on \href{https://leanprover-community.github.io/theories/sets.html\#finite-types}{Sets and set-like objects}.} The \texttt{margin} function takes in explicit arguments of a $(V,X)$-profile and two candidates  and return the margin of the first over the second; in particular, `\texttt{finset.univ.filter ($\lambda$ v, P v x$_1$ x$_2$)}' is syntax for constructing $\{v\in V(\mathbf{P})\mid x_1\mathbf{P}_v x_2\}$, \texttt{.card} takes the cardinality of the set (a natural number), and $\uparrow$ shifts the type from natural number to integer. 
+Here `\texttt{$\{$V X: \textcolor{blue}{Type}$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments to \texttt{margin} of type \texttt{Type}, and `\texttt{[fintype V]}' can roughly be understood as an implicit assumption that \texttt{V} is finite.\footnote{See \href{https://leanprover.github.io/reference/expressions.html\#implicit-arguments}{Section 3.3} of the Lean documentation and the Lean community page on \href{https://leanprover-community.github.io/theories/sets.html\#finite-types}{Sets and set-like objects}.} The \texttt{margin} function takes in explicit arguments of a $(V,X)$-profile and two candidates  and return the margin of the first over the second; in particular, `\texttt{finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_1$ x$_2$)}' is syntax for constructing $\{v\in V(\mathbf{P})\mid x_1\mathbf{P}_v x_2\}$, \texttt{.card} takes the cardinality of the set (a natural number), and $\uparrow$ shifts the type from natural number to integer. 
 
+In a profile $\mathbf{P}$, we say that $x$ is \textit{majority preferred} to $y$ if the margin of $x$ over $y$ is positive, formalized as follows:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} margin\_pos [fintype V] : Profile V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop} :=}
+\\ \texttt{\textcolor{blue}{$\lambda$} P x y, 0 < (margin P) x y}
+\end{itemize}
+So \texttt{margin\_pos} is a function that takes in a $(V,X)$-profile and two candidates and returns the proposition that the first is majority preferred to the second.
 
+As usual, we can regard the Margin$_\mathbf{P}$ function as an $|X(\mathbf{P})|\times |X(\mathbf{P})|$ matrix. Since $Margin_\mathbf{P}(x,y)=-Margin_\mathbf{P}(y,x)$, the matrix is skew-symmetric. Treating an integer-valued square matrix as a function from a set $X$ to functions from $X$ to $\mathbb{Z}$, the property of skew-symmetry takes in such a function and outputs the proposition stating the skew-symmetry equation holds for all pairs of elements:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} skew\_symmetric : (X $\to$ X $\to \mathbb{Z}$) $\to$ Prop :=} 
 
+\texttt{\textcolor{blue}{$\lambda$} M, $\forall$ x y, M x y = - M y x}.
+\end{itemize}
+Even such a basic fact as that Margin$_\mathbf{P}$ is skew-symmetric needs to be proved in Lean, but the verification is straightforward using Lean's automation:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_skew\_symmetric} (P : Profile V X) [fintype V] :\\
+ skew-symmetric (margin P) :=} 
+ 
+\texttt{\textcolor{blue}{begin}}
 
-\begin{definition} Condorcet winner...
+\quad \texttt{intro,}
+
+\quad  \texttt{intro,}
+
+\quad \texttt{unfold margin,}
+
+\quad \texttt{simp,}
+
+\texttt{\textcolor{blue}{end}}
+\end{itemize}
+As the logical form of the skew-symmetric proposition is \texttt{$\forall$ x y, Margin~P~x~y = - Margin P y x}, we prove the claim by two applications of universal introduction using the \texttt{intro} tactic. For arbitrary \texttt{x} and \texttt{y} in \texttt{X}, we must prove \texttt{Margin~P~x~y = - Margin P y x}. This is done by first unfolding the definition of \texttt{margin}, so that our goal is now to prove  
+\begin{eqnarray*}
+&&\mbox{\texttt{$\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x y)).card -}} \\ 
+  &&      \mbox{\texttt{$\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v y x)).card}}\\
+  &\texttt{=}& \mbox{\texttt{-($\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v y x)).card -}} \\ 
+    &&      \mbox{\texttt{$\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x y)).card)}}
+\end{eqnarray*}
+Fortunately, Lean can prove this equation automatically using the \texttt{simp} tactic.
+
+Turning to properties of profiles, one of the most important to consider is whether a profile has a so-called Condorcet winner.
+
+\begin{definition}\label{CondorcetDef} \textnormal{Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that $x$ is a \textit{Condorcet winner in $\mathbf{P}$} if for all $y\in X(\mathbf{P})$ with $y\neq x$, we have $Margin_\mathbf{P}(x,y)>0$.}
 \end{definition}
+In Lean, Definition \ref{CondorcetDef} becomes:
 
 \begin{itemize}
-\item[] \texttt{def condorcet\_winner [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{Prop := $\forall y \neq x$, margin\_pos P x y}
+\item[] \texttt{\textcolor{blue}{def} condorcet\_winner [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := $\forall y \neq x$, margin\_pos P x y}
 \end{itemize}
 
 % whose type is \texttt{Type $\to$ Type $\to$ Type}, 
