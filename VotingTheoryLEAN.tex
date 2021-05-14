@@ -168,6 +168,47 @@ In Lean, Definition \ref{CondorcetDef} becomes:
 \item[] \texttt{\textcolor{blue}{def} condorcet\_winner [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := $\forall y \neq x$, margin\_pos P x y}
 \end{itemize}
 
+
+....majority winner implies Condorcet winner...
+
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{cardinality\_lemma} [fintype V] {p q : V $\to$ Prop}} \\ \texttt{(imp: $\forall$ v, p v $\to$ q v) : ((finset.univ.filter p).card $\leq$} \\ \texttt{(finset.univ.filter q).card) :=}
+\end{itemize}
+
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{majority\_winnner\_is\_condorcet} (P : Profile V X) [fintype V] (x : X) : majority\_winner P x $\to$ condorcet\_winner P x :=}
+
+\textcolor{blue}{\texttt{begin}}
+
+ \quad  \texttt{intros majority z x\_ne\_z,}
+ 
+ \quad  \texttt{apply sub\_pos\_of\_lt,}
+ 
+\quad   \texttt{apply int.coe\_nat\_lt\_coe\_nat\_of\_lt,}
+
+\quad  \texttt{have imp1 : $\forall$ v, ($\forall$ y $\neq$ x, P v x y) $\to$ P v x z,}
+
+\quad\quad  \texttt{$\{$intros v ranks\_x\_first,}
+
+  \quad\quad     \texttt{exact ranks\_x\_first z x\_ne\_z$\}$, }
+  
+ \quad  \texttt{refine lt\_of\_lt\_of\_le \_ (cardinality\_lemma imp1),}
+ 
+ \quad  \texttt{have imp2 : $\forall$ v, P v z x $\to$ ($\exists$ y $\neq$ x, P v y x),}
+ 
+  \quad \quad    \texttt{$\{$intros v prefers\_z\_to\_x, }
+  
+  \quad \quad    \texttt{use [z, x\_ne\_z], }
+  
+  \quad \quad    \texttt{exact prefers\_z\_to\_x$\}$,}
+  
+  \quad  \texttt{apply lt\_of\_le\_of\_lt (cardinality\_lemma imp2),}
+  
+  \quad  \texttt{exact majority, }
+  
+\textcolor{blue}{\texttt{end}}
+\end{itemize}
+
 % whose type is \texttt{Type $\to$ Type $\to$ Type}, 
 
 \subsection{Functions on profiles}
