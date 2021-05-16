@@ -102,40 +102,54 @@ To translate Definition \ref{ProfileDef} into Lean, we first think of $V$ and $X
 %\item[] \qquad\qquad\,\,\, $\lambda$ (V X : Type), V $\to$ X $\to$ X $\to$ Prop}
 %\end{itemize}
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} Prof : \textcolor{blue}{Type} $\to$ \textcolor{blue}{Type} $\to$ \textcolor{blue}{Type} := }\\\texttt{$\textcolor{blue}{\lambda}$ (V X : \textcolor{blue}{Type}), V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{Prof} : \textcolor{blue}{Type} $\to$ \textcolor{blue}{Type} $\to$ \textcolor{blue}{Type} := }\\\texttt{$\textcolor{blue}{\lambda}$ (V X : \textcolor{blue}{Type}), V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
 \end{itemize}
 Here \textcolor{blue}{\texttt{Prop}} is a special type that here plays the role of $\{0,1\}$ in the formalization of binary relations mentioned above.  The definition states that \texttt{Prof} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}. Because \texttt{X $\to$ X $\to$ \textcolor{blue}{Prop}} is the type of binary relations on \texttt{X}, an inhabitant of the type \texttt{V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}} can be viewed as a $(V,X)$-profile. Thus, we may think of \texttt{Prof V X} as the type of $(V,X)$-profiles.
 
-One of the most important kinds of information to read off from a profile is the majority margin between two candidates.
+One of the most important kinds of information to read off from a profile is whether one candidate is majority preferred to another.
+
+\begin{definition}\label{MajPrefDef} \textnormal{Given a profile $\mathbf{P}$ and $x,y\in X(\mathbf{P})$, we say that \textit{$x$ is majority preferred to $y$ in $\mathbf{P}$} if more voters rank $x$ above $y$ than rank $y$ above $x$.}\end{definition}
+
+In Lean, we formalize Definition \ref{MajPrefDef} as follows:
+
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_preferred}  $\{$V X: \textcolor{blue}{Type}$\}$: Prof V X $\to$ X $\to$ X $\to$ Prop}\\ \texttt{:= \textcolor{blue}{$\lambda$} P x y,}\\
+\texttt{cardinal.mk $\{$v : V // P v x y$\}$ >
+cardinal.mk $\{$v : V // P v y x$\}$}
+\end{itemize}
+Here `\texttt{$\{$V X: \textcolor{blue}{Type}$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments to \texttt{margin} of type \texttt{Type}. The \texttt{majority\_preferred} function takes in explicit arguments of a $(V,X)$-profile and two candidates  and returns the proposition stating that the cardinality of the set of voters who prefer \texttt{x} to \texttt{y} is greater than the cardinality of the set of voters who prefer \texttt{y} to \texttt{x}.
+
+We often are concerned not only with whether one candidate is majority preferred to another but also, if so, what is the margin of majority preference.
 
 \begin{definition}\label{MarginDef} \textnormal{Given a profile $\mathbf{P}$ and $x_1,x_2\in X(\mathbf{P})$, the \textit{margin of $x_1$ over $x_2$ in $\mathbf{P}$}, denoted $Margin_\mathbf{P}(x_1,x_2)$, is $|\{i\in V(\mathbf{P})\mid x_1\mathbf{P}_ix_2\}|-|\{i\in V(\mathbf{P})\mid x_2\mathbf{P}_ix_1\}|$.}
 \end{definition}
 \noindent In Lean, Definition \ref{MarginDef} becomes:
 
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} margin $\{$V X: \textcolor{blue}{Type}$\}$  [fintype V] : Prof V X $\to$ X $\to$ X $\to$ $\mathbb{Z}$ := } \texttt{
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{margin} $\{$V X: \textcolor{blue}{Type}$\}$  [fintype V] : Prof V X $\to$ X $\to$ X $\to$ $\mathbb{Z}$ := } \texttt{
     \textcolor{blue}{$\lambda$} P x$_1$ x$_2$, $\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_1$ x$_2$)).card
         -} \\ \texttt{$\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_2$ x$_1$)).card}
 \end{itemize}
-Here `\texttt{$\{$V X: \textcolor{blue}{Type}$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments to \texttt{margin} of type \texttt{Type}, and `\texttt{[fintype V]}' can roughly be understood as an implicit assumption that \texttt{V} is finite.\footnote{See \href{https://leanprover.github.io/reference/expressions.html\#implicit-arguments}{Section 3.3} of the Lean documentation and the Lean community page on \href{https://leanprover-community.github.io/theories/sets.html\#finite-types}{Sets and set-like objects}.} The \texttt{margin} function takes in explicit arguments of a $(V,X)$-profile and two candidates  and return the margin of the first over the second; in particular, `\texttt{finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_1$ x$_2$)}' is syntax for constructing $\{v\in V(\mathbf{P})\mid x_1\mathbf{P}_v x_2\}$, \texttt{.card} takes the cardinality of the set (a natural number), and $\uparrow$ shifts the type from natural number to integer. 
+Here `\texttt{[fintype V]}' can roughly be understood as an implicit assumption that \texttt{V} is finite,\footnote{See \href{https://leanprover.github.io/reference/expressions.html\#implicit-arguments}{Section 3.3} of the Lean documentation and the Lean community page on \href{https://leanprover-community.github.io/theories/sets.html\#finite-types}{Sets and set-like objects}.} which we make so that we can perform the subtraction in the definition of margin. The \texttt{margin} function takes in explicit arguments of a $(V,X)$-profile and two candidates  and returns the margin of the first over the second; in particular, `\texttt{finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_1$ x$_2$)}' is syntax for constructing $\{v\in V(\mathbf{P})\mid x_1\mathbf{P}_v x_2\}$, \texttt{.card} takes the cardinality of the set (a natural number), and $\uparrow$ shifts the type from natural number to integer. 
 
+\begin{comment}
 In a profile $\mathbf{P}$, we say that $x$ is \textit{majority preferred} to $y$ if the margin of $x$ over $y$ is positive, formalized as follows:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} margin\_pos [fintype V] : Profile V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop} :=}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{margin\_pos} [fintype V] : Profile V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop} :=}
 \\ \texttt{\textcolor{blue}{$\lambda$} P x y, 0 < (margin P) x y}
 \end{itemize}
 So \texttt{margin\_pos} is a function that takes in a $(V,X)$-profile and two candidates and returns the proposition that the first is majority preferred to the second.
+\end{comment}
 
 As usual, we can regard the Margin$_\mathbf{P}$ function as an $|X(\mathbf{P})|\times |X(\mathbf{P})|$ matrix. Since $Margin_\mathbf{P}(x,y)=-Margin_\mathbf{P}(y,x)$, the matrix is skew-symmetric. Treating an integer-valued square matrix as a function from a set $X$ to functions from $X$ to $\mathbb{Z}$, the property of skew-symmetry takes in such a function and outputs the proposition stating the skew-symmetry equation holds for all pairs of elements:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} skew\_symmetric : (X $\to$ X $\to \mathbb{Z}$) $\to$ Prop :=} 
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{skew\_symmetric} $\{$X: \textcolor{blue}{Type}$\}$ : (X $\to$ X $\to \mathbb{Z}$) $\to$ Prop :=} 
 
 \texttt{\textcolor{blue}{$\lambda$} M, $\forall$ x y, M x y = - M y x}.
 \end{itemize}
 Even such a basic fact as that Margin$_\mathbf{P}$ is skew-symmetric needs to be proved in Lean, but the verification is straightforward using Lean's automation:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_skew\_symmetric} (P : Profile V X) [fintype V] :\\
- skew-symmetric (margin P) :=} 
+\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_skew\_symmetric} $\{$V X: \textcolor{blue}{Type}$\}$ (P : Prof V X)}\\ \texttt{[fintype V] : skew-symmetric (margin P) :=} 
  
 \texttt{\textcolor{blue}{begin}}
 
@@ -160,20 +174,25 @@ Fortunately, Lean can prove this equation automatically using the \texttt{simp} 
 
 Turning to properties of profiles, one of the most important to consider is whether a profile has a so-called Condorcet winner or even a majority winner.
 
-\begin{definition}\label{CondorcetDef} \textnormal{Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that $x$ is a \textit{Condorcet winner in $\mathbf{P}$} if for all $y\in X(\mathbf{P})$ with $y\neq x$, we have $Margin_\mathbf{P}(x,y)>0$. We say that $x$ is a \textit{majority winner in $\mathbf{P}$} if a strict majority of voters prefer $x$ to every other candidate.}
+\begin{definition}\label{CondorcetDef} \textnormal{Given a profile $\mathbf{P}$ with $V(\mathbf{P})$ finite and $x\in X(\mathbf{P})$, we say that $x$ is a \textit{Condorcet winner in $\mathbf{P}$} if for all $y\in X(\mathbf{P})$ with $y\neq x$, we have $Margin_\mathbf{P}(x,y)>0$. We say that $x$ is a \textit{majority winner in $\mathbf{P}$} if the number of voters who rank $x$ (and only $x$) in first place is greater than the number of voter who do not rank $x$ in first place.}
 \end{definition}
 In Lean, Definition \ref{CondorcetDef} becomes:
 
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} condorcet\_winner [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := $\forall$ y $\neq$ x, margin\_pos P x y}
+%\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_winner} [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := $\forall$ y $\neq$ x, majority\_preferred P x y}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_winner} (P : Profile V X) (x : X) :} \\ \texttt{Prop := $\forall$ y $\neq$ x, majority\_preferred P x y}
 \item[]
-\item[] \texttt{\textcolor{blue}{def} majority\_winner [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := }
+%\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_winner} [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := (finset.univ.filter ($\lambda$ (v : V), $\forall$ y $\neq$ x, P v x y)).card > (finset.univ.filter ($\lambda$ (v : V), $\exists$ y $\neq$ x, P v y x)).card}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_winner} (P : Profile V X) (x : X) :} \\
+\texttt{ Prop := cardinal.mk $\{$v : V // $\forall$ y $\neq$ x, P v x y$\}$ > cardinal.mk} \\ \texttt{$\{$v : V // $\exists$ y $\neq$ x, P v y x$\}$}
 \end{itemize}
-As an example of a slightly more involved proof than the one above showing that the margin matrix is skew-symmetric, we present a proof in Lean that a majority winner is also a Condorcet winner. First, we need a general purpose cardinality lemma, whose proof we omit:
+As an example of a slightly more involved proof than the one above showing that the margin matrix is skew-symmetric, we present a proof in Lean that a majority winner is also a Condorcet winner. For this we use several basic theorems provided by Mathlib, including one formalizing the fact that a subset of a set has cardinality less than or equal to that of its superset:\footnote{We have changed variable names and replaced $\#$ with `cardinal.mk'.}
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{cardinality\_lemma} [fintype V] {p q : V $\to$ Prop}} \\ \texttt{(imp: $\forall$ v, $\varphi$ v $\to$ $\psi$ v) : ((finset.univ.filter $\varphi$).card $\leq$} \\ \texttt{(finset.univ.filter $\psi$).card) := ...}
+\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{cardinal.mk\_subtype\_mono} $\{$$\alpha$ : Type u$\}$ $\{$$\varphi$ $\psi$ : $\alpha$ $\to$ Prop$\}$} \\
+\texttt{(h : $\forall$ x, $\varphi$ x $\to$ $\psi$ x) :} \\
+\texttt{cardinal.mk $\{$x // $\varphi$ x$\}$ $\leq$ cardinal.mk $\{$x // $\psi$ x$\}$}
 \end{itemize}
-We explain the following proof in detail below:
+We explain the following Lean proof that a majority winner is a Condorcet winner in detail below:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{majority\_winnner\_is\_condorcet} (P : Profile V X) [fintype V] (x : X) : majority\_winner P x $\to$ condorcet\_winner P x :=}
 
@@ -181,40 +200,40 @@ We explain the following proof in detail below:
 
 \item[\texttt{1.}]\quad  \texttt{intros majority z z\_ne\_x,}
  
-\item[\texttt{2.}]\quad  \texttt{apply sub\_pos\_of\_lt,}
+%\item[\texttt{2.}]\quad  \texttt{apply sub\_pos\_of\_lt,}
  
-\item[\texttt{3.}]\quad   \texttt{apply int.coe\_nat\_lt\_coe\_nat\_of\_lt,}
+%\item[\texttt{3.}]\quad   \texttt{apply int.coe\_nat\_lt\_coe\_nat\_of\_lt,}
 
-\item[\texttt{4.}]\quad  \texttt{have imp1 : $\forall$ v, ($\forall$ y $\neq$ x, P v x y) $\to$ P v x z,}
+\item[\texttt{2.}]\quad  \texttt{\textcolor{blue}{have} imp1 : $\forall$ v, ($\forall$ y $\neq$ x, P v x y) $\to$ P v x z,}
 
-\item[\texttt{5.}]\quad\quad  \texttt{$\{$intros v ranks\_x\_first,}
+\item[\texttt{3.}]\quad\quad  \texttt{$\{$intros v ranks\_x\_first,}
 
-\item[\texttt{6.}]\quad\quad     \texttt{exact ranks\_x\_first z z\_ne\_x$\}$, }
+\item[\texttt{4.}]\quad\quad     \texttt{exact ranks\_x\_first z z\_ne\_x$\}$, }
   
-\item[\texttt{7.}]\quad  \texttt{refine lt\_of\_lt\_of\_le \_ (\textcolor{orange}{cardinality\_lemma} imp1),}
+\item[\texttt{5.}]\quad  \texttt{refine lt\_of\_lt\_of\_le \_ (cardinal.mk\_subtype\_mono imp1),}
  
-\item[\texttt{8.}]\quad  \texttt{have imp2 : $\forall$ v, P v z x $\to$ ($\exists$ y $\neq$ x, P v y x),}
+\item[\texttt{6.}]\quad  \texttt{\textcolor{blue}{have} imp2 : $\forall$ v, P v z x $\to$ ($\exists$ y $\neq$ x, P v y x),}
  
- \item[\texttt{9.}]\quad \quad    \texttt{$\{$intros v ranks\_z\_above\_x, }
+ \item[\texttt{7.}]\quad \quad    \texttt{$\{$intros v ranks\_z\_above\_x, }
   
- \item[\texttt{10.}]\quad \quad    \texttt{use [z, z\_ne\_x], }
+ \item[\texttt{8.}]\quad \quad    \texttt{use [z, z\_ne\_x], }
   
- \item[\texttt{11.}]\quad \quad    \texttt{exact ranks\_z\_above\_x$\}$,}
+ \item[\texttt{9.}]\quad \quad    \texttt{exact ranks\_z\_above\_x$\}$,}
   
- \item[\texttt{12.}]\quad  \texttt{apply lt\_of\_le\_of\_lt (\textcolor{orange}{cardinality\_lemma} imp2),}
+ \item[\texttt{10.}]\quad  \texttt{apply lt\_of\_le\_of\_lt (cardinal.mk\_subtype\_mono imp2),}
   
-\item[\texttt{13.}]\quad  \texttt{exact majority, }
+\item[\texttt{11.}]\quad  \texttt{exact majority, }
   
 \textcolor{blue}{\texttt{end}}
 \end{itemize}
-Since the logical form of what we are trying to prove, \texttt{majority\_winner P x $\to$ condorcet\_winner P x}, is an implication, we use \texttt{intros} on line \texttt{1} to introduce a name \texttt{majority} for a proof of \texttt{majority\_winner P x}. Then since the consequent, \texttt{condorcet\_winner P x}, is a universal statement, \texttt{$\forall$ y $\neq$ x, margin\_pos P x~y}, we introduce a name \texttt{z} for an arbitrary candidate and a name \texttt{z\_ne\_x} for a proof of \texttt{z $\neq$ x}. Our goal is now to prove \texttt{margin\_pos P x z}. On line \texttt{2}, we apply a Mathlib theorem, \texttt{sub\_pos\_of\_lt}, according to which \texttt{0 $<$ a $-$ b} is equivalent to \texttt{b $<$ a}, so our goal is now proving that fewer voters rank \texttt{z} above \texttt{x} than rank \texttt{x} above \texttt{z}: \texttt{$\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v z x)).card < $\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x z)).card}. Since this is an inequality of integers (recall that $\uparrow$ typeshifts from $\mathbb{N}$ to $\mathbb{Z}$), on line \texttt{3} we use the Mathlib theorem \texttt{int.coe\_nat\_lt\_coe\_nat\_of\_lt}, according to which proving that \texttt{m $\leq$ n} for natural numbers \texttt{m} and \texttt{n} is sufficient for proving $\uparrow$ \texttt{m} $\leq$ $\uparrow$ \texttt{n} for the associated integers. This transforms our goal to proving \texttt{(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v z x)).card $<$ (finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x z)).card}. (Moving to $\mathbb{N}$ allows us to apply Mathlib's \texttt{lt\_of\_lt\_of\_le} and \texttt{lt\_of\_le\_of\_lt} below.)
+Since the logical form of what we want to prove, \texttt{majority\_winner P x $\to$ condorcet\_winner P x}, is an implication, we use \texttt{intros} on line \texttt{1} to introduce a name \texttt{majority} for a proof of \texttt{majority\_winner P x}. Then since the consequent, \texttt{condorcet\_winner P x}, is a universal statement, \texttt{$\forall$ y $\neq$ x, majority\_preferred  P x~y}, we introduce a name \texttt{z} for an arbitrary candidate and a name \texttt{z\_ne\_x} for a proof of \texttt{z $\neq$ x}. Our goal is now to prove \texttt{majority\_preferred P x z}. %On line \texttt{2}, we apply a Mathlib theorem, \texttt{sub\_pos\_of\_lt}, according to which \texttt{0 $<$ a $-$ b} is equivalent to \texttt{b $<$ a}, so our goal is now proving that fewer voters rank \texttt{z} above \texttt{x} than rank \texttt{x} above \texttt{z}: \texttt{$\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v z x)).card < $\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x z)).card}. Since this is an inequality of integers (recall that $\uparrow$ typeshifts from $\mathbb{N}$ to $\mathbb{Z}$), on line \texttt{3} we use the Mathlib theorem \texttt{int.coe\_nat\_lt\_coe\_nat\_of\_lt}, according to which proving that \texttt{m $\leq$ n} for natural numbers \texttt{m} and \texttt{n} is sufficient for proving $\uparrow$ \texttt{m} $\leq$ $\uparrow$ \texttt{n} for the associated integers. This transforms our goal to proving \texttt{(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v z x)).card $<$ (finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x z)).card}. (Moving to $\mathbb{N}$ allows us to apply Mathlib's \texttt{lt\_of\_lt\_of\_le} and \texttt{lt\_of\_le\_of\_lt} below.)
 
-The first key move (lines \texttt{4}-\texttt{6}) is to prove that everyone who ranks \texttt{x} first ranks \texttt{x} above \texttt{z}. On line \texttt{5}, we introduce a name \texttt{v} for an arbitrary voter and a name \texttt{ranks\_x\_first} for a proof of  \texttt{$\forall$ y $\neq$ x, P v x y}. Such a proof is a \textit{function} that when given a \texttt{w} in the domain of $\forall$ and a proof of \texttt{w $\neq$ y} outputs a proof of \texttt{P v x w}. Thus, when given \texttt{z} and our proof \texttt{z\_ne\_x},  \texttt{ranks\_x\_first} outputs a proof of \texttt{P v x z}, which is exactly what we want, so we can apply Lean's \texttt{exact} tactic. Since \texttt{imp1} is of the form \texttt{(imp: $\forall$ v, $\varphi$ v $\to$ $\psi$ v)}, we can apply the \textcolor{orange}{\texttt{cardinality\_lemma}} to obtain a proof \texttt{\textcolor{orange}{cardinality\_lemma} imp1} that the number of voters who rank \texttt{x} first is less than or equal to the number of voters who rank \texttt{x} above \texttt{z}, i.e., \texttt{(finset.univ.filter (\textcolor{blue}{$\lambda$} v, $\forall $ y $\neq$ x, P v x y)).card $\leq $ (finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x z)).card}.
+The first key move (lines \texttt{4}-\texttt{6}) is to prove that everyone who ranks \texttt{x} first ranks \texttt{x} above \texttt{z}. On line \texttt{5}, we introduce a name \texttt{v} for an arbitrary voter and a name \texttt{ranks\_x\_first} for a proof of  \texttt{$\forall$ y $\neq$ x, P v x y}. Such a proof is a \textit{function} that when given a \texttt{w} in the domain of $\forall$ and a proof of \texttt{w $\neq$ y} outputs a proof of \texttt{P~v~x~w}. Thus, when given \texttt{z} and our proof \texttt{z\_ne\_x},  \texttt{ranks\_x\_first} outputs a proof of \texttt{P v x z}, which is exactly what we want, so we can apply Lean's \texttt{exact} tactic. Since \texttt{imp1} is of the form \texttt{($\forall$ v, $\varphi$ v $\to$ $\psi$ v)}, we can apply the Mathlib theorem \texttt{cardinal.mk\_subtype\_mono} to obtain a proof \texttt{cardinal.mk\_subtype\_mono imp1} that the number of voters who rank \texttt{x} first is less than or equal to the number of voters who rank \texttt{x} above \texttt{z}.%, i.e., \texttt{(finset.univ.filter (\textcolor{blue}{$\lambda$} v, $\forall $ y $\neq$ x, P v x y)).card $\leq $ (finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x z)).card}.
 
 
 Next, on line \texttt{7}, we use a Mathlib theorem, \texttt{lt\_of\_lt\_of\_le}, which states that \texttt{n} $<$ \texttt{m} $\to$ \texttt{m} $\leq$ \texttt{k} $\to$ \texttt{n} $<$ \texttt{k} (recall that implication associates to the right). Take \texttt{n} to be the number of voters who rank \texttt{z} above \texttt{x}, \texttt{m} to be the number who rank \texttt{x} first, and \texttt{k} to be the number  who rank \texttt{x} above \texttt{z}. Thus, our goal is to prove \texttt{n} $<$ \texttt{k}, and above we proved  \texttt{m} $\leq$ \texttt{k}. Now \texttt{m} $\leq$ \texttt{k} is not the antecedent of \texttt{n}~$<$~\texttt{m} $\to$ \texttt{m} $\leq$ \texttt{k} $\to$ \texttt{n} $<$ \texttt{k}, but Lean's \texttt{refine} tactic allows us to insert a placeholder $\_$ for the antecedent, so our goal then becomes proving  \texttt{n} $<$ \texttt{m}. 
 
-To prove \texttt{n} $<$ \texttt{m}, the key move (lines \texttt{9}-\texttt{11}) is to prove that everyone who ranks \texttt{z} over \texttt{x} does not rank \texttt{x} first. Then we can apply the \textcolor{orange}{\texttt{cardinality\_lemma}} to obtain a proof \texttt{\textcolor{orange}{cardinality\_lemma} imp2} that the number \texttt{n} of voters who rank \texttt{z} above \texttt{x} is less than or equal to the number---call it \texttt{m}$'$---of voters who do not rank \texttt{x} first. Thus, we have a proof of \texttt{n~$\leq$~m$'$}, so we can apply the implication  \texttt{n~$\leq$~m$'$ $\to$ m$'$  $<$ m $\to$ n $<$ m} provided by \texttt{lt\_of\_le\_of\_lt} to obtain a proof of \texttt{m$'$  $<$ m $\to$ n $<$ m}. Then since \texttt{majority} is exactly a proof of the antecedent of \texttt{m$'$  $<$ m $\to$ n $<$ m}, we obtain a proof of our goal \texttt{n $<$ m}, so we are done.
+To prove \texttt{n} $<$ \texttt{m}, the key move (lines \texttt{9}-\texttt{11}) is to prove that everyone who ranks \texttt{z} over \texttt{x} does not rank \texttt{x} first. Then we can apply \texttt{cardinal.mk\_subtype\_mono} to obtain a proof \texttt{cardinal.mk\_subtype\_mono imp2} that the number \texttt{n} of voters who rank \texttt{z} above \texttt{x} is less than or equal to the number---call it \texttt{m}$'$---of voters who do not rank \texttt{x} first. Thus, we have a proof of \texttt{n~$\leq$~m$'$}, so we can apply the implication  \texttt{n~$\leq$~m$'$ $\to$ m$'$  $<$ m $\to$ n $<$ m} provided by the Mathlib theorem \texttt{lt\_of\_le\_of\_lt} to obtain a proof of \texttt{m$'$  $<$ m $\to$ n $<$ m}. Then since \texttt{majority} is exactly a proof of the antecedent of \texttt{m$'$  $<$ m $\to$ n $<$ m}, we obtain a proof of our goal \texttt{n $<$ m}, so we are done.
 
 
 
@@ -222,7 +241,7 @@ To prove \texttt{n} $<$ \texttt{m}, the key move (lines \texttt{9}-\texttt{11}) 
 
 \subsection{Functions on profiles}
 
-Next we define two kinds of functions that take profiles as inputs. The first, called a \textit{social choice correspondences} (SCC), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the SCC is defined. Thus, one may define an SCC as a function on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our purposes, it is more convenient to use the following equivalent approach.
+Next we define two kinds of functions that take profiles as inputs. The first, called a \textit{social choice correspondence} (SCC), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the SCC is defined. Thus, one may define an SCC as a function on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our purposes, it is more convenient to use the following equivalent approach.
 
 %\begin{definition} \textnormal{A \emph{voting method} is a function $F$ on $\mathsf{Prof}$ such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$. We abuse terminology and call the set $\{\mathbf{Q}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the voting method.}
 %\end{definition}
@@ -237,16 +256,22 @@ Next we define two kinds of functions that take profiles as inputs. The first, c
 
 We represent the function $\mathsf{SCC}$ in Lean as follows, where \texttt{set X} is the type of subsets of \texttt{X}:\footnote{When writing type expressions, function application binds more strongly than arrow, so `\texttt{Prof V X $\to$ set X}' stands for \texttt{(Prof V X) $\to$ set X}.}
 \begin{itemize}
-\item[] \texttt{def SCC := $\lambda$ (V X : Type), Prof V X $\to$ set X}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{SCC} := \textcolor{blue}{$\lambda$} (V X : \textcolor{blue}{Type}), Prof V X $\to$ set X}
 \end{itemize}
 The definition states that \texttt{SCC} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{Prof V X $\to$ set X}, which is the type of $(V,X)$-SCCs.
 
-\begin{example} Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that \textit{$x$ is a Condorcet winner in $\mathbf{P}$} if $V$ is finite and for each $y\in X(\mathbf{P})\setminus \{x\}$, $Margin_\mathbf{P}(x,y)>0$.  For $(V,X)$, consider the Condorcet SCC for $(V,X)$ defined as follows:
+% Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that \textit{$x$ is a Condorcet winner in $\mathbf{P}$} if $V$ is finite and for each $y\in X(\mathbf{P})\setminus \{x\}$, $Margin_\mathbf{P}(x,y)>0$.  
+
+\begin{example}\label{CondorcetEx1} For $(V,X)$, consider the Condorcet SCC for $(V,X)$ defined as follows:
 \[\mathrm{Cond}_{(V,X)}(\mathbf{P})=\begin{cases} \{x\} & \mbox{if $x$ is a Condorcet winner in $\mathbf{P}$} \\ X(\mathbf{P}) & \mbox{otherwise}\end{cases}.\]
 We represent this $(V,X)$-SCC in Lean as follows:
 \begin{itemize}
-\item[] ...
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_SCC} : SCC V X := $\lambda$ P, }
+
+\texttt{\textcolor{magenta}{if} $\exists$ x, condorcet\_winner P x \textcolor{magenta}{then} $\{$x : X $\mid$ condorcet\_winner P x$\}$} \\
+\texttt{\textcolor{magenta}{else} set.univ}
 \end{itemize}
+The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a Condorcet winner, then output the set of all Condorcet winners (which will be a singleton), and otherwise output all candidates in \texttt{X}.
 \end{example}
 
 Most voting methods (e.g., Plurality, Borda, Instant Runoff) are defined not only for a fixed set of voters and candidates but for any set of voters and candidates, which motivates the following definition.
@@ -261,11 +286,14 @@ Most voting methods (e.g., Plurality, Borda, Instant Runoff) are defined not onl
 
 In Lean, we define the type of VSCCs as a \textit{dependent function type}:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} VSCC : \textcolor{blue}{Type 1} := $\Pi$ (V X : \textcolor{blue}{Type}), SCC V X.}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VSCC} : \textcolor{blue}{Type 1} := $\Pi$ (V X : \textcolor{blue}{Type}), SCC V X.}
 \end{itemize}
 The definition states that a VSCC is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{SCC V X}, i.e., a $(V,X)$-SCC.
 
-\begin{example} Condorcet VSCC...
+\begin{example} We define the Condorcet VSCC as follows, taking advantage of our definition for any $V$ and $X$ of the Condorcet $(V,X)$-SCC in Example \ref{CondorcetEx1}:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_VSCC} : VSCC := \textcolor{blue}{$\lambda$} V X, condorcet\_SCC}
+\end{itemize}
 \end{example}
 
 The second type of function we consider assigns to a given profile a binary relation on the set of candidates in the profile. %We call such functions \textit{variable-election collective choice rules}.\footnote{About CCRs...}  
@@ -278,7 +306,7 @@ A CCR $f$ is said to be \textit{asymmetric} (resp.~\textit{transitive}, etc.), i
 
 In Lean, our representation of the function $\mathsf{CCR}$ is similar to that of $\mathsf{SCC}$:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} CCR := $\lambda$ (V X : \textcolor{blue}{Type}), Prof V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{CCR} := $\lambda$ (V X : \textcolor{blue}{Type}), Prof V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
 \end{itemize}
 Once again, we can consider functions that are not restricted to a fixed set of voters and candidates.
 
@@ -287,12 +315,24 @@ Once again, we can consider functions that are not restricted to a fixed set of 
 
 \noindent An equivalent but perhaps more intuitive definition takes a VCCR to be a function $f$ on $\mathsf{Prof}$ (instead of $\mathcal{V}\times\mathcal{X}$) such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.\footnote{This is the definition of a VCCR used in \cite{} with the aditional stipulation that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} However, we have presented Definition \ref{VCCR} above because it nicely connects with our formalization in Lean, which as before defines the type of VCCRs to be a dependent function type:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} VCCR := $\Pi$ (V X : \textcolor{blue}{Type}), CCR V X.}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VCCR} := $\Pi$ (V X : \textcolor{blue}{Type}), CCR V X.}
 \end{itemize}
 The definition states that a VCCR is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{CCR V X}, i.e., a $(V,X)$-CCR.
 
 \begin{example} Split Cycle VCCR.
 \end{example}
+
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{cycle} $\{$X: \textcolor{blue}{Type}$\}$ := $\lambda$ (P : X $\to$ X $\to$ Prop) (c : list X), \\
+$\exists$ (e : c $\neq$ list.nil), list.chain P (c.last e) c}
+\item[]
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_defeat} : VCCR :=} 
+    \texttt{$\lambda$ V X (P : Profile V X) (x y : X),}
+    \texttt{$\forall$ [f: fintype V], 0 $<$ @margin V X f P x y $\wedge$}
+    
+    \texttt{$\neg$ ($\exists$ (c : list X), x $\in$ c $\wedge$ y $\in$ c $\wedge$}\\
+    \texttt{cycle ($\lambda$ a b, @margin V X f P x y $\leq$ @margin V X f P a b) c)}
+\end{itemize}
 
 
 \begin{comment}
