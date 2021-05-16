@@ -72,6 +72,12 @@ There is a long tradition of fruitful interaction between logic and social choic
 
 \section{Introduction}
 
+\newpage
+
+more intro...
+
+\newpage
+
 \section{Framework}
 
 In this section, we define the basic objects of voting theory: profiles, social choice correspondences, etc. We first give standard set-theoretic definitions and then their type-theoretic counterparts in Lean syntax.
@@ -83,7 +89,7 @@ For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\math
 %\begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
 %\end{definition}
 
-\begin{definition}\label{ProfileDef} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \emph{$(V,X)$-profile} is a map $\mathbf{Q}:V\to \mathcal{B}(X)$. We write `$\mathbf{Q}_i$' for the relation $\mathbf{Q}(i)$. Given a $(V,X)$-profile $\mathbf{Q}$, let $V(\mathbf{Q})$ be $V$ and $X(\mathbf{Q})$  be $X$. We then define a function $\mathsf{Prof}$ that assigns to each pair $(V,X)$ of $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ the set $\mathsf{Prof}(V,X)$ of all $(V,X)$-profiles. Finally, define \[\mathsf{PROF} = \underset{V\subseteq\mathcal{V},X\subseteq\mathcal{X}}{\bigcup}\mathsf{Prof}(V,X).\]}\end{definition}
+\begin{definition}\label{ProfileDef} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \emph{$(V,X)$-profile} is a map $\mathbf{Q}:V\to \mathcal{B}(X)$. We write `$\mathbf{Q}_i$' for the relation $\mathbf{Q}(i)$. Given a $(V,X)$-profile $\mathbf{Q}$, let $V(\mathbf{Q})$ be $V$ and $X(\mathbf{Q})$  be $X$. We then define a function $\mathsf{Prof}$ that assigns to each pair $(V,X)$ of $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ the set $\mathsf{Prof}(V,X)$ of all $(V,X)$-profiles. Finally, define $\mathsf{PROF} = \bigcup_{V\subseteq\mathcal{V},X\subseteq\mathcal{X}}\mathsf{Prof}(V,X)$.}\end{definition}
 
 
 %\textnormal{A \textit{profile} is a $(V,X)$-profile for some $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$.}
@@ -186,6 +192,8 @@ In Lean, Definition \ref{CondorcetDef} becomes:
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_winner} (P : Profile V X) (x : X) :} \\
 \texttt{ Prop := cardinal.mk $\{$v : V // $\forall$ y $\neq$ x, P v x y$\}$ > cardinal.mk} \\ \texttt{$\{$v : V // $\exists$ y $\neq$ x, P v y x$\}$}
 \end{itemize}
+Here the `\texttt{//}' notation indicates we are identifying the subtype of voters with a certain property. 
+
 As an example of a slightly more involved proof than the one above showing that the margin matrix is skew-symmetric, we present a proof in Lean that a majority winner is also a Condorcet winner. For this we use several basic theorems provided by Mathlib, including one formalizing the fact that a subset of a set has cardinality less than or equal to that of its superset:\footnote{We have changed variable names and replaced $\#$ with `cardinal.mk'.}
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{cardinal.mk\_subtype\_mono} $\{$$\alpha$ : Type u$\}$ $\{$$\varphi$ $\psi$ : $\alpha$ $\to$ Prop$\}$} \\
@@ -266,7 +274,7 @@ The definition states that \texttt{SCC} is a function that given two types, \tex
 \[\mathrm{Cond}_{(V,X)}(\mathbf{P})=\begin{cases} \{x\} & \mbox{if $x$ is a Condorcet winner in $\mathbf{P}$} \\ X(\mathbf{P}) & \mbox{otherwise}\end{cases}.\]
 We represent this $(V,X)$-SCC in Lean as follows:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_SCC} : SCC V X := $\lambda$ P, }
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$ : SCC V X := $\lambda$ P, }
 
 \texttt{\textcolor{magenta}{if} $\exists$ x, condorcet\_winner P x \textcolor{magenta}{then} $\{$x : X $\mid$ condorcet\_winner P x$\}$} \\
 \texttt{\textcolor{magenta}{else} set.univ}
@@ -308,6 +316,30 @@ In Lean, our representation of the function $\mathsf{CCR}$ is similar to that of
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{CCR} := $\lambda$ (V X : \textcolor{blue}{Type}), Prof V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
 \end{itemize}
+
+\begin{example}\label{SplitCycleEx1} As an example of a CCR, we consider the Split Cycle CCR studied in \cite{}. The output of the Split Cycle CCR is an asymmetric relation understood as a relation of ``defeat'' between candidates. A candidate $a$ defeats a candidate $b$ in $\mathbf{P}$ just in case the margin of $a$ over $b$ is (i) positive and (ii) is not equal to the weakest margin in some majority cycle containing $a$ and $b$. To formalize this definition, we first need a definition of a cycle in a binary relation:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{cycle} $\{$X: \textcolor{blue}{Type}$\}$ := $\lambda$ (R : X $\to$ X $\to$ Prop) (c : list X), \\
+$\exists$ (e : c $\neq$ list.nil), list.chain R (c.last e) c}
+\end{itemize}
+Here the function \texttt{cycle} takes in a binary relation \texttt{R} and a list \texttt{c} of elements of \texttt{X} and outputs the proposition stating that (i) there is a proof \texttt{e} that \texttt{c} is not the empty list, and (ii) \texttt{c} is a cycle in \texttt{R}. To express (ii), we use the construction \texttt{list.chain R a c}, where \texttt{R} is a binary relation, \texttt{a} is an element of \texttt{X}, and \texttt{c} is a list of elements of \texttt{X}, which means that \texttt{a} is \texttt{R}-related to the first element of \texttt{c} and that every element in the list \texttt{c} is related to the next element in \texttt{c}. Thus, if we take \texttt{a} as the last element of \texttt{c}, this implies that \texttt{c} is a cycle. Applying \texttt{c.last} to the proof \texttt{e} that \texttt{c} is not the empty list outputs the last element of \texttt{c}.
+
+Now we are ready to define the Split Cycle $(V,X)$-CCR:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_CCR} $\{$V X: \textcolor{blue}{Type}$\}$ : CCR V X :=} 
+
+    \texttt{$\lambda$ (P : Profile V X) (x y : X), $\forall$ [f: fintype V],}
+    
+    \texttt{0 $<$ @margin V X f P x y $\wedge$}
+    
+    \texttt{$\neg$ ($\exists$ (c : list X), x $\in$ c $\wedge$ y $\in$ c $\wedge$}\\
+    \texttt{cycle ($\lambda$ a b, @margin V X f P x y $\leq$ @margin V X f P a b) c)}
+\end{itemize}
+\textbf{Explain...}
+
+
+\end{example}
+
 Once again, we can consider functions that are not restricted to a fixed set of voters and candidates.
 
 \begin{definition}\label{VCCR} \textnormal{A \emph{variable-election collective choice rule} (VCCR) is a function that assigns to each pair $(V,X)$ of a $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-CCR.}% such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.}
@@ -319,20 +351,12 @@ Once again, we can consider functions that are not restricted to a fixed set of 
 \end{itemize}
 The definition states that a VCCR is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{CCR V X}, i.e., a $(V,X)$-CCR.
 
-\begin{example} Split Cycle VCCR.
+\begin{example} We define the Split Cycle VCCR as follows, taking advantage of our definition for any $V$ and $X$ of the Split Cycle $(V,X)$-SCC in Example \ref{SplitCycleEx1}:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_VCCR} : VCCR := \textcolor{blue}{$\lambda$} V X, split\_cycle\_CCR}
+\end{itemize}
 \end{example}
 
-\begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{cycle} $\{$X: \textcolor{blue}{Type}$\}$ := $\lambda$ (P : X $\to$ X $\to$ Prop) (c : list X), \\
-$\exists$ (e : c $\neq$ list.nil), list.chain P (c.last e) c}
-\item[]
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_defeat} : VCCR :=} 
-    \texttt{$\lambda$ V X (P : Profile V X) (x y : X),}
-    \texttt{$\forall$ [f: fintype V], 0 $<$ @margin V X f P x y $\wedge$}
-    
-    \texttt{$\neg$ ($\exists$ (c : list X), x $\in$ c $\wedge$ y $\in$ c $\wedge$}\\
-    \texttt{cycle ($\lambda$ a b, @margin V X f P x y $\leq$ @margin V X f P a b) c)}
-\end{itemize}
 
 
 \begin{comment}
