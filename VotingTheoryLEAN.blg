@@ -1,0 +1,66 @@
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: VotingTheoryLEAN.aux
+The style file: splncs04.bst
+Database file #1: VotingTheoryLean.bib
+Repeated entry---line 455 of file VotingTheoryLean.bib
+ :  @inproceedings{Brandt2014
+ :                           ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 466 of file VotingTheoryLean.bib
+ :  @inproceedings{Brandt2017
+ :                           ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1021 of file VotingTheoryLean.bib
+ : @article{Brandt2018
+ :                    ,
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "Eberl"
+Warning--I didn't find a database entry for ""
+Warning--I didn't find a database entry for "ref_article1"
+Warning--I didn't find a database entry for "ref_lncs1"
+Warning--I didn't find a database entry for "ref_book1"
+Warning--I didn't find a database entry for "ref_proc1"
+Warning--I didn't find a database entry for "ref_url1"
+You've used 34 entries,
+            2850 wiz_defined-function locations,
+            854 strings with 10716 characters,
+and the built_in function-call counts, 19805 in all, are:
+= -- 1638
+> -- 486
+< -- 44
++ -- 199
+- -- 161
+* -- 1224
+:= -- 2449
+add.period$ -- 55
+call.type$ -- 34
+change.case$ -- 196
+chr.to.int$ -- 0
+cite$ -- 34
+duplicate$ -- 1820
+empty$ -- 1875
+format.name$ -- 188
+if$ -- 4472
+int.to.chr$ -- 0
+int.to.str$ -- 34
+missing$ -- 349
+newline$ -- 108
+num.names$ -- 82
+pop$ -- 604
+preamble$ -- 1
+purify$ -- 140
+quote$ -- 0
+skip$ -- 612
+stack$ -- 0
+substring$ -- 1215
+swap$ -- 1053
+text.length$ -- 44
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 128
+warning$ -- 0
+while$ -- 161
+width$ -- 36
+write$ -- 363
+(There were 3 error messages)
