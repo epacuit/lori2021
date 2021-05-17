@@ -8,6 +8,10 @@ Agotnes, T., {van der Hoek}, W., Wooldridge, M.: On the logic of preference and
   judgment aggregation. Autonomous Agents and Multi-Agent Systems
   \textbf{22}(1),  4--30 (2009)
 
+\bibitem{Arrow1951}
+Arrow, K.J.: Social Choice and Individual Values. John Wiley \& Sons, Inc., New
+  York, 1st edn. (1951)
+
 \bibitem{Arrow2012}
 Arrow, K.J.: Social Choice and Individual Values. Yale University Press, New
   Haven, 3rd edn. (2012)
@@ -16,6 +20,20 @@ Arrow, K.J.: Social Choice and Individual Values. Yale University Press, New
 Arrow, K.J.: Origins of the impossibility theorem. In: Maskin, E., Sen, A.
   (eds.) The {Arrow} Impossibility Theorem, pp. 143--148. Columbia University
   Press, New York (2014)
+
+\bibitem{Baigent1987}
+Baigent, N.: Twitching weak dictators. Journal of Economics  \textbf{47}(4),
+  407--411 (1987). \doi{10.1007/bf01229471}
+
+\bibitem{Blau1979}
+Blau, J.H.: Review of the article ``repairing proofs of arrow's general
+  impossibility theorem and enlarging the scope of the theorem'' by {R}.
+  {R}outley. Mathematical Reviews  \textbf{0545435} (1979),
+  \url{https://mathscinet.ams.org/mathscinet-getitem?mr=545435}
+
+\bibitem{Blau1957}
+Blau, J.H.: The existence of social welfare functions. Econometrica
+  \textbf{25}(2),  302--313 (1957)
 
 \bibitem{Brandl2018}
 Brandl, F., Brandt, F., Eberl, M., Geist, C.: Proving the incompatibility of
@@ -28,6 +46,12 @@ Brandl, F., Brandt, F., Geist, C., Hofbauer, J.: Strategic abstention based on
   impossibilities. Journal of Artificial Intelligence Research  \textbf{66},
   1031--1056 (2019). \doi{10.1613/jair.1.11876}
 
+\bibitem{Brandt2018b}
+Brandt, F., Eberl, M., Saile, C., Stricker, C.: The incompatibility of
+  fishburn-strategyproofness and pareto-efficiency. Archive of Formal Proofs
+  (2018), \url{https://isa-afp.org/entries/Fishburn_Impossibility.html}, Formal
+  proof development
+
 \bibitem{Brandt2017}
 Brandt, F., Geist, C., Peters, D.: Optimal bounds for the no-show paradox via
   {SAT} solving. Mathematical Social Sciences  \textbf{90},  18--27 (2017).
@@ -38,19 +62,16 @@ Brandt, F., Geist, C., Seedig, H.G.: Identifying k-majority digraphs via {SAT}
   solving. In: Proceedings of the 1st AAMAS Workshop on Exploring Beyond the
   Worst Case in Computational Social Choice (2014)
 
-\bibitem{Brandt2020}
-Brandt, F., Geist, C., Strobel, M.: Analyzing the practical relevance of the
-  {C}ondorcet loser paradox and the agenda contraction paradox. In: Diss, M.,
-  Merlin, V. (eds.) Evaluating Voting Systems with Probability Models: Essays
-  by and in Honor of William Gehrlein and Dominique Lepelley. Springer, Berlin
-  (2020)
-
 \bibitem{Brandt2018}
 Brandt, F., Saile, C., Stricker, C.: Voting with ties: Strong impossibilities
   via {SAT} solving. In: Dastani, M., Sukthankar, G., Andr\'{e}, E., Koenig, S.
   (eds.) Proceedings of the 17th International Conference on Autonomous Agents
   and Multiagent Systems (AAMAS 2018). pp. 1285--1293. International Foundation
   for Autonomous Agents and Multiagent Systems (2018)
+
+\bibitem{Campbell2000}
+Campbell, D.E., Kelly, J.S.: Weak independence and veto power. Economics
+  Letters  \textbf{66},  183--189 (2000)
 
 \bibitem{CinaEndriss2016}
 Cin\'a, G., Endriss, U.: Proving classical theorems of social choice theory in
@@ -71,6 +92,10 @@ Drummond, J., Perrault, A., Bacchus, F.: Sat is an effective and complete
   method for solving stable matching problems with couples. In: Proceedings of
   the Twenty-Fourth International Joint Conference on Artificial Intelligence
   (IJCAI 2015). pp. 518--525. AAAI Press (2015)
+
+\bibitem{Eberl2019}
+Eberl, M.: Verifying randomised social choice. In: International Symposium on
+  Frontiers of Combining Systems, FroCoS 2019. pp. 240--256 (2019)
 
 \bibitem{Endriss2011}
 Endriss, U.: Logic and social choice theory. In: Gupta, A., {van Benthem}, J.
