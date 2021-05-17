@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  17 MAY 2021 16:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  17 MAY 2021 16:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1077,9 +1077,12 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 67.
  [1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
- [4]
-Overfull \hbox (1.95879pt too wide) in paragraph at lines 201--202
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2]
+[3] [4]
+Overfull \hbox (1.95879pt too wide) in paragraph at lines 194--195
 \OT1/cmr/m/n/10 a \OT1/cmr/m/it/10 Con-dorcet win-ner in $\OT1/cmr/bx/n/10 P$ \
 OT1/cmr/m/n/10 if for all $\OML/cmm/m/it/10 y \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/
 10 X\OT1/cmr/m/n/10 (\OT1/cmr/bx/n/10 P\OT1/cmr/m/n/10 )$ with $\OML/cmm/m/it/1
@@ -1089,7 +1092,7 @@ m/n/10 ) \OML/cmm/m/it/10 >
  []
 
 [5]
-Overfull \hbox (1.46655pt too wide) in paragraph at lines 217--220
+Overfull \hbox (1.46655pt too wide) in paragraph at lines 210--213
 [][]\OT1/cmtt/m/n/10 theorem[] []cardinal.mk[]subtype[]mono[] $\OMS/cmsy/m/n/10
  f$$\OML/cmm/m/it/10 $ \OT1/cmtt/m/n/10 : Type u$\OMS/cmsy/m/n/10 g$ $f$$\OML/
 cmm/m/it/10 '$ $ $ \OT1/cmtt/m/n/10 : $\OML/cmm/m/it/10 $ $\OMS/cmsy/m/n/10 !$
@@ -1097,20 +1100,20 @@ cmm/m/it/10 '$ $ $ \OT1/cmtt/m/n/10 : $\OML/cmm/m/it/10 $ $\OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (6.71349pt too wide) in paragraph at lines 223--224
+Overfull \hbox (6.71349pt too wide) in paragraph at lines 216--217
 [][]\OT1/cmtt/m/n/10 lemma[] []majority[]winnner[]is[]condorcet[] (P : Profile 
 V X) [fintype V]
  []
 
 
-Overfull \hbox (9.99016pt too wide) in paragraph at lines 255--256
+Overfull \hbox (9.99016pt too wide) in paragraph at lines 248--249
 \OT1/cmtt/m/n/10 condorcet[]winner P x\OT1/cmr/m/n/10 , is a uni-ver-sal state-
 ment, $\OMS/cmsy/m/n/10 8$ \OT1/cmtt/m/n/10 y $\OMS/cmsy/m/n/10 6\OT1/cmr/m/n/1
 0 =$ \OT1/cmtt/m/n/10 x, majority[]preferred
  []
 
 [6] [7]
-Overfull \hbox (0.2671pt too wide) in paragraph at lines 297--299
+Overfull \hbox (0.2671pt too wide) in paragraph at lines 290--292
 [][]\OT1/cmtt/m/n/10 if[] $\OMS/cmsy/m/n/10 9$ \OT1/cmtt/m/n/10 x, condorcet[]w
 inner P x []then[] $\OMS/cmsy/m/n/10 f$\OT1/cmtt/m/n/10 x : X $\OMS/cmsy/m/n/10
  j$ \OT1/cmtt/m/n/10 condorcet[]winner P x$\OMS/cmsy/m/n/10 g$ 
@@ -1125,50 +1128,50 @@ Package epstopdf Info: Source file: <fig1.eps>
 (epstopdf)                    size: 26595 bytes
 (epstopdf)             Command: <repstopdf --outfile=fig1-eps-converted-to.pdf 
 fig1.eps>
-(epstopdf)             \includegraphics on input line 446.
+(epstopdf)             \includegraphics on input line 439.
 Package epstopdf Info: Output file is already uptodate.
- <fig1-eps-converted-to.pdf, id=271, 345.29pt x 142.5325pt>
+ <fig1-eps-converted-to.pdf, id=265, 345.29pt x 142.5325pt>
 File: fig1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig1-eps-converted-to.pdf>
-Package pdftex.def Info: fig1-eps-converted-to.pdf used on input line 446.
+Package pdftex.def Info: fig1-eps-converted-to.pdf used on input line 439.
 (pdftex.def)             Requested size: 347.12354pt x 143.29115pt.
 
 
-LaTeX Warning: Citation `ref_article1' on page 11 undefined on input line 469.
+LaTeX Warning: Citation `ref_article1' on page 11 undefined on input line 462.
 
 
-LaTeX Warning: Citation `ref_lncs1' on page 11 undefined on input line 469.
+LaTeX Warning: Citation `ref_lncs1' on page 11 undefined on input line 462.
 
 
-LaTeX Warning: Citation `ref_book1' on page 11 undefined on input line 470.
+LaTeX Warning: Citation `ref_book1' on page 11 undefined on input line 463.
 
 
-LaTeX Warning: Citation `ref_proc1' on page 11 undefined on input line 470.
+LaTeX Warning: Citation `ref_proc1' on page 11 undefined on input line 463.
 
 
-LaTeX Warning: Citation `ref_url1' on page 11 undefined on input line 471.
+LaTeX Warning: Citation `ref_url1' on page 11 undefined on input line 464.
 
 
-LaTeX Warning: Citation `ref_article1' on page 11 undefined on input line 472.
+LaTeX Warning: Citation `ref_article1' on page 11 undefined on input line 465.
 
 
-LaTeX Warning: Citation `ref_lncs1' on page 11 undefined on input line 472.
+LaTeX Warning: Citation `ref_lncs1' on page 11 undefined on input line 465.
 
 
-LaTeX Warning: Citation `ref_book1' on page 11 undefined on input line 472.
+LaTeX Warning: Citation `ref_book1' on page 11 undefined on input line 465.
 
 
-LaTeX Warning: Citation `ref_article1' on page 11 undefined on input line 473.
+LaTeX Warning: Citation `ref_article1' on page 11 undefined on input line 466.
 
 
-LaTeX Warning: Citation `ref_book1' on page 11 undefined on input line 473.
+LaTeX Warning: Citation `ref_book1' on page 11 undefined on input line 466.
 
 
-LaTeX Warning: Citation `ref_proc1' on page 11 undefined on input line 473.
+LaTeX Warning: Citation `ref_proc1' on page 11 undefined on input line 466.
 
 
-LaTeX Warning: Citation `ref_url1' on page 11 undefined on input line 473.
+LaTeX Warning: Citation `ref_url1' on page 11 undefined on input line 466.
 
 (./VotingTheoryLEAN.bbl [11]
 Underfull \hbox (badness 1655) in paragraph at lines 44--48
@@ -1227,22 +1230,22 @@ FiXme Summary: Number of notes: 0,
 (FiXme)        Total: 0.
 
 [14]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 483.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 483.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 476.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 476.
  (./VotingTheoryLEAN.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 483.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 483.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 476.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 476.
 Package rerunfilecheck Info: File `VotingTheoryLEAN.out' has not changed.
 (rerunfilecheck)             Checksum: 7A76C7377ADE38457B0879C080EBD100;75.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 483.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 476.
  ) 
 Here is how much of TeX's memory you used:
- 26842 strings out of 493014
- 507692 string characters out of 6133351
+ 26838 strings out of 493014
+ 507663 string characters out of 6133351
  570037 words of memory out of 5000000
  29909 multiletter control sequences out of 15000+600000
  14071 words of font info for 54 fonts, out of 8000000 for 9000
@@ -1270,10 +1273,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf
 ist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2016/texmf-dist
 /fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on VotingTheoryLEAN.pdf (14 pages, 333784 bytes).
+Output written on VotingTheoryLEAN.pdf (14 pages, 333514 bytes).
 PDF statistics:
- 419 PDF objects out of 1000 (max. 8388607)
- 326 compressed objects within 4 object streams
- 97 named destinations out of 1000 (max. 500000)
+ 412 PDF objects out of 1000 (max. 8388607)
+ 319 compressed objects within 4 object streams
+ 93 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
