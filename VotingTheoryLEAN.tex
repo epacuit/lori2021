@@ -78,20 +78,19 @@ There is a long tradition of fruitful interaction between logic and social choic
  
 
 In recent years, research on  logic and social choice theory has centered around the use of computer-aided methods \cite{Geist2017}.    For example, building on Tang and Lin's \cite{Tang2009} proof of Arrow's celebrated Impossibility Theorem \cite{Arrow2012},  SAT solvers have been successfully used to find new impossibility theorems in social choice theory \cite{Geist2011,Brandt2014,Geist2017,Brandl2018,Brandt2018,Brandl2019}, to find minimal examples illustrating how certain voting methods violate key social choice axioms \cite{Brandt2017}, and to study  multi-winner voting methods \cite{Kluiving2020} and matching mechanisms \cite{Drummond2015,Endriss2020}. 
-In this paper, we focus on a different line of research on logic and social choice theory that uses interactive theorem provers to verify existing results in social choice theory.   The first results here used the Isabelle/HOL  \cite{Nipkow2009} and Mizar \cite{Wiedijk2007} interactive theorem provers to formalize different proofs  Arrow's impossibility theorem \cite{Geanakoplos2005}.  More recently, \cite{Eberl,Brandt2020} used Isabelle to verify the main theorem from \cite{Brandl2018}.  These projects demonstrate, as Nipkow \cite{Nipkow2009} notes,  that ``social choice theory turns out to be perfectly suitable for mechanical theorem proving."  In this paper, we provide further evidence of this by using the Lean interactive theorem prover to verify properties of a specific voting method (e.g., Condorcet consistency, independence of clones, etc.).
+In this paper, we focus on a different line of research on logic and social choice theory that uses interactive theorem provers to verify existing results in social choice theory.   The first results here used the Isabelle/HOL  \cite{Nipkow2009} and Mizar \cite{Wiedijk2007} interactive theorem provers to formalize different proofs  Arrow's impossibility theorem \cite{Geanakoplos2005}.  More recently, \cite{Eberl,Brandt2020} used Isabelle to verify the main theorem from \cite{Brandl2018}.  These projects demonstrate, as Nipkow \cite{Nipkow2009} notes,  that ``social choice theory turns out to be perfectly suitable for mechanical theorem proving."  In this paper, we provide further evidence of this by developing a framework for formalizing voting theory using an interactive theorem prover. 
 
+The most obvious benefit of using an interactive theorem prover same is that by a small trusted kernel.  
+ Somewhere says what the benefits are: epistemic benefit of verification plus benefit of tracking exactly which assumptions (e.g., about voter preferences, cardinalities, choice of primitive concepts, etc.) are needed for which results.... 
+
+%by using an interactive theorem prover to verify results about properties of voting methods (e.g., Condorcet consistency, independence of clones, etc.).
+
+We chose the Lean theorem prover \cite{Lean}, a framework that supports both interactive and automated theorem proving.   Lean's kernel is based on dependent type theory and   implements a version of the calculus of inductive constructions \cite{Coquand1988}  and Martin-L\"of type theory \cite{MartinLof1984}. There is an extensive and actively maintained  library of mathematical results formalized in Lean (see \url{https://leanprover-community.github.io/mathlib_docs/}). In addition, Lean is the system chosen for the Formal Abstracts project initiated by Thomas Hales (\url{https://formalabstracts.github.io}). %We chose Lean both because of its growing popularity and because it offers dependent types, which proved convenient for our formalization project.
  
- The Lean proof assistant  \cite{Lean} is a framework that supports both interactive and automated theorem proving.   Lean's kernel is based on dependent type theory and   implements a version of the calculus of inductive constructions \cite{Coquand1988}  and Martin-L\"of type theory \cite{MartinLof1984}. There is an extensive and actively maintained  library of mathematical results formalized in Lean (see \url{https://leanprover-community.github.io/mathlib_docs/}).   
- 
-  
- 
- In this paper, we develop  a framework for formalizing voting theory in  Lean.  In order to formalize voting theoretic axioms concerning adding or removing candidates and voters, we work in a variable-election setting whose formalization makes use of dependent types.   We illustrate the usefulness  of our  framework by verifying all the results about a recently proposed voting method Split Cycle from \cite{HP2020}.  
+Our aim was to use Lean to verify results about properties satisfied by voting methods (e.g., Condorcet consistency, independence of clones, etc.). In order to formalize voting theoretic axioms concerning adding or removing candidates and voters, we work in a variable-election setting whose formalization makes use of dependent types, as explained in Section \ref{Framework}.  We illustrate the usefulness  of our  framework by verifying all the results from \cite{HP2020} about a recently proposed voting method, Split Cycle (defined in Example \ref{SplitCycleEx1} below), as explained in Section \ref{Theorems}. We conclude in Section \ref{Conclusion} with directions for further work.
 
 
-The next Section introduces our basic framework for formalizing voting theory in Lean....
-\newpage
-  
- 
+%The next Section introduces our basic framework for formalizing voting theory in Lean.... 
 
  
 \section{Framework}\label{Framework}
@@ -387,11 +386,11 @@ The definition states that a VCCR is a function that for any types \texttt{V} an
 \end{definition}
 \end{comment}
 
-\section{Theorems}\label{Theorem}
-
+\section{Theorems}\label{Theorems}
+ 
 \section{Discussion}
 
-\section{Conclusion}
+\section{Conclusion}\label{Conclusion}
 
 
 
