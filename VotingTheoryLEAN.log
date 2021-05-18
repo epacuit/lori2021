@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  17 MAY 2021 16:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  17 MAY 2021 16:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1130,7 +1130,7 @@ Package epstopdf Info: Source file: <fig1.eps>
 fig1.eps>
 (epstopdf)             \includegraphics on input line 439.
 Package epstopdf Info: Output file is already uptodate.
- <fig1-eps-converted-to.pdf, id=265, 345.29pt x 142.5325pt>
+ <fig1-eps-converted-to.pdf, id=268, 345.29pt x 142.5325pt>
 File: fig1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig1-eps-converted-to.pdf>
@@ -1210,13 +1210,13 @@ Underfull \hbox (badness 3861) in paragraph at lines 160--164
  []
 
 
-Underfull \hbox (badness 6725) in paragraph at lines 179--182
+Underfull \hbox (badness 6725) in paragraph at lines 184--187
 []\OT1/cmr/m/n/9 Tang, P., Lin, F.: Computer-aided proofs of ar-row's and other
  im-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 179--182
+Underfull \hbox (badness 10000) in paragraph at lines 184--187
 \OT1/cmr/m/n/9 pos-si-bil-ity the-o-rems. Ar-ti-fi-cial In-tel-li-gence \OT1/cm
 r/bx/n/9 173\OT1/cmr/m/n/9 , 1041--1053 (2009).
  []
@@ -1244,10 +1244,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 476.
  ) 
 Here is how much of TeX's memory you used:
- 26838 strings out of 493014
- 507663 string characters out of 6133351
- 570037 words of memory out of 5000000
- 29909 multiletter control sequences out of 15000+600000
+ 26840 strings out of 493014
+ 507692 string characters out of 6133351
+ 570071 words of memory out of 5000000
+ 29910 multiletter control sequences out of 15000+600000
  14071 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  78i,9n,94p,10406b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1273,10 +1273,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf
 ist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2016/texmf-dist
 /fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on VotingTheoryLEAN.pdf (14 pages, 333514 bytes).
+Output written on VotingTheoryLEAN.pdf (14 pages, 333712 bytes).
 PDF statistics:
- 412 PDF objects out of 1000 (max. 8388607)
- 319 compressed objects within 4 object streams
- 93 named destinations out of 1000 (max. 500000)
+ 415 PDF objects out of 1000 (max. 8388607)
+ 321 compressed objects within 4 object streams
+ 94 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
