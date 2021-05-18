@@ -3,64 +3,63 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: VotingTheoryLEAN.aux
 The style file: splncs04.bst
 Database file #1: VotingTheoryLean.bib
-Repeated entry---line 455 of file VotingTheoryLean.bib
+Repeated entry---line 468 of file VotingTheoryLean.bib
  :  @inproceedings{Brandt2014
  :                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 466 of file VotingTheoryLean.bib
+Repeated entry---line 479 of file VotingTheoryLean.bib
  :  @inproceedings{Brandt2017
  :                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1021 of file VotingTheoryLean.bib
- : @article{Brandt2018
- :                    ,
+Repeated entry---line 523 of file VotingTheoryLean.bib
+ :  @article{Campbell2000
+ :                       ,
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "Eberl"
 Warning--I didn't find a database entry for ""
 Warning--I didn't find a database entry for "ref_article1"
 Warning--I didn't find a database entry for "ref_lncs1"
 Warning--I didn't find a database entry for "ref_book1"
 Warning--I didn't find a database entry for "ref_proc1"
 Warning--I didn't find a database entry for "ref_url1"
-You've used 34 entries,
+You've used 40 entries,
             2850 wiz_defined-function locations,
-            854 strings with 10716 characters,
-and the built_in function-call counts, 19805 in all, are:
-= -- 1638
-> -- 486
-< -- 44
-+ -- 199
-- -- 161
-* -- 1224
-:= -- 2449
-add.period$ -- 55
-call.type$ -- 34
-change.case$ -- 196
+            893 strings with 11433 characters,
+and the built_in function-call counts, 22708 in all, are:
+= -- 1885
+> -- 531
+< -- 52
++ -- 221
+- -- 175
+* -- 1391
+:= -- 2806
+add.period$ -- 62
+call.type$ -- 40
+change.case$ -- 223
 chr.to.int$ -- 0
-cite$ -- 34
-duplicate$ -- 1820
-empty$ -- 1875
-format.name$ -- 188
-if$ -- 4472
+cite$ -- 40
+duplicate$ -- 2099
+empty$ -- 2162
+format.name$ -- 202
+if$ -- 5133
 int.to.chr$ -- 0
-int.to.str$ -- 34
-missing$ -- 349
-newline$ -- 108
-num.names$ -- 82
-pop$ -- 604
+int.to.str$ -- 40
+missing$ -- 400
+newline$ -- 126
+num.names$ -- 92
+pop$ -- 683
 preamble$ -- 1
-purify$ -- 140
+purify$ -- 160
 quote$ -- 0
-skip$ -- 612
+skip$ -- 713
 stack$ -- 0
-substring$ -- 1215
-swap$ -- 1053
-text.length$ -- 44
+substring$ -- 1409
+swap$ -- 1206
+text.length$ -- 52
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 128
+type$ -- 150
 warning$ -- 0
-while$ -- 161
-width$ -- 36
-write$ -- 363
+while$ -- 186
+width$ -- 42
+write$ -- 426
 (There were 3 error messages)
