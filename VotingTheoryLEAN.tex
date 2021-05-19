@@ -166,7 +166,7 @@ As usual, we can regard the Margin$_\mathbf{P}$ function as an $|X(\mathbf{P})|\
 \end{itemize}
 Even such a basic fact as that Margin$_\mathbf{P}$ is skew-symmetric needs to be proved in Lean, but the verification is straightforward using Lean's automation:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_skew\_symmetric} $\{$V X: \textcolor{blue}{Type}$\}$ (P : Prof V X)}\\ \texttt{[fintype V] : skew-symmetric (margin P) :=} 
+\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_skew\_symmetric} $\{$V X: \textcolor{blue}{Type}$\}$ (P : Prof V X)}\\ \texttt{[fintype V] : skew\_symmetric (margin P) :=} 
  
 \texttt{\textcolor{blue}{begin}}
 
@@ -197,13 +197,13 @@ In Lean, Definition \ref{CondorcetDef} becomes:
 
 \begin{itemize}
 %\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_winner} [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := $\forall$ y $\neq$ x, majority\_preferred P x y}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_winner} (P : Profile V X) (x : X) :} \\ \texttt{Prop := $\forall$ y $\neq$ x, majority\_preferred P x y}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_winner} $\{$V X: \textcolor{blue}{Type}$\}$ (P : Prof V X) (x : X) :} \\ \texttt{Prop := $\forall$ y $\neq$ x, majority\_preferred P x y}
 \item[]
 %\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_winner} [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := (finset.univ.filter ($\lambda$ (v : V), $\forall$ y $\neq$ x, P v x y)).card > (finset.univ.filter ($\lambda$ (v : V), $\exists$ y $\neq$ x, P v y x)).card}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_winner} (P : Profile V X) (x : X) :} \\
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_winner} $\{$V X: \textcolor{blue}{Type}$\}$ (P : Prof V X) (x : X) :} \\
 \texttt{ Prop := cardinal.mk $\{$v : V // $\forall$ y $\neq$ x, P v x y$\}$ > cardinal.mk} \\ \texttt{$\{$v : V // $\exists$ y $\neq$ x, P v y x$\}$}
 \end{itemize}
-Here the `\texttt{//}' notation indicates we are identifying the subtype of voters with a certain property. 
+Here the `\texttt{//}' notation indicates that we are identifying the subtype of voters with a certain property. 
 
 As an example of a slightly more involved proof than the one above showing that the margin matrix is skew-symmetric, we present a proof in Lean that a majority winner is also a Condorcet winner. For this we use several basic theorems provided by Mathlib, including one formalizing the fact that a subset of a set has cardinality less than or equal to that of its superset:\footnote{We have changed variable names and replaced $\#$ with `cardinal.mk'.}
 \begin{itemize}
@@ -213,7 +213,7 @@ As an example of a slightly more involved proof than the one above showing that 
 \end{itemize}
 We explain the following Lean proof that a majority winner is a Condorcet winner in detail below:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{majority\_winnner\_is\_condorcet} (P : Profile V X) [fintype V] (x : X) : majority\_winner P x $\to$ condorcet\_winner P x :=}
+\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{majority\_winnner\_is\_condorcet} $\{$V X: \textcolor{blue}{Type}$\}$ (P : Profile V X) [fintype V] (x : X) : majority\_winner P x $\to$ condorcet\_winner P x :=}
 
 \textcolor{blue}{\texttt{begin}}
 
@@ -268,7 +268,7 @@ Next we define two kinds of functions that take profiles as inputs. The first, c
 %\whnote{Here's another approach, which seems closer to what we do with dependent types in Lean.}
 
 
-\begin{definition} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{social choice correspondence for $(V,X)$}, or $(V,X)$-SCC, is a function  $F: \mathsf{Prof}(V,X)\to \wp(X)$. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid F(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $(V,X)$-SCC.}
+\begin{definition} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{social choice correspondence for $(V,X)$}, or $(V,X)$-SCC, is a function  $F: \mathsf{Prof}(V,X)\to \wp(X)$. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid F(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $F$. We say that $F$ satisfies \textit{universal domain} if its domain is $\mathsf{Prof}(V,X)$.}
 
 \textnormal{Let $\mathsf{SCC}$ be a function that assigns to each pair $(V,X)$ of $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ the set of all $(V,X)$-SCCs.}
 \end{definition}
@@ -277,7 +277,15 @@ We represent the function $\mathsf{SCC}$ in Lean as follows, where \texttt{set X
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{SCC} := \textcolor{blue}{$\lambda$} (V X : \textcolor{blue}{Type}), Prof V X $\to$ set X}
 \end{itemize}
-The definition states that \texttt{SCC} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{Prof V X $\to$ set X}, which is the type of $(V,X)$-SCCs.
+The definition states that \texttt{SCC} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{Prof V X $\to$ set X}, which is the type of $(V,X)$-SCCs. 
+
+We formalize universal domain as follows:
+\begin{itemize}
+%\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{universal\_domain\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$: SCC V X $\to$ Prop := $\lambda$ F, $\forall$ P, F P $\neq$ $\emptyset$}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{universal\_domain\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$ (F : SCC V X) : Prop :=} \\
+\texttt{$\forall$ P : Prof V X, F P $\neq$ $\emptyset$}
+
+\end{itemize}
 
 % Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that \textit{$x$ is a Condorcet winner in $\mathbf{P}$} if $V$ is finite and for each $y\in X(\mathbf{P})\setminus \{x\}$, $Margin_\mathbf{P}(x,y)>0$.  
 
@@ -295,7 +303,7 @@ The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a C
 
 Most voting methods (e.g., Plurality, Borda, Instant Runoff) are defined not only for a fixed set of voters and candidates but for any set of voters and candidates, which motivates the following definition.
 
-\begin{definition}\label{VSCC} \textnormal{A \textit{variable-election social choice correspondence} (VSCC) is a function $F$ that assigns to each pair $(V,X)$ of a $V\subseteq \mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-SCC. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{PROF}\mid F(V(\mathbf{Q}),X(\mathbf{Q}))(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the VSCC.}
+\begin{definition}\label{VSCC} \textnormal{A \textit{variable-election social choice correspondence} (VSCC) is a function $F$ that assigns to each pair $(V,X)$ of a $V\subseteq \mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-SCC. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{PROF}\mid F(V(\mathbf{Q}),X(\mathbf{Q}))(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $F$. We say that $F$ satisfies  (\textit{finite}) \textit{universal domain} if the domain of $F$ includes $\{\mathbf{P}\in \mathsf{PROF}\mid V(\mathbf{P}) \mbox{ and }X(\mathbf{P}) \mbox{ nonempty and finite}\}$.}\footnote{Of course, one could also consider the stronger condition that the domain of $F$ contains all profiles even with infinite sets of voters and/or candidates.}
 \end{definition}
 
 \noindent An equivalent but perhaps more intuitive approach would define a VSCC to be a function on $\mathsf{PROF}$ (rather than $\wp(\mathcal{V})\times\wp(\mathcal{X})$) such that for each $\mathbf{Q}\in\mathsf{PROF}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$;\footnote{This is the definition of a \textit{voting method} used in \cite{} with the additional stipulations that $F(\mathbf{Q})\neq\emptyset$ and  that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} abusing terminology, we could then call the set $\{\mathbf{Q}\in\mathsf{Prop}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the VSCC. However, we have presented Definition \ref{VSCC} above because it nicely connects with our formalization in Lean.
@@ -307,7 +315,13 @@ In Lean, we define the type of VSCCs as a \textit{dependent function type}:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VSCC} : \textcolor{blue}{Type 1} := $\Pi$ (V X : \textcolor{blue}{Type}), SCC V X.}
 \end{itemize}
-The definition states that a VSCC is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{SCC V X}, i.e., a $(V,X)$-SCC.
+The definition states that a VSCC is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{SCC V X}, i.e., a $(V,X)$-SCC. We formalize (finite) universal domain as follows:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{finite\_universal\_domain\_VSCC} (F : VSCC) : Prop :=}\\
+    \texttt{$\forall$ V X [inhabited V] [inhabited X] [fintype V] [fintype X],}
+    
+    \texttt{universal\_domain\_SCC (F V X)}
+\end{itemize}
 
 \begin{example} We define the Condorcet VSCC as follows, taking advantage of our definition for any $V$ and $X$ of the Condorcet $(V,X)$-SCC in Example \ref{CondorcetEx1}:
 \begin{itemize}
@@ -328,7 +342,7 @@ In Lean, our representation of the function $\mathsf{CCR}$ is similar to that of
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{CCR} := $\lambda$ (V X : \textcolor{blue}{Type}), Prof V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
 \end{itemize}
 
-\begin{example}\label{SplitCycleEx1} As an example of a CCR, we consider the Split Cycle CCR studied in \cite{}. The output of the Split Cycle CCR is an asymmetric relation understood as a relation of ``defeat'' between candidates. A candidate $a$ defeats a candidate $b$ in $\mathbf{P}$ just in case the margin of $a$ over $b$ is (i) positive and (ii) is not equal to the weakest margin in some majority cycle containing $a$ and $b$. To formalize this definition, we first need a definition of a cycle in a binary relation:
+\begin{example}\label{SplitCycleEx1} As an example of a CCR, we consider the Split Cycle CCR studied in \cite{HP2020}. The output of the Split Cycle CCR is an asymmetric relation understood as a relation of ``defeat'' between candidates. A candidate $x$ defeats a candidate $y$ in $\mathbf{P}$ just in case the margin of $x$ over $y$ is (i) positive and (ii) greater than the weakest margin in each majority cycle containing $x$ and $y$. To formalize this definition, we first need a definition of a cycle in a binary relation:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{cycle} $\{$X: \textcolor{blue}{Type}$\}$ := $\lambda$ (R : X $\to$ X $\to$ Prop) (c : list X), \\
 $\exists$ (e : c $\neq$ list.nil), list.chain R (c.last e) c}
@@ -346,8 +360,7 @@ Now we are ready to define the Split Cycle $(V,X)$-CCR:
     \texttt{$\neg$ ($\exists$ (c : list X), x $\in$ c $\wedge$ y $\in$ c $\wedge$}\\
     \texttt{cycle ($\lambda$ a b, @margin V X f P x y $\leq$ @margin V X f P a b) c)}
 \end{itemize}
-\textbf{Explain...}
-
+Recall that the \texttt{margin} function takes as implicit arguments the set \texttt{V} of voters, the set \texttt{X} of candidates, and a proof that \texttt{V} is finite. The \texttt{@} symbol is used when explicitly supplying these implicit arguments. Thus, the definition states that given a profile \texttt{P} and two candidates \texttt{x} and \texttt{y}, the binary relation outputted by \texttt{split\_cycle\_CCR} holds of \texttt{x}, \texttt{y} if for any proof \texttt{f} that \texttt{V} is finite, the margin of \texttt{x} over \texttt{y} in \texttt{P} (supplying the \texttt{margin} function with \texttt{V}, \texttt{X}, and \texttt{f}) is greater than 0 and there is no list \texttt{c} of elements containing \texttt{x} and \texttt{y} such that \texttt{c} is a majority cycle for which the margin of \texttt{x} over \texttt{y} is less than or equal to every margin in the cycle, i.e., \texttt{c} is a cycle in the binary relation \texttt{R} that holds of \texttt{a,b} just in case the margin of \texttt{x} over \texttt{y} is less than or equal to the margin of \texttt{a} over \texttt{b}.
 
 \end{example}
 
@@ -356,17 +369,46 @@ Once again, we can consider functions that are not restricted to a fixed set of 
 \begin{definition}\label{VCCR} \textnormal{A \emph{variable-election collective choice rule} (VCCR) is a function that assigns to each pair $(V,X)$ of a $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-CCR.}% such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.}
 \end{definition}
 
-\noindent An equivalent but perhaps more intuitive definition takes a VCCR to be a function $f$ on $\mathsf{Prof}$ (instead of $\mathcal{V}\times\mathcal{X}$) such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.\footnote{This is the definition of a VCCR used in \cite{} with the aditional stipulation that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} However, we have presented Definition \ref{VCCR} above because it nicely connects with our formalization in Lean, which as before defines the type of VCCRs to be a dependent function type:
+\noindent An equivalent but perhaps more intuitive definition takes a VCCR to be a function $f$ on $\mathsf{Prof}$ (instead of $\mathcal{V}\times\mathcal{X}$) such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.\footnote{This is the definition of a VCCR used in \cite{HP2020} with the aditional stipulation that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} However, we have presented Definition \ref{VCCR} above because it nicely connects with our formalization in Lean, which as before defines the type of VCCRs to be a dependent function type:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VCCR} := $\Pi$ (V X : \textcolor{blue}{Type}), CCR V X.}
 \end{itemize}
 The definition states that a VCCR is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{CCR V X}, i.e., a $(V,X)$-CCR.
 
-\begin{example} We define the Split Cycle VCCR as follows, taking advantage of our definition for any $V$ and $X$ of the Split Cycle $(V,X)$-SCC in Example \ref{SplitCycleEx1}:
+\begin{example}\label{SCVCCR} We define the Split Cycle VCCR as follows, taking advantage of our definition for any $V$ and $X$ of the Split Cycle $(V,X)$-SCC in Example \ref{SplitCycleEx1}:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_VCCR} : VCCR := \textcolor{blue}{$\lambda$} V X, split\_cycle\_CCR}
 \end{itemize}
 \end{example}
+
+Any VCCR, regarded as outputting a relation of strict social preference or ``defeat,'' can be transformed into a VSCC by assigning to a given profile the set of candidates who are not defeated. 
+
+\begin{definition}\label{InducedDef} \textnormal{Given an asymmetric VCCR $F$, we define the \textit{induced} VSCC $F^\star$ such that for any $V$, $X$, and $(V,X)$-profile $\mathbf{P}$, we have \[F^\star(V,X)(\mathbf{P})=\{x\in X(\mathbf{P})\mid \neg\exists y: (y,x)\in f(V,X)(\mathbf{P})\}.\]}
+\end{definition}
+In Lean, we formalize Definition \ref{InducedDef} as follows:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{induced\_VSCC} : VCCR $\to$ VSCC := $\lambda$ F V X P,} \\
+\texttt{$\{$x | $\forall$ y : X, $\neg$ F V X P y x$\}$}
+\end{itemize}
+
+\begin{example} The Split Cycle voting method \cite{HP2020b} is the induced VSCC from the Split Cycle VCCR defined in Example \ref{SCVCCR}: 
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle} : VSCC := induced\_VSCC split\_cycle\_VCCR}
+\end{itemize}
+\end{example}
+
+As is well known, any acyclic VCCR induces a VSCC satisfying (finite) universal domain:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{acyclic} $\{$X : Type$\}$ : (X $\to$ X $\to$ Prop) $\to$ Prop :=}\\
+\texttt{$\lambda$ Q, $\forall$ (c : list X), $\neg$ cycle Q c}
+\item[]
+\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{induced\_VSCC\_universal\_domain} (F : VCCR)}\\
+\texttt{(a : $\forall$ V X [inhabited V] [inhabited X] [fintype V] [fintype X]} \\
+\texttt{(P : Prof V X), acyclic (F V X P)) :}\\
+\texttt{finite\_universal\_domain\_VSCC (induced\_VSCC F) := \dots}
+\end{itemize}
+
+
 
 
 
@@ -383,8 +425,6 @@ The definition states that a VCCR is a function that for any types \texttt{V} an
 \end{comment}
 
 \section{Theorems}\label{Theorems}
-
-\section{Discussion}
 
 \section{Conclusion}\label{Conclusion}
 
