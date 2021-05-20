@@ -124,7 +124,7 @@ To translate Definition \ref{ProfileDef} into Lean, we first think of $V$ and $X
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{Prof} : \textcolor{blue}{Type} $\to$ \textcolor{blue}{Type} $\to$ \textcolor{blue}{Type} := }\\\texttt{$\textcolor{blue}{\lambda}$ (V X : \textcolor{blue}{Type}), V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
 \end{itemize}
-Here \textcolor{blue}{\texttt{Prop}} is a special type that here plays the role of $\{0,1\}$ in the formalization of binary relations mentioned above.  The definition states that \texttt{Prof} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}. Because \texttt{X $\to$ X $\to$ \textcolor{blue}{Prop}} is the type of binary relations on \texttt{X}, an inhabitant of the type \texttt{V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}} can be viewed as a $(V,X)$-profile. Thus, we may think of \texttt{Prof V X} as the type of $(V,X)$-profiles.
+Here \textcolor{blue}{\texttt{Prop}} is a special type that in this definition plays the role of $\{0,1\}$ in the treatment of binary relations mentioned above.  The definition states that \texttt{Prof} is a function that given two types, \texttt{V} and \texttt{X}, outputs the type \texttt{V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}. Because \texttt{X $\to$ X $\to$ \textcolor{blue}{Prop}} is the type of binary relations on \texttt{X}, an inhabitant of the type \texttt{V $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}} can be viewed as a $(V,X)$-profile. Thus, we may think of \texttt{Prof V X} as the type of $(V,X)$-profiles.
 
 One of the most important kinds of information to read off from a profile is whether one candidate is majority preferred to another.
 
