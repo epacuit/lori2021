@@ -3,63 +3,49 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: VotingTheoryLEAN.aux
 The style file: splncs04.bst
 Database file #1: VotingTheoryLean.bib
-Repeated entry---line 478 of file VotingTheoryLean.bib
- :  @inproceedings{Brandt2014
- :                           ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 489 of file VotingTheoryLean.bib
- :  @inproceedings{Brandt2017
- :                           ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 533 of file VotingTheoryLean.bib
+Repeated entry---line 523 of file VotingTheoryLean.bib
  :  @article{Campbell2000
  :                       ,
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for ""
-Warning--I didn't find a database entry for "ref_article1"
-Warning--I didn't find a database entry for "ref_lncs1"
-Warning--I didn't find a database entry for "ref_book1"
-Warning--I didn't find a database entry for "ref_proc1"
-Warning--I didn't find a database entry for "ref_url1"
-You've used 41 entries,
+You've used 30 entries,
             2850 wiz_defined-function locations,
-            900 strings with 11604 characters,
-and the built_in function-call counts, 23258 in all, are:
-= -- 1932
-> -- 538
-< -- 54
-+ -- 224
-- -- 177
-* -- 1424
-:= -- 2870
-add.period$ -- 63
-call.type$ -- 41
-change.case$ -- 227
+            815 strings with 9174 characters,
+and the built_in function-call counts, 16113 in all, are:
+= -- 1323
+> -- 353
+< -- 38
++ -- 149
+- -- 113
+* -- 973
+:= -- 1991
+add.period$ -- 36
+call.type$ -- 30
+change.case$ -- 155
 chr.to.int$ -- 0
-cite$ -- 41
-duplicate$ -- 2152
-empty$ -- 2216
-format.name$ -- 204
-if$ -- 5260
+cite$ -- 30
+duplicate$ -- 1515
+empty$ -- 1558
+format.name$ -- 130
+if$ -- 3635
 int.to.chr$ -- 0
-int.to.str$ -- 41
-missing$ -- 409
-newline$ -- 129
-num.names$ -- 94
-pop$ -- 695
+int.to.str$ -- 30
+missing$ -- 287
+newline$ -- 96
+num.names$ -- 70
+pop$ -- 480
 preamble$ -- 1
-purify$ -- 163
+purify$ -- 111
 quote$ -- 0
-skip$ -- 734
+skip$ -- 510
 stack$ -- 0
-substring$ -- 1450
-swap$ -- 1241
-text.length$ -- 54
+substring$ -- 1004
+swap$ -- 872
+text.length$ -- 38
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 154
+type$ -- 112
 warning$ -- 0
-while$ -- 191
-width$ -- 43
-write$ -- 436
-(There were 3 error messages)
+while$ -- 137
+width$ -- 32
+write$ -- 304
+(There was 1 error message)
