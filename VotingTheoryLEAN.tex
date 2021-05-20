@@ -161,7 +161,7 @@ In a profile $\mathbf{P}$, we say that $x$ is \textit{majority preferred} to $y$
 So \texttt{margin\_pos} is a function that takes in a $(V,X)$-profile and two candidates and returns the proposition that the first is majority preferred to the second.
 \end{comment}
 
-As usual, we can regard the Margin$_\mathbf{P}$ function as an $|X(\mathbf{P})|\times |X(\mathbf{P})|$ matrix. Since $Margin_\mathbf{P}(x,y)=-Margin_\mathbf{P}(y,x)$, the matrix is skew-symmetric. Treating an integer-valued square matrix as a function from a set $X$ to functions from $X$ to $\mathbb{Z}$, the property of skew-symmetry takes in such a function and outputs the proposition stating the skew-symmetry equation holds for all pairs of elements:
+As usual, we can regard the Margin$_\mathbf{P}$ function as an $|X(\mathbf{P})|\times |X(\mathbf{P})|$ matrix. Since $Margin_\mathbf{P}(x,y)=-Margin_\mathbf{P}(y,x)$, the matrix is skew-symmetric. Treating an integer-valued square matrix as a function from a set $X$ to functions from $X$ to $\mathbb{Z}$, the property of skew-symmetry takes in such a function and outputs the proposition stating that the skew-symmetry equation holds for all pairs:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{skew\_symmetric} $\{$X: \textcolor{blue}{Type}$\}$ : (X $\to$ X $\to \mathbb{Z}$) $\to$ Prop :=} 
 
@@ -194,7 +194,7 @@ Fortunately, Lean can prove this equation automatically using the \texttt{simp} 
 
 Turning to properties of profiles, one of the most important to consider is whether a profile has a so-called Condorcet winner or even a majority winner.
 
-\begin{definition}\label{CondorcetDef} \textnormal{Given a profile $\mathbf{P}$ with $V(\mathbf{P})$ finite and $x\in X(\mathbf{P})$, we say that $x$ is a \textit{Condorcet winner in $\mathbf{P}$} if for all $y\in X(\mathbf{P})$ with $y\neq x$, we have $Margin_\mathbf{P}(x,y)>0$. We say that $x$ is a \textit{majority winner in $\mathbf{P}$} if the number of voters who rank $x$ (and only $x$) in first place is greater than the number of voter who do not rank $x$ in first place.}
+\begin{definition}\label{CondorcetDef} \textnormal{Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that $x$ is a \textit{Condorcet winner in $\mathbf{P}$} if for all $y\in X(\mathbf{P})$ with $y\neq x$, $x$ is majority preferred to $y$ in $\mathbf{P}$. We say that $x$ is a \textit{majority winner in $\mathbf{P}$} if the number of voters who rank $x$ (and only $x$) in first place is greater than the number of voter who do not rank $x$ in first place.}
 \end{definition}
 In Lean, Definition \ref{CondorcetDef} becomes:
 
