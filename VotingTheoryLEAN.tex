@@ -347,12 +347,12 @@ In Lean, our representation of the function $\mathsf{CCR}$ is similar to that of
 
 \begin{example}\label{SplitCycleEx1} As an example of a CCR, we consider the Split Cycle CCR studied in \cite{HP2020}. The output of the Split Cycle CCR is an asymmetric relation understood as a relation of ``defeat'' between candidates. A candidate $x$ defeats a candidate $y$ in $\mathbf{P}$ just in case the margin of $x$ over $y$ is (i) positive and (ii) greater than the weakest margin in each majority cycle containing $x$ and $y$. To formalize this definition, we first need a definition of a cycle in a binary relation:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{cycle} $\{$X: \textcolor{blue}{Type}$\}$ := $\lambda$ (R : X $\to$ X $\to$ Prop) (c : list X), \\
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{cycle} $\{$X: \textcolor{blue}{Type}$\}$ := $\lambda$ (R : X $\to$ X $\to$ \textcolor{blue}{Prop}) (c : list X), \\
 $\exists$ (e : c $\neq$ list.nil), list.chain R (c.last e) c}
 \end{itemize}
 Here the function \texttt{cycle} takes in a binary relation \texttt{R} and a list \texttt{c} of elements of \texttt{X} and outputs the proposition stating that (i) there is a proof \texttt{e} that \texttt{c} is not the empty list, and (ii) \texttt{c} is a cycle in \texttt{R}. To express (ii), we use the construction \texttt{list.chain R a c}, where \texttt{R} is a binary relation, \texttt{a} is an element of \texttt{X}, and \texttt{c} is a list of elements of \texttt{X}, which means that \texttt{a} is \texttt{R}-related to the first element of \texttt{c} and that every element in the list \texttt{c} is related to the next element in \texttt{c}. Thus, if we take \texttt{a} as the last element of \texttt{c}, this implies that \texttt{c} is a cycle. Applying \texttt{c.last} to the proof \texttt{e} that \texttt{c} is not the empty list outputs the last element of \texttt{c}.
 
-Now we are ready to define the Split Cycle $(V,X)$-CCR:
+Now we are ready to define the Split Cycle $(V,X)$-CCR in Lean:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_CCR} $\{$V X: \textcolor{blue}{Type}$\}$ : CCR V X :=} 
 
@@ -372,7 +372,7 @@ Once again, we can consider functions that are not restricted to a fixed set of 
 \begin{definition}\label{VCCR} \textnormal{A \emph{variable-election collective choice rule} (VCCR) is a function that assigns to each pair $(V,X)$ of a $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-CCR.}% such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.}
 \end{definition}
 
-\noindent An equivalent but perhaps more intuitive definition takes a VCCR to be a function $f$ on $\mathsf{Prof}$ (instead of $\mathcal{V}\times\mathcal{X}$) such that for all $\mathbf{Q}\in\mathsf{Prof}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.\footnote{This is the definition of a VCCR used in \cite{HP2020} with the aditional stipulation that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} However, we have presented Definition \ref{VCCR} above because it nicely connects with our formalization in Lean, which as before defines the type of VCCRs to be a dependent function type:
+\noindent An equivalent but perhaps more intuitive definition takes a VCCR to be a function $f$ on $\mathsf{PROF}$ (instead of $\mathcal{V}\times\mathcal{X}$) such that for all $\mathbf{Q}\in\mathsf{PROF}$, $f(\mathbf{Q})$ is a binary relation on $X(\mathbf{Q})$.\footnote{This is the definition of a VCCR used in \cite{HP2020} with the aditional stipulation that $V(\mathbf{Q})$ and $X(\mathbf{Q})$ are nonempty and finite.} However, we have presented Definition \ref{VCCR} above because it nicely connects with our formalization in Lean, which as before defines the type of VCCRs to be a dependent function type:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VCCR} := $\Pi$ (V X : \textcolor{blue}{Type}), CCR V X.}
 \end{itemize}
@@ -386,7 +386,7 @@ The definition states that a VCCR is a function that for any types \texttt{V} an
 
 Any VCCR, regarded as outputting a relation of strict social preference or ``defeat,'' can be transformed into a VSCC by assigning to a given profile the set of candidates who are not defeated. 
 
-\begin{definition}\label{InducedDef} \textnormal{Given an asymmetric VCCR $F$, we define the \textit{induced} VSCC $F^\star$ such that for any $V$, $X$, and $(V,X)$-profile $\mathbf{P}$, we have \[F^\star(V,X)(\mathbf{P})=\{x\in X(\mathbf{P})\mid \neg\exists y: (y,x)\in f(V,X)(\mathbf{P})\}.\]}
+\begin{definition}\label{InducedDef} \textnormal{Given an asymmetric VCCR $F$, we define the \textit{induced} VSCC $F^\star$ such that for any $V\subseteq\mathcal{V}$, $X\subseteq\mathcal{X}$, and $(V,X)$-profile $\mathbf{P}$, we have \[F^\star(V,X)(\mathbf{P})=\{x\in X(\mathbf{P})\mid \forall y\in X(\mathbf{P}),\, (y,x)\not\in f(V,X)(\mathbf{P})\}.\]}
 \end{definition}
 In Lean, we formalize Definition \ref{InducedDef} as follows:
 \begin{itemize}
@@ -402,7 +402,7 @@ In Lean, we formalize Definition \ref{InducedDef} as follows:
 
 As is well known, any acyclic VCCR induces a VSCC satisfying (finite) universal domain:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{acyclic} $\{$X : Type$\}$ : (X $\to$ X $\to$ Prop) $\to$ Prop :=}\\
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{acyclic} $\{$X : \textcolor{blue}{Type}$\}$ : (X $\to$ X $\to$ \textcolor{blue}{Prop}) $\to$ \textcolor{blue}{Prop} :=}\\
 \texttt{$\lambda$ Q, $\forall$ (c : list X), $\neg$ cycle Q c}
 \item[]
 \item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{induced\_VSCC\_universal\_domain} (F : VCCR)}\\
