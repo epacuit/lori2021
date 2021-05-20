@@ -271,7 +271,7 @@ Next we define two kinds of functions that take profiles as inputs. The first, c
 %\whnote{Here's another approach, which seems closer to what we do with dependent types in Lean.}
 
 
-\begin{definition} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{social choice correspondence for $(V,X)$}, or $(V,X)$-SCC, is a function  $F: \mathsf{Prof}(V,X)\to \wp(X)$. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid F(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of the $F$. We say that $F$ satisfies \textit{universal domain} if its domain is $\mathsf{Prof}(V,X)$.}
+\begin{definition} \textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{social choice correspondence for $(V,X)$}, or $(V,X)$-SCC, is a function  $F: \mathsf{Prof}(V,X)\to \wp(X)$. We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid F(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of $F$. We say that $F$ satisfies \textit{universal domain} if its domain is $\mathsf{Prof}(V,X)$.}
 
 \textnormal{Let $\mathsf{SCC}$ be a function that assigns to each pair $(V,X)$ of $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ the set of all $(V,X)$-SCCs.}
 \end{definition}
@@ -294,13 +294,14 @@ We formalize universal domain as follows:
 
 \begin{example}\label{CondorcetEx1} For $(V,X)$, consider the Condorcet SCC for $(V,X)$ defined as follows:
 \[\mathrm{Cond}_{(V,X)}(\mathbf{P})=\begin{cases} \{x\} & \mbox{if $x$ is a Condorcet winner in $\mathbf{P}$} \\ X(\mathbf{P}) & \mbox{otherwise}\end{cases}.\]
+The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a Condorcet winner, then output the set of all Condorcet winners (which will be a singleton), and otherwise output all candidates in \texttt{X}.
+
 We represent this $(V,X)$-SCC in Lean as follows:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$ : SCC V X := $\lambda$ P, }
 
-\texttt{$\{$x : X | ($\neg \exists$ y, condorcet\_winner P y) $\vee$ condorcet\_winner P x$\}$}
+\texttt{$\{$x : X |  condorcet\_winner P x $\vee$ ($\neg \exists$ y, condorcet\_winner P y)$\}$}
 \end{itemize}
-The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a Condorcet winner, then output the set of all Condorcet winners (which will be a singleton), and otherwise output all candidates in \texttt{X}.
 \end{example}
 
 Most voting methods (e.g., Plurality, Borda, Instant Runoff) are defined not only for a fixed set of voters and candidates but for any set of voters and candidates, which motivates the following definition.
