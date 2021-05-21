@@ -320,7 +320,7 @@ The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a C
 
 We represent this $(V,X)$-SCC in Lean as follows:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$ : SCC V X := $\lambda$ P, }
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$ : SCC V X := $\textcolor{blue}{\lambda}$ P, }
 
 \texttt{$\{$x : X |  condorcet\_winner P x $\vee$ ($\neg$ $\exists$ y, condorcet\_winner P y)$\}$}
 \end{itemize}
@@ -364,12 +364,12 @@ A CCR $f$ is said to be \textit{asymmetric} (resp.~\textit{transitive}, etc.), i
 
 In Lean, our representation of the function $\mathsf{CCR}$ is similar to that of $\mathsf{SCC}$:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{CCR} := $\lambda$ (V X : \textcolor{blue}{Type}), Prof V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{CCR} := \textcolor{blue}{$\lambda$} (V X : \textcolor{blue}{Type}), Prof V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop}}
 \end{itemize}
 
 \begin{example}\label{SplitCycleEx1} As an example of a CCR, we consider the Split Cycle CCR studied in \cite{HP2020}. The output of the Split Cycle CCR is an asymmetric relation understood as a relation of ``defeat'' between candidates. A candidate $x$ defeats a candidate $y$ in $\mathbf{P}$ just in case the margin of $x$ over $y$ is (i) positive and (ii) greater than the weakest margin in each majority cycle containing $x$ and $y$. To formalize this definition, we first need a definition of a cycle in a binary relation:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{cycle} $\{$X: \textcolor{blue}{Type}$\}$ := $\lambda$ (R : X $\to$ X $\to$ \textcolor{blue}{Prop}) (c : list X), \\
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{cycle} $\{$X: \textcolor{blue}{Type}$\}$ := \textcolor{blue}{$\lambda$} (R : X $\to$ X $\to$ \textcolor{blue}{Prop}) (c : list X), \\
 $\exists$ (e : c $\neq$ list.nil), list.chain R (c.last e) c}
 \end{itemize}
 Here the function \texttt{cycle} takes in a binary relation \texttt{R} and a list \texttt{c} of elements of \texttt{X} and outputs the proposition stating that (i) there is a proof \texttt{e} that \texttt{c} is not the empty list, and (ii) \texttt{c} is a cycle in \texttt{R}. To express (ii), we use the construction \texttt{list.chain R a c}, where \texttt{R} is a binary relation, \texttt{a} is an element of \texttt{X}, and \texttt{c} is a list of elements of \texttt{X}, which means that \texttt{a} is \texttt{R}-related to the first element of \texttt{c} and that every element in the list \texttt{c} is related to the next element in \texttt{c}. Thus, if we take \texttt{a} as the last element of \texttt{c}, this implies that \texttt{c} is a cycle. Applying \texttt{c.last} to the proof \texttt{e} that \texttt{c} is not the empty list outputs the last element of \texttt{c}.
@@ -378,12 +378,12 @@ Now we are ready to define the Split Cycle $(V,X)$-CCR in Lean:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_CCR} $\{$V X: \textcolor{blue}{Type}$\}$ : CCR V X :=} 
 
-    \texttt{$\lambda$ (P : Prof V X) (x y : X), $\forall$ [f: fintype V],}
+    \texttt{\textcolor{blue}{$\lambda$} (P : Prof V X) (x y : X), $\forall$ [f: fintype V],}
     
     \texttt{0 $<$ @margin V X f P x y $\wedge$}
     
     \texttt{$\neg$ ($\exists$ (c : list X), x $\in$ c $\wedge$ y $\in$ c $\wedge$}\\
-    \texttt{cycle ($\lambda$ a b, @margin V X f P x y $\leq$ @margin V X f P a b) c)}
+    \texttt{cycle (\textcolor{blue}{$\lambda$} a b, @margin V X f P x y $\leq$ @margin V X f P a b) c)}
 \end{itemize}
 Recall that the \texttt{margin} function takes as implicit arguments the set \texttt{V} of voters, the set \texttt{X} of candidates, and a proof that \texttt{V} is finite. The \texttt{@} symbol is used when explicitly supplying these implicit arguments. Thus, the definition states that given a profile \texttt{P} and two candidates \texttt{x} and \texttt{y}, the binary relation outputted by \texttt{split\_cycle\_CCR} holds of \texttt{x}, \texttt{y} if for any proof \texttt{f} that \texttt{V} is finite, the margin of \texttt{x} over \texttt{y} in \texttt{P} (supplying the \texttt{margin} function with \texttt{V}, \texttt{X}, and \texttt{f}) is greater than 0 and there is no list \texttt{c} of elements containing \texttt{x} and \texttt{y} such that \texttt{c} is a majority cycle for which the margin of \texttt{x} over \texttt{y} is less than or equal to every margin in the cycle, i.e., \texttt{c} is a cycle in the binary relation \texttt{R} that holds of \texttt{a,b} just in case the margin of \texttt{x} over \texttt{y} is less than or equal to the margin of \texttt{a} over \texttt{b}.
 
@@ -412,7 +412,7 @@ Any VCCR, regarded as outputting a relation of \textit{strict} social preference
 \end{definition}
 In Lean, we formalize Definition \ref{InducedDef} as follows:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{induced\_VSCC} : VCCR $\to$ VSCC := $\lambda$ f V X P,} \\
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{induced\_VSCC} : VCCR $\to$ VSCC := \textcolor{blue}{$\lambda$} f V X P,} \\
 \texttt{$\{$x | $\forall$ y : X, $\neg$ f V X P y x$\}$}
 \end{itemize}
 
@@ -425,7 +425,7 @@ In Lean, we formalize Definition \ref{InducedDef} as follows:
 As is well known, any acyclic VCCR induces a VSCC satisfying (finite) universal domain:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{acyclic} $\{$X : \textcolor{blue}{Type}$\}$ : (X $\to$ X $\to$ \textcolor{blue}{Prop}) $\to$ \textcolor{blue}{Prop} :=}\\
-\texttt{$\lambda$ Q, $\forall$ (c : list X), $\neg$ cycle Q c}
+\texttt{\textcolor{blue}{$\lambda$} Q, $\forall$ (c : list X), $\neg$ cycle Q c}
 \item[]
 \item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{induced\_VSCC\_universal\_domain} (F : VCCR)}\\
 \texttt{(a : $\forall$ V X [inhabited V] [inhabited X] [fintype V] [fintype X]} \\
@@ -488,11 +488,15 @@ Independence of clones for VSCCs states that (i) removing a clone from a profile
 Thus, \texttt{minus\_candidate} takes in a profile \texttt{P} for \texttt{V} and \texttt{X}, as well as a candidate \texttt{b} from \texttt{X}, and outputs the profile for \texttt{V} and \texttt{$\{$x : X // x $\neq$ b$\}$} that agrees with \texttt{P} on how every voter ranks the candidates other than \texttt{b}. 
 
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def}   \textcolor{orange}{non\_clone\_choice} : VSCC $\to$ Prop := \textcolor{blue}{$\lambda$} F, }
+\item[] \texttt{\textcolor{blue}{def}   \textcolor{orange}{non\_clone\_choice} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X) (c : X)}
+
+\texttt{(D : set $\{$x : X // x $\neq$ c$\}$) : VSCC $\to$ Prop := \textcolor{blue}{$\lambda$} F, }
 
 \texttt{clones P c D $\to$ ($\forall$  a : $\{$x : X // x $\neq$  c$\}$, a $\not\in$ D $\to$ }
 
-\texttt{(a.val $\in$ (F V X P) $\leftrightarrow$ a $\in$ (F V $\{$x : X // x $\neq$ c$\}$ (minus P c))))}
+\texttt{(a.val $\in$ (F V X P) $\leftrightarrow$ a $\in$ (F V $\{$x : X // x $\neq$ c$\}$} 
+
+\texttt{(minus\_candidate P c))))}
 \end{itemize}
 
 
