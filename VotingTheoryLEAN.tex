@@ -167,7 +167,7 @@ In a profile $\mathbf{P}$, we say that $x$ is \textit{majority preferred} to $y$
 So \texttt{margin\_pos} is a function that takes in a $(V,X)$-profile and two candidates and returns the proposition that the first is majority preferred to the second.
 \end{comment}
 
-As usual, we can regard the Margin$_\mathbf{P}$ function as an $|X(\mathbf{P})|\times |X(\mathbf{P})|$ matrix. Since $Margin_\mathbf{P}(x,y)=-Margin_\mathbf{P}(y,x)$, the matrix is skew-symmetric. Treating an integer-valued square matrix as a function from a set $X$ to functions from $X$ to $\mathbb{Z}$, the property of skew-symmetry takes in such a function and outputs the proposition stating that the skew-symmetry equation holds for all pairs:
+As usual, we can regard the $Margin_\mathbf{P}$ function as an $|X(\mathbf{P})|\times |X(\mathbf{P})|$ matrix. Since $Margin_\mathbf{P}(x,y)=-Margin_\mathbf{P}(y,x)$, the matrix is skew-symmetric. Treating an integer-valued square matrix as a function from a set $X$ to functions from $X$ to $\mathbb{Z}$, the property of skew-symmetry takes in such a function and outputs the proposition stating that the skew-symmetry equation holds for all pairs:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{skew\_symmetric} $\{$X : \textcolor{blue}{Type}$\}$ : (X $\to$ X $\to \mathbb{Z}$) $\to$ Prop :=} 
 
@@ -406,7 +406,7 @@ The definition states that a VCCR is a function that for any types \texttt{V} an
 \end{itemize}
 \end{example}
 
-Any VCCR, regarded as outputting a relation of strict social preference or ``defeat,'' can be transformed into a VSCC by assigning to a given profile the set of candidates who are not defeated. 
+Any VCCR, regarded as outputting a relation of \textit{strict} social preference or ``defeat,'' can be transformed into a VSCC by assigning to a given profile the set of candidates who are not defeated. 
 
 \begin{definition}\label{InducedDef} \textnormal{Given an asymmetric VCCR $f$, we define the \textit{induced} VSCC $f_{\mathrm{VSCC}}$ such that for any $V\subseteq\mathcal{V}$, $X\subseteq\mathcal{X}$, and $(V,X)$-profile $\mathbf{P}$, we have \[f_{\mathrm{VSCC}}(V,X)(\mathbf{P})=\{x\in X(\mathbf{P})\mid \forall y\in X(\mathbf{P}),\, (y,x)\not\in f(V,X)(\mathbf{P})\}.\]}
 \end{definition}
@@ -469,12 +469,27 @@ Before formalizing voting-theoretic proofs, we had to build up basic infrastruct
  \end{itemize}
 The \texttt{to\_path} operation maps the empty list to the empty list, and given a list constructed by adding \texttt{u} to the front of the list \texttt{p},  if \texttt{u} is an element of \texttt{to\_path~p}, then we output the result of dropping from \texttt{to\_path p} all elements before \texttt{u} in the list, and otherwise we add \texttt{u} to the front of \texttt{to\_path p}. A significant part of the formalization effort was proving needed properties of the \texttt{to\_path} operation and other operations on lists.
 
-The most involved formalization was of the proof from \cite{HP2020} that Split Cycle satisfies Tideman's \cite{Tideman1987} axiom of independence of clones. A set $C$ of two or more candidates is a set of \textit{clones} in a profile $\mathbf{P}$ if no voter ranks any candidates outside of $C$ in between two candidates from $C$. Independence of clones for VSCCs states that (i) removing a clone from a profile should not change which non-clones win and (ii) removing a clone from a profile should not change whether at least one clone is among the winners (though which clone wins is allowed to change upon removing a clone). To formalize this axiom, we need a way of removing a candidate from a profile, which is accomplished as follows:
+The most involved formalization was of the proof from \cite{HP2020} that Split Cycle satisfies Tideman's \cite{Tideman1987} axiom of independence of clones. A set $C$ of two or more candidates is a set of \textit{clones} in a profile $\mathbf{P}$ if no voter ranks any candidates outside of $C$ in between two candidates from $C$. Given a particular candidate $c$, we say that a set $D$ of candidates (not containing $c$) is a set of \textit{clones of $c$} if $D\cup \{c\}$ is a set of clones. In Lean, we formalize this as follows:
+
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{clones} (P : Prof V X) (c : X) (D : set $\{$x : X // x $\neq$ c$\}$) :}
+
+\texttt{Prop := D.nonempty $\wedge$}
+
+\texttt{($\forall$ (c$'$ $\in$ D) (x : $\{$x : X // x $\neq$ c$\}$) (i : V),}
+
+\texttt{x $\not\in$ D $\to$ ((P i c x $\leftrightarrow$ P i c$'$ x) $\wedge$ (P i x c $\leftrightarrow$ P i x c$'$)))}
+\end{itemize}
+Independence of clones for VSCCs states that (i) removing a clone from a profile should not change which non-clones win and (ii) removing a clone from a profile should not change whether at least one clone is among the winners (though which clone wins is allowed to change upon removing a clone). To formalize this, we need a way of removing a candidate from a profile, accomplished as follows:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{minus\_candidate} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X) (b : X) :} \\
 \texttt{ Prof V $\{$x : X // x $\neq$ b$\}$ := $\lambda$ v x y, P v x y}
 \end{itemize}
-Thus, \texttt{minus\_candidate} takes in a profile \texttt{P} for \texttt{V} and \texttt{X}, as well as a candidate \texttt{b} from \texttt{X}, and outputs the profile for \texttt{V} and \texttt{$\{$x : X // x $\neq$ b$\}$} that agrees with \texttt{P} on how every voter ranks the candidates other than \texttt{b}. For the sake of space, we do not include the definitions in Lean of clones and independence of clones. The proof that Split Cycle satisfies independence of clones involves manipulating paths in the majority graph of a profile---in particular, replacing all clones in a path by a distinguished clone and then eliminating repetitions of candidates in the resulting sequence using the \texttt{to\_path} operation.
+Thus, \texttt{minus\_candidate} takes in a profile \texttt{P} for \texttt{V} and \texttt{X}, as well as a candidate \texttt{b} from \texttt{X}, and outputs the profile for \texttt{V} and \texttt{$\{$x : X // x $\neq$ b$\}$} that agrees with \texttt{P} on how every voter ranks the candidates other than \texttt{b}. 
+
+...
+
+The proof that Split Cycle satisfies independence of clones involves manipulating paths in the majority graph of a profile---in particular, replacing all clones in a path by a distinguished clone and then eliminating repetitions of candidates in the resulting sequence using the \texttt{to\_path} operation.
 
 \section{Conclusion}\label{Conclusion}
 
