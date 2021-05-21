@@ -173,7 +173,7 @@ As usual, we can regard the $Margin_\mathbf{P}$ function as an $|X(\mathbf{P})|\
 
 \texttt{\textcolor{blue}{$\lambda$} M, $\forall$ x y, M x y = - M y x}.
 \end{itemize}
-Verifying that Margin$_\mathbf{P}$ is skew-symmetric is trivial using Lean's automation:
+Verifying that $Margin_\mathbf{P}$ is skew-symmetric is trivial using Lean's automation:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_skew\_symmetric} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X)}\\ \texttt{[fintype V] : skew\_symmetric (margin P) :=} 
  
@@ -191,10 +191,7 @@ Verifying that Margin$_\mathbf{P}$ is skew-symmetric is trivial using Lean's aut
 
 \texttt{\textcolor{blue}{end}}
 \end{itemize}
-
-Just one line...
-
-Or two...
+The \texttt{unfold} tactic writes \texttt{margin P} in terms of the definition of \texttt{margin} above, allowing the \texttt{obviously} tactic to fill in the details of the proof of skew symmetry.
 
 %%
 \begin{comment}
@@ -461,15 +458,12 @@ Before formalizing voting-theoretic proofs, we had to build up basic infrastruct
 \begin{itemize}
 \item[] \texttt{\textcolor{magenta}{noncomputable} \textcolor{blue}{def} \textcolor{orange}{to\_path} $\{$X : \textcolor{blue}{Type}$\}$ : list X $\to$ list X}
 \item[] \texttt{| list.nil := list.nil}
-\item[] \texttt{| (list.cons u p) :=}
-\item[]    \quad\texttt{\textcolor{blue}{let} p$'$ := to\_path p}
-\item[]    \quad\texttt{\textcolor{blue}{in} \textcolor{magenta}{if} u $\in$ p$'$}
- \item[]     \qquad  \texttt{\textcolor{magenta}{then} (p$'$.drop (p$'$.index\_of u))}
- \item[]       \qquad \texttt{\textcolor{magenta}{else} (list.cons u p$'$)}
+\item[] \texttt{| (list.cons u p) := \textcolor{blue}{let} p$'$ := to\_path p \textcolor{blue}{in}}
+\item[]    \quad\texttt{\textcolor{magenta}{if} u $\in$ p$'$ \textcolor{magenta}{then} (p$'$.drop (p$'$.index\_of u)) \textcolor{magenta}{else} (list.cons u p$'$)}
  \end{itemize}
-The \texttt{to\_path} operation maps the empty list to the empty list, and given a list constructed by adding \texttt{u} to the front of the list \texttt{p},  if \texttt{u} is an element of \texttt{to\_path~p}, then we output the result of dropping from \texttt{to\_path p} all elements before \texttt{u} in the list, and otherwise we add \texttt{u} to the front of \texttt{to\_path p}. A significant part of the formalization effort was proving needed properties of the \texttt{to\_path} operation and other operations on lists.
+Hence \texttt{to\_path} maps the empty list to the empty list, and given a list constructed by adding \texttt{u} to the front of the list \texttt{p},  if \texttt{u} is an element of \texttt{to\_path~p}, we output the result of dropping from \texttt{to\_path p} all elements before \texttt{u} in the list, and otherwise we add \texttt{u} to the front of \texttt{to\_path p}. A significant part of the formalization effort was proving needed properties of  \texttt{to\_path} and other operations on lists.
 
-The most involved formalization was of the proof from \cite{HP2020} that Split Cycle satisfies Tideman's \cite{Tideman1987} axiom of independence of clones. A set $C$ of two or more candidates is a set of \textit{clones} in a profile $\mathbf{P}$ if no voter ranks any candidates outside of $C$ in between two candidates from $C$. Given a particular candidate $c$, we say that a set $D$ of candidates (not containing $c$) is a set of \textit{clones of $c$} if $D\cup \{c\}$ is a set of clones. In Lean, we formalize this as follows:
+The most involved formalization was of the proof from \cite{HP2020} that Split Cycle satisfies Tideman's \cite{Tideman1987} axiom of independence of clones. A set $C$ of two or more candidates is a set of \textit{clones} in a profile $\mathbf{P}$ if no voter ranks any candidates outside of $C$ in between two candidates from $C$. Given a particular candidate $c$, we say that a nonempty set $D$ of candidates (not containing $c$) is a set of \textit{clones of $c$} if $D\cup \{c\}$ is a set of clones. In Lean, we formalize this as follows:
 
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{clones} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X) (c : X)}
@@ -485,12 +479,11 @@ Independence of clones for VSCCs states that (i) removing a clone from a profile
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{minus\_candidate} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X) (b : X) :} \\
 \texttt{ Prof V $\{$x : X // x $\neq$ b$\}$ := \textcolor{blue}{$\lambda$} v x y, P v x y}
 \end{itemize}
-Thus, \texttt{minus\_candidate} takes in a profile \texttt{P} for \texttt{V} and \texttt{X}, as well as a candidate \texttt{b} from \texttt{X}, and outputs the profile for \texttt{V} and \texttt{$\{$x : X // x $\neq$ b$\}$} that agrees with \texttt{P} on how every voter ranks the candidates other than \texttt{b}. 
-
+Thus, \texttt{minus\_candidate} takes in a profile \texttt{P} for \texttt{V} and \texttt{X}, as well as a candidate \texttt{b} from \texttt{X}, and outputs the profile for \texttt{V} and \texttt{$\{$x : X // x $\neq$ b$\}$} that agrees with \texttt{P} on how every voter ranks the candidates other than \texttt{b}. Using \texttt{minus\_candidate}, we formalize condition (i) of independence of clones as follows:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def}   \textcolor{orange}{non\_clone\_choice} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X) (c : X)}
+\item[] \texttt{\textcolor{blue}{def}   \textcolor{orange}{non\_clone\_choice\_ind\_clones} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X)}
 
-\texttt{(D : set $\{$x : X // x $\neq$ c$\}$) : VSCC $\to$ Prop := \textcolor{blue}{$\lambda$} F, }
+\texttt{(c : X) (D : set $\{$x : X // x $\neq$ c$\}$) : VSCC $\to$ Prop := \textcolor{blue}{$\lambda$} F, }
 
 \texttt{clones P c D $\to$ ($\forall$  a : $\{$x : X // x $\neq$  c$\}$, a $\not\in$ D $\to$ }
 
@@ -498,18 +491,15 @@ Thus, \texttt{minus\_candidate} takes in a profile \texttt{P} for \texttt{V} and
 
 \texttt{(minus\_candidate P c))))}
 \end{itemize}
-
-
+Since \texttt{$\{$x : X // x $\neq$  c$\}$} is a subtype of \texttt{X},  \texttt{a} consists of an element of \texttt{X}, called \texttt{a.val}, together with a proof that \texttt{a.val $\neq$ c}. Since \texttt{F V X P} is a set of elements of \texttt{X}, we must write `\texttt{a.val $\in$ (F V X P)}' instead of `\texttt{a $\in$ (F V X P)}'. Finally, we can state that Split Cycle satisfies part (i) of independence of clones as follows:
 
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{non\_clone\_choice\_split\_cyle} $\{$V X : \textcolor{blue}{Type}$\}$  [fintype V]}
+\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{non\_clone\_choice\_ind\_clones\_split\_cyle} $\{$V X : \textcolor{blue}{Type}$\}$}
 
-\texttt{(P : Prof V X) (c : X) (D : set $\{$x : X // x $\neq$ c$\}$) : }
-
-\texttt{non\_clone\_choice P c D split\_cycle := ...}
+\texttt{[fintype V] (P : Prof V X) (c : X) (D : set $\{$x : X // x $\neq$ c$\}$) : }
+\texttt{non\_clone\_choice\_ind\_clones P c D split\_cycle := ...}
 \end{itemize}
-
-The proof that Split Cycle satisfies independence of clones involves manipulating paths in the majority graph of a profile---in particular, replacing all clones in a path by a distinguished clone and then eliminating repetitions of candidates in the resulting sequence using the \texttt{to\_path} operation.
+The formalization of part (ii) of independence of clones is similar. The proof that Split Cycle satisfies independence of clones involves manipulating paths in the majority graph of a profile---in particular, replacing all clones in a path by a distinguished clone and then eliminating repetitions of candidates in the resulting sequence using the \texttt{to\_path} operation.
 
 \section{Conclusion}\label{Conclusion}
 
