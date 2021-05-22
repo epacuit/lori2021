@@ -145,7 +145,7 @@ Here `\texttt{$\{$V X: \textcolor{blue}{Type}$\}$}' indicates that \texttt{V} an
 
 We often are concerned not only with whether one candidate is majority preferred to another but also, if so, what is the margin of majority preference.
 
-\begin{definition}\label{MarginDef} \textnormal{Given a profile $\mathbf{P}$ and $x_1,x_2\in X(\mathbf{P})$, the \textit{margin of $x_1$ over $x_2$ in $\mathbf{P}$}, denoted $Margin_\mathbf{P}(x_1,x_2)$, is $|\{i\in V(\mathbf{P})\mid x_1\mathbf{P}_ix_2\}|-|\{i\in V(\mathbf{P})\mid x_2\mathbf{P}_ix_1\}|$.}
+\begin{definition}\label{MarginDef} \textnormal{Given a profile $\mathbf{P}$ and $x_1,x_2\in X(\mathbf{P})$, the \textit{margin of $x$ over $y$ in $\mathbf{P}$}, denoted $Margin_\mathbf{P}(x,y)$, is $|\{i\in V(\mathbf{P})\mid x\mathbf{P}_iy\}|-|\{i\in V(\mathbf{P})\mid y\mathbf{P}_ix\}|$.}
 \end{definition}
 \noindent In Lean, Definition \ref{MarginDef} becomes:
 
@@ -153,8 +153,8 @@ We often are concerned not only with whether one candidate is majority preferred
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{margin} $\{$V X : \textcolor{blue}{Type}$\}$  [fintype V] : Prof V X $\to$ X $\to$ X $\to$ $\mathbb{Z}$} 
 
 \texttt{:=
-    \textcolor{blue}{$\lambda$} P x$_1$ x$_2$, $\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_1$ x$_2$)).card
-        -} \\ \texttt{$\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_2$ x$_1$)).card}
+    \textcolor{blue}{$\lambda$} P x y, $\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x y)).card
+        -} \\ \texttt{$\uparrow$(finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v y x)).card}
 \end{itemize}
 Here `\texttt{[fintype V]}' can roughly be understood as an implicit assumption that \texttt{V} is finite,\footnote{See \href{https://leanprover.github.io/reference/expressions.html\#implicit-arguments}{Section 3.3} of the Lean documentation and the Lean community page on \href{https://leanprover-community.github.io/theories/sets.html\#finite-types}{Sets and set-like objects}.} which we make so that we can perform the subtraction in the definition of margin. The \texttt{margin} function takes in explicit arguments of a $(V,X)$-profile and two candidates  and returns the margin of the first over the second; in particular, `\texttt{finset.univ.filter (\textcolor{blue}{$\lambda$} v, P v x$_1$ x$_2$)}' is syntax for constructing $\{v\in V(\mathbf{P})\mid x_1\mathbf{P}_v x_2\}$, \texttt{.card} takes the cardinality of the set (a natural number), and $\uparrow$ shifts the type from natural number to integer (so we can subtract).
 
