@@ -206,9 +206,9 @@ Fortunately, Lean can prove this automatically using the \texttt{obviously} tact
 \end{comment}
 %%
 
-Turning to properties of profiles, one of the most important to consider is whether a profile has a so-called Condorcet winner or even a majority winner.
+Returning to properties of profiles, one of the most important to consider is whether a profile has a so-called Condorcet winner or even a majority winner.
 
-\begin{definition}\label{CondorcetDef} \textnormal{Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that $x$ is a \textit{Condorcet winner in $\mathbf{P}$} if for all $y\in X(\mathbf{P})$ with $y\neq x$, $x$ is majority preferred to $y$ in $\mathbf{P}$. We say that $x$ is a \textit{majority winner in $\mathbf{P}$} if the number of voters who rank $x$ (and only $x$) in first place is greater than the number of voters who do not rank $x$ in first place.}
+\begin{definition}\label{CondorcetDef} \textnormal{Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, $x$ is a \textit{Condorcet winner in $\mathbf{P}$} if for all $y\in X(\mathbf{P})$ with $y\neq x$, $x$ is majority preferred to $y$ in $\mathbf{P}$. We say that $x$ is a \textit{majority winner in $\mathbf{P}$} if the number of voters who rank $x$ (and only $x$) in first place is greater than the number of voters who do not rank $x$ in first place.}
 \end{definition}
 In Lean, Definition \ref{CondorcetDef} becomes:
 
@@ -274,7 +274,7 @@ The first key move on line \texttt{2} is to prove that everyone who ranks \textt
 
 On line \texttt{3}, we use a Mathlib theorem, \texttt{lt\_of\_lt\_of\_le}, which states that \texttt{n}~$<$~\texttt{m} $\to$ \texttt{m} $\leq$ \texttt{k} $\to$ \texttt{n} $<$ \texttt{k} (recall that implication associates to the right). Take \texttt{n} to be the number of voters who rank \texttt{z} above \texttt{x}, \texttt{m} to be the number who rank \texttt{x} first, and \texttt{k} to be the number  who rank \texttt{x} above \texttt{z}. Thus, our goal is to prove \texttt{n}~$<$~\texttt{k}, and above we proved  \texttt{m} $\leq$ \texttt{k}. Now \texttt{m} $\leq$ \texttt{k} is not the antecedent of \texttt{n}~$<$~\texttt{m} $\to$ \texttt{m} $\leq$ \texttt{k} $\to$ \texttt{n} $<$ \texttt{k}, but Lean's \texttt{refine} tactic allows us to insert a placeholder $\_$ for the antecedent, so our goal then becomes proving  \texttt{n} $<$ \texttt{m}. 
 
-To prove \texttt{n} $<$ \texttt{m}, the key move on line \texttt{4} is to prove that everyone who ranks \texttt{z} over \texttt{x} does not rank \texttt{x} first, which Lean does automatically using the \texttt{finish} tactic. Then we can apply \texttt{cardinal.mk\_subtype\_mono} to obtain a proof \texttt{cardinal.mk\_subtype\_mono imp2} that the number \texttt{n} of voters who rank \texttt{z} above \texttt{x} is less than or equal to the number---call it \texttt{m}$'$---of voters who do not rank \texttt{x} first. Thus, we have a proof of \texttt{n~$\leq$~m$'$}, so we can apply the implication  \texttt{n~$\leq$~m$'$ $\to$ m$'$  $<$ m $\to$ n $<$ m} provided by the Mathlib theorem \texttt{lt\_of\_le\_of\_lt} to obtain a proof of \texttt{m$'$  $<$ m $\to$ n $<$ m}. Then since \texttt{majority} is exactly a proof of the antecedent of \texttt{m$'$  $<$ m $\to$ n $<$ m}, we obtain a proof of our goal \texttt{n $<$ m}, so we are done.
+To prove \texttt{n} $<$ \texttt{m}, the key move on line \texttt{4} is to prove that everyone who ranks \texttt{z} over \texttt{x} does not rank \texttt{x} first, which Lean does automatically using the \texttt{finish} tactic. Then we can apply \texttt{cardinal.mk\_subtype\_mono} to obtain a proof \texttt{cardinal.mk\_subtype\_mono imp2} that the number \texttt{n} of voters who rank \texttt{z} above \texttt{x} is less than or equal to the number---call it \texttt{m}$'$---of voters who do not rank \texttt{x} first. Thus, we have a proof of \texttt{n~$\leq$~m$'$}, so we can apply the implication  \texttt{n~$\leq$~m$'$ $\to$ m$'$  $<$ m $\to$ n $<$ m} provided by the Mathlib theorem \texttt{lt\_of\_le\_of\_lt} to obtain a proof of \texttt{m$'$  $<$ m $\to$ n $<$ m}. Then since \texttt{majority} is exactly a proof of the antecedent of \texttt{m$'$  $<$ m $\to$ n $<$ m}, we obtain a proof of our goal \texttt{n $<$ m}.
 
 
 
@@ -313,13 +313,13 @@ We formalize universal domain as follows:
 
 \begin{example}\label{CondorcetEx1} For $(V,X)$, consider the Condorcet SCC for $(V,X)$ defined as follows:
 \[\mathrm{Cond}_{(V,X)}(\mathbf{P})=\begin{cases} \{x\} & \mbox{if $x$ is a Condorcet winner in $\mathbf{P}$} \\ X(\mathbf{P}) & \mbox{otherwise}\end{cases}.\]
-The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a Condorcet winner, then output the set of all Condorcet winners (which will be a singleton), and otherwise output all candidates in \texttt{X}.
+The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a Condorcet winner---in which case it is unique---then output the set containing the Condorcet winner, and otherwise output all candidates in \texttt{X}.
 
 We represent this $(V,X)$-SCC in Lean as follows:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$ : SCC V X := $\textcolor{blue}{\lambda}$ P, }
 
-\texttt{$\{$x : X |  condorcet\_winner P x $\vee$ ($\neg$ $\exists$ y, condorcet\_winner P y)$\}$}
+\texttt{$\{$x : X |  condorcet\_winner P x $\vee$ $\neg$ $\exists$ y, condorcet\_winner P y$\}$}
 \end{itemize}
 \end{example}
 
@@ -403,14 +403,14 @@ The definition states that a VCCR is a function that for any types \texttt{V} an
 \end{itemize}
 \end{example}
 
-Any VCCR, regarded as outputting a relation of \textit{strict} social preference or ``defeat,'' can be transformed into a VSCC by assigning to a given profile the set of candidates who are not defeated. 
+Any VCCR, regarded as outputting for a given profile a relation of strict social preference or ``defeat,'' can be transformed into a VSCC by assigning to a given profile the set of candidates who are not defeated.\footnote{An alternative approach, also easily formalizable, assigns to a given profile the set of candidates who are weakly socially preferred to all other candidates.}
 
 \begin{definition}\label{InducedDef} \textnormal{Given an asymmetric VCCR $f$, we define the \textit{induced} VSCC $f_{\mathrm{VSCC}}$ such that for any $V\subseteq\mathcal{V}$, $X\subseteq\mathcal{X}$, and $(V,X)$-profile $\mathbf{P}$, we have \[f_{\mathrm{VSCC}}(V,X)(\mathbf{P})=\{x\in X(\mathbf{P})\mid \forall y\in X(\mathbf{P}),\, (y,x)\not\in f(V,X)(\mathbf{P})\}.\]}
 \end{definition}
 In Lean, we formalize Definition \ref{InducedDef} as follows:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{induced\_VSCC} : VCCR $\to$ VSCC := \textcolor{blue}{$\lambda$} f V X P,} \\
-\texttt{$\{$x | $\forall$ y : X, $\neg$ f V X P y x$\}$}
+\texttt{$\{$x : X | $\forall$ y : X, $\neg$ f V X P y x$\}$}
 \end{itemize}
 
 \begin{example} The Split Cycle voting method \cite{HP2020b} is the induced VSCC from the Split Cycle VCCR defined in Example \ref{SCVCCR}: 
@@ -419,7 +419,7 @@ In Lean, we formalize Definition \ref{InducedDef} as follows:
 \end{itemize}
 \end{example}
 
-As is well known, any acyclic VCCR induces a VSCC satisfying (finite) universal domain:
+As is well known, any acyclic VCCR (i.e., VCCR that assigns an acyclic CCR to each $V,X$) induces a VSCC satisfying (finite) universal domain:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{acyclic} $\{$X : \textcolor{blue}{Type}$\}$ : (X $\to$ X $\to$ \textcolor{blue}{Prop}) $\to$ \textcolor{blue}{Prop} :=}\\
 \texttt{\textcolor{blue}{$\lambda$} Q, $\forall$ (c : list X), $\neg$ cycle Q c}
