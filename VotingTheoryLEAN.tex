@@ -335,9 +335,11 @@ Most voting methods (e.g., Plurality, Borda, Instant Runoff) are defined not onl
 
 In Lean, we define the type of VSCCs as a \textit{dependent function type}:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VSCC} : \textcolor{blue}{Type 1} := $\Pi$ (V X : \textcolor{blue}{Type}), SCC V X.}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VSCC} : \textcolor{blue}{Type 1} := $\Pi$ (V X : \textcolor{blue}{Type}), SCC V X}
 \end{itemize}
-The definition states that a VSCC is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{SCC V X}, i.e., a $(V,X)$-SCC. We formalize (finite) universal domain as follows:
+Given \texttt{$\alpha$: Type} and \texttt{$\beta$: $\alpha$ $\to$ Type}, the type \texttt{$\Pi$ y z : $\alpha$, $\beta$ y z} is the type of functions \texttt{f} such that for each \texttt{a b : $\alpha$}, we have that \texttt{f a b} is an element of \texttt{$\beta$~a~b}. In the definition above, $\alpha$ is \texttt{Type} and $\beta$ is \texttt{SCC}.  Thus, the definition states that an element of the type \texttt{VSCC} is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{SCC V X}, i.e., a $(V,X)$-SCC. 
+
+We formalize (finite) universal domain as follows:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{finite\_universal\_domain\_VSCC} (F : VSCC) : Prop :=}\\
     \texttt{$\forall$ V X [inhabited V] [inhabited X] [fintype V] [fintype X],}
@@ -355,9 +357,7 @@ The second type of function we consider assigns to a given profile a binary rela
 
 \begin{definition}\textnormal{For $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$, a \textit{collective choice rule for $(V,X)$}, or $(V,X)$-CCR, is a function  $f: \mathsf{Prof}(V,X)\to \mathcal{B}(X)$. Let $\mathsf{CCR}$ be a function that assigns to each pair $(V,X)$ of $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ the set of all $(V,X)$-CCRs.}\end{definition}
 
-\noindent Depending on the application, one can interpret the binary relation $f(\mathbf{Q})$ in one of two ways: $xf(\mathbf{Q})y$ can mean (a) $x$ defeats $y$ socially or (b) $x$ defeats or is tied with $y$ socially.\footnote{As in Footnote \ref{VoterNote}, approach (b) is more general, since it allows one to distinguish between ``social indifference'' and ``social noncomparability.'' When notions of social indifference and noncomparability are not needed, approach (a) can be simpler.} Once again, there is also the issue of ``domain restrictions.'' Under approach $(a)$, we can mark that the CCR is ``undefined'' on a profile $\mathbf{Q}$ by setting $f(\mathbf{Q})= X(\mathbf{Q})\times X(\mathbf{Q})$. Then we can abuse terminology and call $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid f(\mathbf{Q})\neq X(\mathbf{Q})\times X(\mathbf{Q}) \}$ the domain of $f$. Under approach (b), we can mark that the CCR is ``undefined'' on $\mathbf{Q}$ by setting $f(\mathbf{Q})=\emptyset$. Then we can abuse terminology and call $\{\mathbf{Q}\in\mathsf{Prop}(V,X)\mid f(\mathbf{Q})\neq \emptyset\}$ the domain of~$f$. 
-
-A CCR $f$ is said to be \textit{asymmetric} (resp.~\textit{transitive}, etc.), if for all $\mathbf{Q}$ in the domain of $f$, $f(\mathbf{Q})$ is asymmetric (transitive, etc.). Of course, asymmetric CCRs only make sense under interpretation (a) above, whereas under interpretation (b), CCRs should be reflexive.
+\noindent Depending on the application, one can interpret the binary relation $f(\mathbf{Q})$ in one of two ways: $xf(\mathbf{Q})y$ can mean (a) $x$ is strictly preferred to $y$ socially or (b) $x$ is strictly preferred to or tied with $y$ socially.\footnote{As in Footnote \ref{VoterNote}, approach (b) is more general, since it allows one to distinguish between ``social indifference'' and ``social noncomparability.'' When notions of social indifference and noncomparability are not needed, approach (a) can be simpler.} Once again, there is also the issue of ``domain restrictions.'' Under approach $(a)$, we can mark that the CCR is ``undefined'' on a profile $\mathbf{Q}$ by setting $f(\mathbf{Q})= X(\mathbf{Q})\times X(\mathbf{Q})$. Then we can abuse terminology and call $\{\mathbf{Q}\in\mathsf{Prof}(V,X)\mid f(\mathbf{Q})\neq X(\mathbf{Q})\times X(\mathbf{Q}) \}$ the domain of $f$. Under approach (b), we can mark that the CCR is ``undefined'' on $\mathbf{Q}$ by setting $f(\mathbf{Q})=\emptyset$. Then we can abuse terminology and call $\{\mathbf{Q}\in\mathsf{Prop}(V,X)\mid f(\mathbf{Q})\neq \emptyset\}$ the domain of~$f$.  A CCR $f$ is said to be \textit{asymmetric} (resp.~\textit{transitive}, etc.), if for all $\mathbf{Q}$ in the domain of $f$, $f(\mathbf{Q})$ is asymmetric (transitive, etc.). Of course, asymmetric CCRs only make sense under interpretation (a) above, whereas under interpretation (b), CCRs should be reflexive.
 
 In Lean, our representation of the function $\mathsf{CCR}$ is similar to that of $\mathsf{SCC}$:
 \begin{itemize}
@@ -375,14 +375,14 @@ Now we are ready to define the Split Cycle $(V,X)$-CCR in Lean:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_CCR} $\{$V X: \textcolor{blue}{Type}$\}$ : CCR V X :=} 
 
-    \texttt{\textcolor{blue}{$\lambda$} (P : Prof V X) (x y : X), $\forall$ [f: fintype V],}
+    \texttt{\textcolor{blue}{$\lambda$} (P : Prof V X) (x y : X), $\forall$ [n: fintype V],}
     
-    \texttt{0 $<$ @margin V X f P x y $\wedge$}
+    \texttt{0 $<$ @margin V X n P x y $\wedge$}
     
     \texttt{$\neg$ ($\exists$ (c : list X), x $\in$ c $\wedge$ y $\in$ c $\wedge$}\\
-    \texttt{cycle (\textcolor{blue}{$\lambda$} a b, @margin V X f P x y $\leq$ @margin V X f P a b) c)}
+    \texttt{cycle (\textcolor{blue}{$\lambda$} a b, @margin V X n P x y $\leq$ @margin V X n P a b) c)}
 \end{itemize}
-Recall that the \texttt{margin} function takes as implicit arguments the set \texttt{V} of voters, the set \texttt{X} of candidates, and a proof that \texttt{V} is finite. The \texttt{@} symbol is used when explicitly supplying these implicit arguments. Thus, the definition states that given a profile \texttt{P} and two candidates \texttt{x} and \texttt{y}, the binary relation outputted by \texttt{split\_cycle\_CCR} holds of \texttt{x}, \texttt{y} if for any proof \texttt{f} that \texttt{V} is finite, the margin of \texttt{x} over \texttt{y} in \texttt{P} (supplying the \texttt{margin} function with \texttt{V}, \texttt{X}, and \texttt{f}) is greater than 0 and there is no list \texttt{c} of elements containing \texttt{x} and \texttt{y} such that \texttt{c} is a majority cycle for which the margin of \texttt{x} over \texttt{y} is less than or equal to every margin in the cycle, i.e., \texttt{c} is a cycle in the binary relation \texttt{R} that holds of \texttt{a,b} just in case the margin of \texttt{x} over \texttt{y} is less than or equal to the margin of \texttt{a} over \texttt{b}.
+Recall that the \texttt{margin} function takes as implicit arguments the set \texttt{V} of voters, the set \texttt{X} of candidates, and a proof that \texttt{V} is finite. The \texttt{@} symbol is used when explicitly supplying these implicit arguments. Thus, the definition states that given a profile \texttt{P} and two candidates \texttt{x} and \texttt{y}, the binary relation outputted by \texttt{split\_cycle\_CCR} holds of \texttt{x}, \texttt{y} if for any proof \texttt{n} that \texttt{V} is finite, the margin of \texttt{x} over \texttt{y} in \texttt{P} (supplying the \texttt{margin} function with \texttt{V}, \texttt{X}, and \texttt{n}) is greater than 0 and there is no list \texttt{c} of elements containing \texttt{x} and \texttt{y} such that \texttt{c} is a majority cycle for which the margin of \texttt{x} over \texttt{y} is less than or equal to every margin in the cycle, i.e., \texttt{c} is a cycle in the binary relation \texttt{R} that holds of \texttt{a,b} just in case the margin of \texttt{x} over \texttt{y} is less than or equal to the margin of \texttt{a} over \texttt{b}.
 
 \end{example}
 
@@ -405,17 +405,17 @@ The definition states that a VCCR is a function that for any types \texttt{V} an
 
 Any VCCR, regarded as outputting for a given profile a relation of strict social preference or ``defeat,'' can be transformed into a VSCC by assigning to a given profile the set of candidates who are not defeated.\footnote{An alternative approach, also easily formalizable, assigns to a given profile the set of candidates who are weakly socially preferred to all other candidates.}
 
-\begin{definition}\label{InducedDef} \textnormal{Given an asymmetric VCCR $f$, we define the \textit{induced} VSCC $f_{\mathrm{VSCC}}$ such that for any $V\subseteq\mathcal{V}$, $X\subseteq\mathcal{X}$, and $(V,X)$-profile $\mathbf{P}$, we have \[f_{\mathrm{VSCC}}(V,X)(\mathbf{P})=\{x\in X(\mathbf{P})\mid \forall y\in X(\mathbf{P}),\, (y,x)\not\in f(V,X)(\mathbf{P})\}.\]}
+\begin{definition}\label{InducedDef} \textnormal{Given an asymmetric VCCR $f$, we define the \textit{maximal-element induced} VSCC $f_{M}$ such that for any $V\subseteq\mathcal{V}$, $X\subseteq\mathcal{X}$, and $(V,X)$-profile $\mathbf{P}$, \[f_{M}(V,X)(\mathbf{P})=\{x\in X(\mathbf{P})\mid \forall y\in X(\mathbf{P}),\, (y,x)\not\in f(V,X)(\mathbf{P})\}.\]}
 \end{definition}
 In Lean, we formalize Definition \ref{InducedDef} as follows:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{induced\_VSCC} : VCCR $\to$ VSCC := \textcolor{blue}{$\lambda$} f V X P,} \\
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{max\_el\_VSCC} : VCCR $\to$ VSCC := \textcolor{blue}{$\lambda$} f V X P,} \\
 \texttt{$\{$x : X | $\forall$ y : X, $\neg$ f V X P y x$\}$}
 \end{itemize}
 
-\begin{example} The Split Cycle voting method \cite{HP2020b} is the induced VSCC from the Split Cycle VCCR defined in Example \ref{SCVCCR}: 
+\begin{example} The Split Cycle voting method \cite{HP2020b} is the maximal-element induced VSCC from the Split Cycle VCCR defined in Example \ref{SCVCCR}: 
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle} : VSCC := induced\_VSCC split\_cycle\_VCCR}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle} : VSCC := max\_el\_VSCC split\_cycle\_VCCR}
 \end{itemize}
 \end{example}
 
@@ -424,10 +424,10 @@ As is well known, any acyclic VCCR (i.e., VCCR that assigns an acyclic CCR to ea
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{acyclic} $\{$X : \textcolor{blue}{Type}$\}$ : (X $\to$ X $\to$ \textcolor{blue}{Prop}) $\to$ \textcolor{blue}{Prop} :=}\\
 \texttt{\textcolor{blue}{$\lambda$} Q, $\forall$ (c : list X), $\neg$ cycle Q c}
 \item[]
-\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{induced\_VSCC\_universal\_domain} (F : VCCR)}\\
+\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{universal\_domain\_of\_max\_el\_VSCC} (f : VCCR)}\\
 \texttt{(a : $\forall$ V X [inhabited V] [inhabited X] [fintype V] [fintype X]} \\
 \texttt{(P : Prof V X), acyclic (F V X P)) :}\\
-\texttt{finite\_universal\_domain\_VSCC (induced\_VSCC F) := \dots}
+\texttt{finite\_universal\_domain\_VSCC (max\_el\_VSCC f) := \dots}
 \end{itemize}
 The proof can be found in our online repository.
 
@@ -454,7 +454,7 @@ As a proof of concept of formalizing theorems in the framework above, we verifie
 
 % a variable-candidate axiom, independence of clones, and a variable-voter axiom, positive involvement.
 
-Before formalizing voting-theoretic proofs, we had to build up basic infrastructure for reasoning about cycles, walks, and paths in graphs, such as rotating and reversing cycles and converting walks to paths, which was not available in Mathlib. For example, to convert walks to paths, we defined an inductive type:
+Before formalizing voting-theoretic proofs, we had to build up basic infrastructure for reasoning about cycles, walks, and paths in graphs, such as rotating and reversing cycles and converting walks to paths, which was not available in Mathlib. For example, to convert walks to paths, we defined an inductive type\footnote{Lean forces us to flag the definition with `\texttt{noncomputable}' because the Lean kernel is unable to generate bytecode for \texttt{to\_path}.}:
 \begin{itemize}
 \item[] \texttt{\textcolor{magenta}{noncomputable} \textcolor{blue}{def} \textcolor{orange}{to\_path} $\{$X : \textcolor{blue}{Type}$\}$ : list X $\to$ list X}
 \item[] \texttt{| list.nil := list.nil}
