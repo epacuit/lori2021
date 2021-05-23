@@ -63,7 +63,7 @@ There is a long tradition of fruitful interaction between logic and social choic
 %The abstract should briefly summarize the contents of the paper in
 %150--250 words.
 
-\keywords{logic and social choice theory \and voting theory \and interactive theorem proving \and Lean}
+\keywords{logic and social choice theory \and voting theory \and interactive theorem proving \and Lean theorem prover}
 \end{abstract}
 %
 %
@@ -71,7 +71,7 @@ There is a long tradition of fruitful interaction between logic and social choic
 
 \section{Introduction}
 
-There is a long tradition of fruitful interaction between logic and social choice theory.  Both Kenneth Arrow \cite[p. 154]{Arrow2014}  and Amartya Sen \cite[p. 108]{Sen2017} have noted the influence of mathematical logic on their thinking about the foundations of social choice theory.  Early work using logical methods in social choice theory includes  Murakami's  \cite{Murakami1968}  application of  results about three-valued logic to the analysis of voting rules, Rubinstein's \cite{Rubinstein1984}  proof of the equivalence between multi-profile and single-profile approaches to social choice, and Parikh's \cite{Parikh1985} development of a logic of games to study social procedures.  There is now a rich literature developing logical systems that can formalize results in social choice theory (see, e.g., \cite{Nipkow2009,Tang2011,Endriss2011,GrandiEndriss2013,CinaEndriss2016,HollidayPacuit2020}). 
+There is a long tradition of fruitful interaction between logic and social choice theory.  Both Kenneth Arrow \cite[p.~154]{Arrow2014}  and Amartya Sen \cite[p.~108]{Sen2017} have noted the influence of mathematical logic on their thinking about the foundations of social choice theory.  Early work using logical methods in social choice theory includes  Murakami's  \cite{Murakami1968}  application of  results about three-valued logic to the analysis of voting rules, Rubinstein's \cite{Rubinstein1984}  proof of the equivalence between multi-profile and single-profile approaches to social choice, and Parikh's \cite{Parikh1985} development of a logic of games to study social procedures.  There is now a rich literature developing logical systems that can formalize results in social choice theory (see, e.g., \cite{Nipkow2009,Tang2011,Endriss2011,GrandiEndriss2013,CinaEndriss2016,HollidayPacuit2020}). 
 
 %\cite{Pauly2008,AgotnesVanDerHoekWooldridge2009,Nipkow2009,Tang2011,TroquardVanDerHoekWooldridge2011,Endriss2011,GrandiEndriss2013,CinaEndriss2016,PacuitYang2016,HollidayPacuit2020}
 
@@ -80,7 +80,7 @@ There is a long tradition of fruitful interaction between logic and social choic
 
 %The first applications of interactive theorem provers in social choice
 
-In recent years, research on  logic and social choice theory has centered around the use of computer-aided methods \cite{Geist2017}.  Here we focus on the application of interactive theorem provers to verify results in social choice theory.   The first of such applications used Isabelle/HOL  \cite{Nipkow2009} and Mizar \cite{Wiedijk2007} to formalize different proofs of  Arrow's Impossibility Theorem \cite{Geanakoplos2005}.  More recently, \cite{Brandt2018b} and \cite{Eberl2019} used Isabelle to verify theorems from \cite{Brandt2018} and \cite{Brandl2018}, respectively.  These projects demonstrate, as Nipkow \cite{Nipkow2009} notes,  that ``social choice theory turns out to be perfectly suitable for mechanical theorem proving."  In this paper, we provide further evidence of this by developing a framework for formalizing voting theory using an interactive theorem prover. One obvious benefit of such a project is the verification of the correctness of mathematical claims in voting theory. Several published claims, including Arrow's \cite{Arrow1951} original statement of his impossibility theorem (for more than 3 candidates), Baigent's \cite{Baigent1987} variation involving ``weak IIA'' (in the case of 3 candidates), and Routley's \cite{Routley1979} claimed generalization of Arrow's theorem to infinite populations, were disproved by counterexamples (see \cite{Blau1957}, \cite{Campbell2000}, and \cite{Blau1979}). Second, formalization allows us to carefully track  which assumptions---e.g., about voter preferences, cardinalities, choice of primitive concepts, etc.---are needed for which results, leading to generalizations and perhaps even new avenues for research. Third, formalization may eventually facilitate automated search of the corpus of proved results for use by researchers in proving new results.
+In recent years, research on  logic and social choice theory has centered around computer-aided methods \cite{Geist2017}.  Here we focus on the application of interactive theorem provers to verify results in social choice.   The first of such applications used Isabelle/HOL  \cite{Nipkow2009} and Mizar \cite{Wiedijk2007} to formalize different proofs of  Arrow's Impossibility Theorem \cite{Geanakoplos2005}.  More recently, \cite{Brandt2018b} and \cite{Eberl2019} used Isabelle to verify impossibility theorems from \cite{Brandt2018} and \cite{Brandl2018}, respectively.  These projects demonstrate, as Nipkow \cite{Nipkow2009} notes,  that ``social choice theory turns out to be perfectly suitable for mechanical theorem proving."  In this paper, we provide further evidence of this by developing a framework for formalizing voting theory using an interactive theorem prover. One obvious benefit of such a project is the verification of the correctness of mathematical claims in voting theory. Several published claims, including Arrow's \cite{Arrow1951} original statement of his impossibility theorem (for more than 3 candidates), Baigent's \cite{Baigent1987} variation involving ``weak IIA'' (in the case of 3 candidates), and Routley's \cite{Routley1979} claimed generalization of Arrow's theorem to infinite populations, were disproved by counterexamples (see \cite{Blau1957}, \cite{Campbell2000}, and \cite{Blau1979}). Second, formalization allows us to carefully track  which assumptions---e.g., about voter preferences, cardinalities, choice of primitive concepts, etc.---are needed for which results, leading to generalizations and perhaps even new avenues for research. Third, formalization may eventually facilitate automated search of the corpus of proved results for use by researchers in proving new results.
 
 %by using an interactive theorem prover to verify results about properties of voting methods (e.g., Condorcet consistency, independence of clones, etc.).
 
@@ -98,7 +98,7 @@ In this section, we define the basic objects of voting theory: profiles, social 
 
 \subsection{Profiles}
 
-For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. Instead of thinking of a binary relation as a set of ordered pairs, it is more convenient to think of a binary on $X$ as a function $S: X\times X \to \{0,1\}$. In fact, to better match our Lean formalization, we ``curry'' all functions with multiple arguments, transforming them into functions with single arguments that output functions. Thus, we regard a binary relation on $X$ as a function  $S:X\to \{0,1\}^X$, where $\{0,1\}^X$ is the set of functions from $X$ to $\{0,1\}$. For any $x\in X$, $S(x): X\to \{0,1\}$, and $S(x)(y)=1$ means that the binary relation $S$ holds of $(x,y)$. In what follows, we write `$xSy$' instead of $S(x)(y)=1$.
+For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. Instead of thinking of a binary relation as a set of ordered pairs, here it is more convenient to think of a binary on $X$ as a function $S: X\times X \to \{0,1\}$. In fact, to better match our Lean formalization, we ``curry'' all functions with multiple arguments, transforming them into functions with single arguments that output functions. Thus, we regard a binary relation on $X$ as a function  $S:X\to \{0,1\}^X$, where $\{0,1\}^X$ is the set of functions from $X$ to $\{0,1\}$. For any $x\in X$, $S(x): X\to \{0,1\}$, and $S(x)(y)=1$ means that the binary relation $S$ holds of $(x,y)$. In what follows, we write `$xSy$' instead of $S(x)(y)=1$.
 
 %\begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
 %\end{definition}
@@ -135,17 +135,17 @@ In Lean, we formalize Definition \ref{MajPrefDef} as follows:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_preferred}  $\{$V X : \textcolor{blue}{Type}$\}$ :}
 
-\texttt{Prof V X $\to$ X $\to$ X $\to$ Prop := \textcolor{blue}{$\lambda$} P x y,}
+\texttt{Prof V X $\to$ X $\to$ X $\to$ \textcolor{blue}{Prop} := \textcolor{blue}{$\lambda$} P x y,}
 
 \texttt{cardinal.mk $\{$v : V // P v x y$\}$ >
 cardinal.mk $\{$v : V // P v y x$\}$}
 \end{itemize}
-Here `\texttt{$\{$V X: \textcolor{blue}{Type}$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments to the function \texttt{majority\_preferred} of type \texttt{Type}. Then \texttt{majority\_preferred} takes in explicit arguments of a $(V,X)$-profile and two candidates  and returns the proposition stating that the cardinality of the set of voters who prefer \texttt{x} to \texttt{y} is greater than the cardinality of the set of voters who prefer \texttt{y} to \texttt{x}. Here the `\texttt{//}' notation indicates that we are identifying the subtype of voters with a certain property, and \texttt{cardinal.mk} gives us the cardinality of the subtype.
+Here `\texttt{$\{$V X : \textcolor{blue}{Type}$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments to the function \texttt{majority\_preferred} of type \texttt{Type}. Then \texttt{majority\_preferred} takes in explicit arguments of a $(V,X)$-profile and two candidates  and returns the proposition stating that the cardinality of the set of voters who prefer \texttt{x} to \texttt{y} is greater than the cardinality of the set of voters who prefer \texttt{y} to \texttt{x}. Here the `\texttt{//}' notation indicates that we are identifying the subtype of voters with a certain property, and \texttt{cardinal.mk} gives us the cardinality of the subtype.
 
 
-We often are concerned not only with whether one candidate is majority preferred to another but also, if so, what is the margin of majority preference.
+We are often concerned not only with whether one candidate is majority preferred to another but also, if so, what is the margin of majority preference.
 
-\begin{definition}\label{MarginDef} \textnormal{Given a profile $\mathbf{P}$ and $x_1,x_2\in X(\mathbf{P})$, the \textit{margin of $x$ over $y$ in $\mathbf{P}$}, denoted $Margin_\mathbf{P}(x,y)$, is $|\{i\in V(\mathbf{P})\mid x\mathbf{P}_iy\}|-|\{i\in V(\mathbf{P})\mid y\mathbf{P}_ix\}|$.}
+\begin{definition}\label{MarginDef} \textnormal{Given a profile $\mathbf{P}$ and $x,y\in X(\mathbf{P})$, the \textit{margin of $x$ over $y$ in $\mathbf{P}$}, denoted $Margin_\mathbf{P}(x,y)$, is $|\{i\in V(\mathbf{P})\mid x\mathbf{P}_iy\}|-|\{i\in V(\mathbf{P})\mid y\mathbf{P}_ix\}|$.}
 \end{definition}
 \noindent In Lean, Definition \ref{MarginDef} becomes:
 
