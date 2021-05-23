@@ -214,10 +214,10 @@ In Lean, Definition \ref{CondorcetDef} becomes:
 
 \begin{itemize}
 %\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_winner} [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := $\forall$ y $\neq$ x, majority\_preferred P x y}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_winner} $\{$V X: \textcolor{blue}{Type}$\}$ (P : Prof V X) (x : X) :} \\ \texttt{Prop := $\forall$ y $\neq$ x, majority\_preferred P x y}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_winner} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X) (x : X) :} \\ \texttt{Prop := $\forall$ y $\neq$ x, majority\_preferred P x y}
 \item[]
 %\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_winner} [fintype V] (P : Prof V X) (x : X) :} \\ \texttt{\textcolor{blue}{Prop} := (finset.univ.filter ($\lambda$ (v : V), $\forall$ y $\neq$ x, P v x y)).card > (finset.univ.filter ($\lambda$ (v : V), $\exists$ y $\neq$ x, P v y x)).card}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_winner} $\{$V X: \textcolor{blue}{Type}$\}$ (P : Prof V X) (x : X) :} \\
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{majority\_winner} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X) (x : X) :} \\
 \texttt{ Prop := cardinal.mk $\{$v : V // $\forall$ y $\neq$ x, P v x y$\}$ > cardinal.mk} \\ \texttt{$\{$v : V // $\exists$ y $\neq$ x, P v y x$\}$}
 \end{itemize}
 
@@ -229,7 +229,7 @@ As an example of a more involved proof than the one above showing that the margi
 \end{itemize}
 We explain the following Lean proof that a majority winner is a Condorcet winner in detail below:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{condorcet\_of\_majority\_winnner} $\{$V X: \textcolor{blue}{Type}$\}$ (P : Prof V X)}
+\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{condorcet\_of\_majority\_winnner} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X)}
 
 \texttt{[fintype V] (x : X) :}
 
@@ -304,7 +304,7 @@ The definition states that \texttt{SCC} is a function that given two types, \tex
 We formalize universal domain as follows:
 \begin{itemize}
 %\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{universal\_domain\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$: SCC V X $\to$ Prop := $\lambda$ F, $\forall$ P, F P $\neq$ $\emptyset$}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{universal\_domain\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$ (F : SCC V X) : Prop :=} \\
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{universal\_domain\_SCC} $\{$V X : \textcolor{blue}{Type}$\}$ (F : SCC V X) : Prop :=} \\
 \texttt{$\forall$ P : Prof V X, F P $\neq$ $\emptyset$}
 
 \end{itemize}
@@ -317,7 +317,7 @@ The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a C
 
 We represent this $(V,X)$-SCC in Lean as follows:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_SCC} $\{$V X: \textcolor{blue}{Type}$\}$ : SCC V X := $\textcolor{blue}{\lambda}$ P, }
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_SCC} $\{$V X : \textcolor{blue}{Type}$\}$ : SCC V X := $\textcolor{blue}{\lambda}$ P, }
 
 \texttt{$\{$x : X |  condorcet\_winner P x $\vee$ $\neg$ $\exists$ y, condorcet\_winner P y$\}$}
 \end{itemize}
@@ -373,7 +373,7 @@ Here the function \texttt{cycle} takes in a binary relation \texttt{R} and a lis
 
 Now we are ready to define the Split Cycle $(V,X)$-CCR in Lean:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_CCR} $\{$V X: \textcolor{blue}{Type}$\}$ : CCR V X :=} 
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{split\_cycle\_CCR} $\{$V X : \textcolor{blue}{Type}$\}$ : CCR V X :=} 
 
     \texttt{\textcolor{blue}{$\lambda$} (P : Prof V X) (x y : X), $\forall$ [n: fintype V],}
     
@@ -494,7 +494,7 @@ Thus, \texttt{minus\_candidate} takes in a profile \texttt{P} for \texttt{V} and
 Since \texttt{$\{$x : X // x $\neq$  c$\}$} is a subtype of \texttt{X},  \texttt{a} consists of an element of \texttt{X}, called \texttt{a.val}, together with a proof that \texttt{a.val $\neq$ c}. Since \texttt{F V X P} is a set of elements of \texttt{X}, we must write `\texttt{a.val $\in$ (F V X P)}' instead of `\texttt{a $\in$ (F V X P)}'. Finally, we can state that Split Cycle satisfies part (i) of independence of clones as follows:
 
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{non\_clone\_choice\_ind\_clones\_split\_cyle} $\{$V X : \textcolor{blue}{Type}$\}$}
+\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{non\_clone\_choice\_ind\_clones\_split\_cycle} $\{$V X : \textcolor{blue}{Type}$\}$}
 
 \texttt{[fintype V] (P : Prof V X) (c : X) (D : set $\{$x : X // x $\neq$ c$\}$) : }
 \texttt{non\_clone\_choice\_ind\_clones P c D split\_cycle := ...}
