@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  24 MAY 2021 12:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  24 MAY 2021 12:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1086,7 +1086,7 @@ cmm/m/it/10 '$ $ $ \OT1/cmtt/m/n/10 : $\OML/cmm/m/it/10 $ $\OMS/cmsy/m/n/10 !$
  \OT1/cmtt/m/n/10 Prop$\OMS/cmsy/m/n/10 g$ 
  []
 
-[5] [6] [7] [8] [9] [10] [11]
+[5] [6] [7] [8] [9] [10]
 Overfull \hbox (2.65155pt too wide) in paragraph at lines 499--501
 []\OT1/cmtt/m/n/10 [fintype V] (P : Prof V X) (c : X) (D : set $\OMS/cmsy/m/n/1
 0 f$\OT1/cmtt/m/n/10 x : X // x $\OMS/cmsy/m/n/10 6\OT1/cmr/m/n/10 =$ \OT1/cmtt
@@ -1099,7 +1099,7 @@ Overfull \hbox (4.07158pt too wide) in paragraph at lines 506--507
 ions (e.g., of nonempti-
  []
 
-(./VotingTheoryLEAN.bbl [12] [13])
+[11] (./VotingTheoryLEAN.bbl [12])
 
 FiXme Summary: Number of notes: 0,
 (FiXme)        Number of warnings: 0,
@@ -1107,7 +1107,7 @@ FiXme Summary: Number of notes: 0,
 (FiXme)        Number of fatal errors: 0,
 (FiXme)        Total: 0.
 
-[14]
+[13]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 527.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 527.
  (./VotingTheoryLEAN.aux)
@@ -1119,19 +1119,16 @@ Package rerunfilecheck Info: File `VotingTheoryLEAN.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 527.
  ) 
 Here is how much of TeX's memory you used:
- 26796 strings out of 493014
- 506973 string characters out of 6133351
- 569473 words of memory out of 5000000
+ 26795 strings out of 493014
+ 506966 string characters out of 6133351
+ 570473 words of memory out of 5000000
  29882 multiletter control sequences out of 15000+600000
  13735 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 78i,9n,94p,10406b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 78i,9n,94p,10406b,467s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></
@@ -1154,10 +1151,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf
 ist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2016/texmf-dist
 /fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on VotingTheoryLEAN.pdf (14 pages, 308045 bytes).
+Output written on VotingTheoryLEAN.pdf (13 pages, 307381 bytes).
 PDF statistics:
- 365 PDF objects out of 1000 (max. 8388607)
- 285 compressed objects within 3 object streams
- 81 named destinations out of 1000 (max. 500000)
+ 361 PDF objects out of 1000 (max. 8388607)
+ 282 compressed objects within 3 object streams
+ 80 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
