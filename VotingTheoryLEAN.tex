@@ -80,7 +80,9 @@ There is a long tradition of fruitful interaction between logic and social choic
 
 %The first applications of interactive theorem provers in social choice
 
-In recent years, much of the research on logic and social choice has focused on computer-aided methods such as SAT solving and interactive theorem proving \cite{Geist2017}.  The first applications of interactive theorem proving used Isabelle/HOL  \cite{Nipkow2009} and Mizar \cite{Wiedijk2007} to formalize different proofs of  Arrow's Impossibility Theorem \cite{Geanakoplos2005}.  More recently, \cite{Brandt2018b} and \cite{Eberl2019} used Isabelle to verify impossibility theorems from \cite{Brandt2018} and \cite{Brandl2018}, respectively.  These projects demonstrate, as Nipkow \cite{Nipkow2009} notes,  that ``social choice theory turns out to be perfectly suitable for mechanical theorem proving."  In this paper, we provide further evidence of this by developing a framework for formalizing voting theory using an interactive theorem prover. One obvious benefit of such a project is the verification of the correctness of mathematical claims in voting theory. Several published claims, including Arrow's \cite{Arrow1951} original statement of his impossibility theorem (for more than 3 candidates), Baigent's \cite{Baigent1987} variation involving ``weak IIA'' (in the case of 3 candidates), and Routley's \cite{Routley1979} claimed generalization of Arrow's theorem to infinite populations, were disproved by counterexamples (see \cite{Blau1957}, \cite{Campbell2000}, and \cite{Blau1979}). Second, formalization allows us to carefully track  which assumptions---e.g., about voter preferences, cardinalities, choice of primitive concepts, etc.---are needed for which results, leading to generalizations and perhaps even new avenues for research. Third, formalization may eventually facilitate automated search of the corpus of proved results for use by researchers in proving new results.
+In recent years, much of the research on logic and social choice has focused on computer-aided methods such as SAT solving and interactive theorem proving \cite{Geist2017}.  The first applications of interactive theorem proving used Isabelle/HOL  \cite{Nipkow2009} and Mizar \cite{Wiedijk2007} to formalize different proofs of  Arrow's Impossibility Theorem \cite{Geanakoplos2005}.  More recently, \cite{Brandt2018b} and \cite{Eberl2019} used Isabelle to verify impossibility theorems from \cite{Brandt2018} and \cite{Brandl2018}, respectively.  These projects demonstrate, as Nipkow \cite{Nipkow2009} notes,  that ``social choice theory turns out to be perfectly suitable for mechanical theorem proving."  In this paper, we provide further evidence of this by developing a framework for formalizing voting theory using an interactive theorem prover. 
+
+But why formalize? One obvious benefit of such a project is the verification of the correctness of mathematical claims in voting theory. Several published claims, including Arrow's \cite{Arrow1951} original statement of his impossibility theorem (for more than 3 candidates), Baigent's \cite{Baigent1987} variation involving ``weak IIA'' (in the case of 3 candidates), and Routley's \cite{Routley1979} claimed generalization of Arrow's theorem to infinite populations, were disproved by counterexamples (see \cite{Blau1957}, \cite{Campbell2000}, and \cite{Blau1979}). Second, formalization allows us to carefully track  which assumptions---e.g., about voter preferences, cardinalities, choice of primitive concepts, etc.---are needed for which results, leading to generalizations and perhaps even new avenues for research. Third, formalization may eventually facilitate automated search of the corpus of proved results for use by researchers in proving new results.
 
 %by using an interactive theorem prover to verify results about properties of voting methods (e.g., Condorcet consistency, independence of clones, etc.).
 
@@ -98,7 +100,7 @@ In this section, we define the basic objects of voting theory: profiles, social 
 
 \subsection{Profiles}
 
-For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. Instead of thinking of a binary relation as a set of ordered pairs, here it is more convenient to think of a binary on $X$ as a function $S: X\times X \to \{0,1\}$. In fact, to better match our Lean formalization, we ``curry'' all functions with multiple arguments, transforming them into functions with single arguments that output functions. Thus, we regard a binary relation on $X$ as a function  $S:X\to \{0,1\}^X$, where $\{0,1\}^X$ is the set of functions from $X$ to $\{0,1\}$. For any $x\in X$, $S(x): X\to \{0,1\}$, and $S(x)(y)=1$ means that the binary relation $S$ holds of $(x,y)$. In what follows, we write `$xSy$' instead of $S(x)(y)=1$.
+For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\mathcal{X}$ of voters and candidates, respectively. Given $X\subseteq\mathcal{X}$, let $\mathcal{B}(X)$ be the set of all binary relations on $X$. Instead of thinking of a binary relation as a set of ordered pairs, here it is more convenient to think of a binary relation on $X$ as a function $S: X\times X \to \{0,1\}$. In fact, to better match our Lean formalization, we ``curry'' all functions with multiple arguments, transforming them into functions with single arguments that output functions. Thus, we regard a binary relation on $X$ as a function  $S:X\to \{0,1\}^X$, where $\{0,1\}^X$ is the set of functions from $X$ to $\{0,1\}$. For any $x\in X$, $S(x): X\to \{0,1\}$, and $S(x)(y)=1$ means that the binary relation $S$ holds of $(x,y)$. In what follows, we write `$xSy$' instead of $S(x)(y)=1$.
 
 %\begin{definition} \textnormal{A \emph{profile} is a function $\mathbf{Q}:V\to \mathcal{B}(X)$ for some finite $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$. Let $\mathsf{Prof}$ be the set of all profiles.}
 %\end{definition}
@@ -282,7 +284,7 @@ To prove \texttt{n} $<$ \texttt{m}, the key move on line \texttt{4} is to prove 
 
 \subsection{Functions on profiles}
 
-Next we define two kinds of functions that take profiles as inputs. The first, called a \textit{social choice correspondence} (SCC), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the SCC is defined. Thus, one may define an SCC as a function on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our formalization purposes, it is more convenient to use the following equivalent approach.
+Next we define two kinds of functions that take profiles as inputs. The first, called a \textit{social choice correspondence} (SCC), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the SCC is defined. Thus, one may define an SCC as a function $F$ on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our formalization purposes, it is more convenient to use the following equivalent approach.
 
 %\begin{definition} \textnormal{A \emph{voting method} is a function $F$ on $\mathsf{Prof}$ such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$. We abuse terminology and call the set $\{\mathbf{Q}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the voting method.}
 %\end{definition}
@@ -424,15 +426,63 @@ As is well known, any acyclic VCCR (i.e., VCCR that assigns an acyclic CCR to ea
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{acyclic} $\{$X : \textcolor{blue}{Type}$\}$ : (X $\to$ X $\to$ \textcolor{blue}{Prop}) $\to$ \textcolor{blue}{Prop} :=}\\
 \texttt{\textcolor{blue}{$\lambda$} Q, $\forall$ (c : list X), $\neg$ cycle Q c}
 \item[]
-\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{universal\_domain\_of\_max\_el\_VSCC} (f : VCCR)}\\
+\item[] \texttt{\textcolor{blue}{theorem} \textcolor{orange}{max\_el\_VSCC\_universal\_domain} (f : VCCR)}\\
 \texttt{(a : $\forall$ V X [inhabited V] [inhabited X] [fintype V] [fintype X]} \\
 \texttt{(P : Prof V X), acyclic (F V X P)) :}\\
 \texttt{finite\_universal\_domain\_VSCC (max\_el\_VSCC f) := \dots}
 \end{itemize}
 The proof can be found in our online repository.
 
+\subsection{Voting axioms}\label{VotingAxioms}
 
+After formalizing the basic objects of voting theory, we  formalized a number of standard axioms by which voting procedures are evaluated:
+\begin{itemize}
+\item[] \textbf{Domain axioms}:
+\begin{itemize}
+\item \textit{universal domain} (resp.~finite universal domain): all profiles (resp.~finite profiles) are in the domain of the SCC.\\
+\end{itemize}
+\item[] \textbf{Intra-profile axioms}:
+\begin{itemize}
+\item \textit{Condorcet criterion}: if there is a Condorcet winner in a profile, that candidate is the unique winner.
+%\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_criterion} [fintype V] (F : VSCC) \\ (P : Prof V X) : Prop := $\forall$ x, condorcet\_winner P x $\to$ F V X P = $\{$x$\}$}
+\item \textit{Condorcet loser criterion}: if there is a Condorcet loser in a profile---a candidate who loses to every other candidate in a head-to-head majority comparison---that candidate does not win.
+\item \textit{Pareto}: if all voters rank candidate $x$ above candidate $y$ in a profile, then $y$ does not win.\\
+\end{itemize}
+\item[] \textbf{Inter-profile axioms}:
+\begin{itemize}
+\item \textit{monotonicity}: if $x$ wins in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by voters moving $x$ up in their rankings, then $x$ still wins in $\mathbf{P}'$.
+\item \textit{reversal symmetry}: if $x$ is the unique winner in a profile $\mathbf{P}$, then $x$ is not a winner in the profile $\mathbf{P}^r$ obtained from $\mathbf{P}$ by reversing all voters' rankings.\\
+\end{itemize}
+\item[] \textbf{Variable-candidate inter-profile axioms}:
+\begin{itemize}
+\item \textit{independence of clones}: see Section \ref{ClonesSection}.
+\item \textit{strong stability for winners}: if $x$ wins in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new candidate $y$ who does not beat $x$ in a head-to-head majority comparison, then $x$ is still a winner in $\mathbf{P}'$. \\
+\end{itemize}
+\item[] \textbf{Variable-voter inter-profile axioms}:
+\begin{itemize}
+\item \textit{positive involvement}: if $x$ wins in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new voter who ranks $x$ as their unique first choice, then $x$ still wins in $\mathbf{P}'$.
+\item \textit{negative involvement}: if $x$ does not win in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new voter who ranks $x$ as their unique last choice, then $x$ still does not win in $\mathbf{P}'$.
+\end{itemize}
+\end{itemize}
 
+Several of these axioms involved formalizing auxiliary relations or operations on profiles. For example, monotonicity requires the ternary relation of one profile being related to another by a \textit{simple lift} of a candidate $x$, meaning that $x$ may go up in voters' rankings but the rest of their rankings remain the same:
+
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{simple\_lift} $\{$V X : \textcolor{blue}{Type}$\}$ : Prof V X $\to$ Prof V X $\to$ X $\to$ Prop := 
+    $\lambda$ P$'$ P x, ($\forall$ (a $\neq$ x) (b $\neq$ x) i, P i a b $\leftrightarrow$ P$'$ i a b) 
+    $\wedge$  \\$\forall$ a i, ((P i x a $\to$ P$'$ i x a) $\wedge$ (P$'$ i a x $\to$ P i a x))}
+ \end{itemize}
+The variable-candidate and variable-voter axioms involve moving from one profile to another with a different set of candidates or voters. In fact, it is most convenient to formalize these axioms using the operations of \textit{removing} a candidate or voter from a profile, moving from a profile of type \texttt{Prof V X} to a profile of type  \texttt{Prof V $\{$x : X // x $\neq$ b$\}$}, in the case of removing a candidate \texttt{b}, or of type  \texttt{ Prof $\{$v : V // v $\neq$ i$\}$ X}, in the case of removing a voter \texttt{i}. See Section~\ref{ClonesSection} for the definition of the \textcolor{orange}{\texttt{minus\_candidate}} operation.
+
+\begin{comment}
+as in the following definition for removing a voter \texttt{i} from a profile of type \texttt{Prof V X} to obtain a profile of type  \texttt{ Prof $\{$v : V // v $\neq$ i$\}$ X} (cf.~Section \ref{ClonesSection} for the analogue for candidates):
+
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{minus\_voter} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X) (i : V) : \\ Prof $\{$v : V // v $\neq$ i$\}$ X := $\lambda$ v x y, P v.val x y}
+\end{itemize}
+\end{comment}
+
+We stress that the axiom definitions we formalized are the standard ones used throughout the literature, not ones tailored to any particular voting method, so others can immediately use our formalizations to verify results for any SCCs.
 
 
 \begin{comment}
@@ -449,21 +499,54 @@ The proof can be found in our online repository.
 
 \section{Theorems}\label{Theorems}
 
-As a proof of concept of formalizing theorems in the framework above, we verified most of the results concerning the Split Cycle voting method in \cite{HP2020b}. In particular, we verified the equivalence of two definitions of Split Cycle (one quantifying over all cycles containing $x$ and $y$, the other quantifying over only paths from $y$ to $x$) and that Split Cycle satisfies the following axioms: (finite) universal domain, Condorcet winner, Condorcet loser, Pareto, monotonicity, independence of clones, (strong) stability for winners, reversal symmetry, and positive and negative involvement. Thus, we formalized a mix of intra-profile axioms (Condorcet winner and loser, Pareto), inter-profile axioms (monotonicity, reversal symmetry), variable-candidate inter-profile axioms (independence of clones, stability for winners), and variable-voter inter-profile axioms (the involvement axioms). 
 
+%Thus, we formalized a mix of intra-profile axioms (Condorcet winner and loser, Pareto), inter-profile axioms (monotonicity, reversal symmetry), variable-candidate inter-profile axioms (independence of clones, stability for winners), and variable-voter inter-profile axioms (the involvement axioms).
+
+As a proof of concept of verifying theorems using our formal framework, we verified most of the results concerning the Split Cycle voting method in \cite{HP2020b}. In particular, we verified the equivalence of two definitions of Split Cycle (one quantifying over all cycles containing $x$ and $y$, the other quantifying over only paths from $y$ to $x$) and that Split Cycle satisfies all of the axioms listed in Section~\ref{VotingAxioms}. However, we emphasize that Split Cycle was only chosen as a test case. Our formalization of the basic objects and axioms of voting theory can be used to verify properties of any other voting method. 
+
+Moreover, verifying the properties of Split Cycle required formalizing a number of general-purpose lemmas that will be needed---and can now be used---to verify the properties of other voting methods. Indeed, one of the benefits of a formalization project such as ours is to extract those general-purpose lemmas, which may be buried in proofs for a particular voting method, so that future formalization efforts can move more quickly to formalizing sophisticated results.
 
 % a variable-candidate axiom, independence of clones, and a variable-voter axiom, positive involvement.
 
-Before formalizing voting-theoretic proofs, we had to build up basic infrastructure for reasoning about cycles, walks, and paths in graphs, such as rotating and reversing cycles and converting walks to paths, which was not available in Mathlib. For example, to convert walks to paths, we defined an inductive type\footnote{Lean forces us to flag the definition with `\texttt{noncomputable}' because the Lean kernel is unable to generate bytecode for \texttt{to\_path}.}:
+\subsection{Graph-theoretic background}
+
+Before formalizing voting-theoretic proofs, we had to build up basic infrastructure for reasoning about cycles, walks, and paths in graphs, such as rotating and reversing cycles and converting walks to paths, which was not available in Mathlib. For example, to convert walks to paths, we defined an inductive type\footnote{We can eliminate `\texttt{noncomputable}' if we assume that equality for \texttt{X} is decidable, adding `\texttt{[decidable\_eq X]}' as an implicit argument. }:
 \begin{itemize}
 \item[] \texttt{\textcolor{magenta}{noncomputable} \textcolor{blue}{def} \textcolor{orange}{to\_path} $\{$X : \textcolor{blue}{Type}$\}$ : list X $\to$ list X}
-\item[] \texttt{| list.nil := list.nil}
-\item[] \texttt{| (list.cons u p) := \textcolor{blue}{let} p$'$ := to\_path p \textcolor{blue}{in}}
-\item[]    \quad\texttt{\textcolor{magenta}{if} u $\in$ p$'$ \textcolor{magenta}{then} (p$'$.drop (p$'$.index\_of u)) \textcolor{magenta}{else} (list.cons u p$'$)}
+\item[] \texttt{| [] := []}
+\item[] \texttt{| (u :: p) := \textcolor{blue}{let} p$'$ := to\_path p \textcolor{blue}{in}}
+\item[]    \quad\texttt{\textcolor{magenta}{if} u $\in$ p$'$ \textcolor{magenta}{then} (p$'$.drop (p$'$.index\_of u)) \textcolor{magenta}{else} (u :: p$'$)}
  \end{itemize}
-Hence \texttt{to\_path} maps the empty list to the empty list, and given a list constructed by adding \texttt{u} to the front of the list \texttt{p},  if \texttt{u} is an element of \texttt{to\_path~p}, we output the result of dropping from \texttt{to\_path p} all elements before \texttt{u} in the list, and otherwise we add \texttt{u} to the front of \texttt{to\_path p}. A significant part of the formalization effort was proving needed properties of  \texttt{to\_path} and other operations on lists.
+Hence \texttt{to\_path} maps the empty list to itself, and given a list \texttt{u :: p} constructed by adding \texttt{u} to the front of the list \texttt{p},  if \texttt{u} is an element of \texttt{to\_path~p}, we output the result of dropping from \texttt{to\_path p} all elements before \texttt{u} in the list, and otherwise we add \texttt{u} to the front of \texttt{to\_path p}. A significant part of the formalization effort was proving needed properties of  \texttt{to\_path} and other operations on lists.
 
-The most involved formalization was of the proof from \cite{HP2020b} that Split Cycle satisfies Tideman's \cite{Tideman1987} axiom of independence of clones. A set $C$ of two or more candidates is a set of \textit{clones} in a profile $\mathbf{P}$ if no voter ranks any candidates outside of $C$ in between two candidates from $C$. Given a particular candidate $c$, we say that a nonempty set $D$ of candidates (not containing $c$) is a set of \textit{clones of $c$} if $D\cup \{c\}$ is a set of clones. In Lean, we formalize this as follows:
+\subsection{Reasoning about margins}
+
+In addition to developing graph-theoretic infrastructure, we formalized a number of general-purpose lemmas for reasoning about majority margins between candidates and the relation between changes in profiles and changes in margins. These lemmas are applicable to all voting methods for which the selection of winners is invariant between profiles with the same majority margins matrices---so-called C2 voting methods \cite{Fishburn1977} (e.g., Minimax, Ranked Pairs, Beat Path, Split Cycle, and even Borda). To take one example, when reasoning about monotonicity (recall Section \ref{VotingAxioms}) for C2 methods, a key fact is that a simple lift of a candidate $x$ cannot  increase the margin of any candidate over~$x$:
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_lt\_margin\_of\_lift}  $\{$V X : \textcolor{blue}{Type}$\}$ (P P$'$ : Prof V X)} \\  \texttt{[fintype V] [profile\_asymmetric P$'$] (y x : X) :} \\
+\texttt{simple\_lift P$'$ P x $\to$ margin P$'$ y x $\leq$ margin P y x := $\dots$}
+\end{itemize}
+Other general-purpose lemmas about margins that we formalized concern how margins change when adding a voter who ranks $x$ first---for verifying the axiom of positive involvement---or last---for verifying the axiom of negative involvement---or how clones of a candidate all bear the same margins to a given non-clone---for verifying the axiom of independence of clones. These are basic lemmas that anyone wishing to verify the relevant properties of C2 voting methods will need. 
+
+For some of the most elementary facts, Lean's automation was adequate to complete proofs without our help. For example, the fact that reversing all voters rankings reverses all margins---used in verifying the axiom of reversal symmetry---was provable using Lean's \texttt{obviously} tactic:
+
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{reverse\_profile} $\{$V X : \textcolor{blue}{Type}$\}$ : Prof V X $\to$ Prof V X := \\ $\lambda$ P v x y, P v y x} \\
+\item[]  \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_reverse\_eq}  $\{$V X : \textcolor{blue}{Type}$\}$ [fintype V] (P : Prof V X)  \\}
+\texttt{(a b : X) : margin (reverse\_profile P) b a = margin P a b :=}
+
+\texttt{\textcolor{blue}{begin}}
+
+  \quad \texttt{obviously,}
+  
+\texttt{\textcolor{blue}{end}}
+\end{itemize}
+Similarly, Lean's \texttt{obviously} tactic immediately proves that removing a candidate does not change the margins between remaining candidates. By contrast, proof of lemmas like \texttt{\textcolor{orange}{margin\_lt\_margin\_of\_lift}} required more human input.
+
+
+\subsection{Example: independence of clones}\label{ClonesSection}
+
+Our most involved formalization was of the proof from \cite{HP2020b} that Split Cycle satisfies Tideman's \cite{Tideman1987} axiom of independence of clones. A set $C$ of two or more candidates is a set of \textit{clones} in a profile $\mathbf{P}$ if no voter ranks any candidates outside of $C$ in between two candidates from $C$. Given a particular candidate $c$, we say that a nonempty set $D$ of candidates (not containing $c$) is a set of \textit{clones of $c$} if $D\cup \{c\}$ is a set of clones. In Lean, we formalize this as follows:
 
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{clones} $\{$V X : \textcolor{blue}{Type}$\}$ (P : Prof V X) (c : X)}
@@ -503,7 +586,12 @@ The formalization of part (ii) of independence of clones is similar. The proof t
 
 \section{Conclusion}\label{Conclusion}
 
-As usual in formalization, we caught some omitted assumptions (e.g., of nonemptiness) in definitions needed to prove results about the Split Cycle voting method in a draft of \cite{HP2020b}, prompting corrections. A more striking lesson of formalizing these results is how little depends on assumptions about properties of voter preferences. While it was initially assumed in \cite{HP2020b} that voter preference relations are linear orders, the full strength of this assumption turned out not to be used in any proofs we formalized. In fact, most results work with no assumptions about voter preferences at all (except the default asymmetry of strict preference). The only exception was the Pareto principle, whose proof used the acyclicity of voter preferences. It would be fascinating to see exactly what properties of voter preferences are needed in formalized proofs of properties of other voting methods.
+As usual in formalization, we caught some omitted assumptions (e.g., of nonemptiness) in definitions needed to prove results about the Split Cycle voting method in a draft of \cite{HP2020b}, prompting corrections. A more striking lesson of formalizing these results is how little depends on assumptions about properties of voter preferences. While it was initially assumed in \cite{HP2020b} that voter preference relations are linear orders,\footnote{This assumption was made for its simplifying consequence of rendering the majority margin between two candidates the canonical measure of the strength of majority preference between candidates. Cf.~the following paragraph in the main text.} the full strength of this assumption turned out not to be used in any proofs we formalized. In fact, most results work with no assumptions about voter preferences at all (except the default asymmetry of strict preference). The only exception was the Pareto principle, whose proof used the acyclicity of voter preferences. It would be fascinating to see exactly what properties of voter preferences are needed in formalized proofs of properties of other voting methods.
+
+It would also be desirable to abstract away from the definition of margin in Definition \ref{MarginDef} to define voting methods and prove theorems in terms of an abstract quaternary relation $(a,b)\succ_\mathbf{P} (c,d)$ expressing that the strength of majority preference for $a$ over $b$ in profile $\mathbf{P}$ is stronger than the strength of majority preference for $c$ over $d$ in $\mathbf{P}$. One definition of $(a,b)\succ_\mathbf{P} (c,d)$ is that $Margin_\mathbf{P}(a,b)>Margin_\mathbf{P}(c,d)$. But if voter preference relations are non-linear, there are alternative, inequivalent definitions of $(a,b)\succ_\mathbf{P} (c,d)$, such as the \textit{winning votes} definition: $|\{i\in V\mid a\mathbf{P}_ib\}| \geq |\{i\in V\mid c\mathbf{P}_id\}|$. Schulze \cite{Schulze2011} considers other definitions besides margins and winning votes, and rather than settling for any one of them, lays down general axioms on the relation of relative strength of majority preference needed for proofs to go through. This is a natural next step in our project, which formalization facilitates: identify which of the properties of the $\succ_\mathbf{P}$ relation are actually used in our formalized proofs and then assume only those properties, rather than the definition of $\succ_\mathbf{P}$ by margins.%\footnote{Another benefit of thinking in terms of the relation $\succ_\mathbf{P}$ is that we can more easily handle social choice with infinite electorates. As subtraction is not defined for infinite cardinals, we cannot calculate margins by $|\{i\in V(\mathbf{P})\mid x\mathbf{P}_iy\}|-|\{i\in V(\mathbf{P})\mid y\mathbf{P}_ix\}|$ if the electorate is infinite.}
+
+Another natural next step would be to extend the verification of voting axioms beyond voting methods, such as Split Cycle, that are based on head-to-head majority comparisons to voting methods, such as Instant Runoff, that are based on iterative elimination procedures. Instant Runoff can be defined \textit{recursively}: the Instant Runoff winners in a profile $\mathbf{P}$ are the Instant Runoff winners in the profile $\mathbf{P}_{-Y}$ obtained from $\mathbf{P}$ by removing the set $Y$ of candidates who receive the fewest first-place votes in $\mathbf{P}$, if $Y\subsetneq X(\mathbf{P})$; otherwise all candidates win.\footnote{While this definition of Instant Runoff, based on \cite[p.~7]{Taylor2008}, eliminates all candidates who receive the fewest first-place votes at a given stage, an alternative ``parallel universe'' definition states that $x$ is an Instant Runoff winner in a profile $\mathbf{P}$ if either $x$ is the only candidate in $\mathbf{P}$ or there is some candidate $y$ who receives the fewest first-place votes in $\mathbf{P}$, and $x$ is an Instant Runoff winner in $\mathbf{P}_{-y}$.} As Lean offer natural ways of defining functions recursively and writing proofs by induction \cite[\S~8]{Avigad2021}, we expect Lean to be well suited to verifying properties of recursively definable voting methods such as Instant Runoff.
+
 
 With its axiomatic approach and discrete mathematical character, voting theory is especially amenable to formal verification. Moreover, given the importance of democratic decision making in society, we find it desirable to formally verify that democratic decision procedures have the desirable properties claimed for them. We have done so for one recently proposed voting method, but we would like to see this done for all methods proposed for use in democratic elections.
 
@@ -511,9 +599,7 @@ With its axiomatic approach and discrete mathematical character, voting theory i
 
 \subsection*{Acknowledgement}
 
-We thank the Lean Zulip chat community, the Berkeley Lean Seminar, and Jeremy Avigad for advice about using Lean.
-
-
+We thank the Lean Zulip chat community, the Berkeley Lean Seminar, and Jeremy Avigad for advice about using Lean and the two anonymous referees for helpful feedback on our paper.
 
 %
 % ---- Bibliography ----

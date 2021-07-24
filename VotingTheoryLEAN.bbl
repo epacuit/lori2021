@@ -12,6 +12,11 @@ Arrow, K.J.: Origins of the impossibility theorem. In: Maskin, E., Sen, A.
   (eds.) The {Arrow} Impossibility Theorem, pp. 143--148. Columbia University
   Press, New York (2014)
 
+\bibitem{Avigad2021}
+Avigad, J., de~Moura, L., Kong, S.: Theorem Proving in Lean. Release 3.23.0
+  edn. (2021),
+  \url{https://leanprover.github.io/theorem_proving_in_lean/theorem_proving_in_lean.pdf}
+
 \bibitem{Baigent1987}
 Baigent, N.: Twitching weak dictators. Journal of Economics  \textbf{47}(4),
   407--411 (1987)
@@ -70,6 +75,10 @@ Endriss, U.: Logic and social choice theory. In: Gupta, A., {van Benthem}, J.
   (eds.) Logic and Philosophy Today, pp. 333--377. College Publications, London
   (2011)
 
+\bibitem{Fishburn1977}
+Fishburn, P.C.: Condorcet social choice functions. SIAM Journal on Applied
+  Mathematics  \textbf{33}(3),  469--489 (1977). \doi{10.1137/0133030}
+
 \bibitem{Geanakoplos2005}
 Geanakoplos, J.: Three brief proofs of {Arrow}'s theorem. Economic Theory
   \textbf{26}(1),  211--215 (2005)
@@ -122,6 +131,11 @@ Rubinstein, A.: The single profile analogues to multi profile theorems:
   {M}athematical logic's approach. International Economic Review
   \textbf{25}(3),  719--730 (1984)
 
+\bibitem{Schulze2011}
+Schulze, M.: A new monotonic, clone-independent, reversal symmetric, and
+  condorcet-consistent single-winner election method. Social Choice and Welfare
+   \textbf{36},  267--303 (2011). \doi{10.1007/s00355-010-0475-4}
+
 \bibitem{Sen2017}
 Sen, A.: Collective Choice and Social Welfare: An Expanded Edition. Harvard
   University Press, Cambridge, Mass. (2017)
@@ -130,6 +144,11 @@ Sen, A.: Collective Choice and Social Welfare: An Expanded Edition. Harvard
 Tang, P., Lin, F.: Discovering theorems in game theory: Two-person games with
   unique pure nash equilibrium payoffs. Artificial Intelligence  \textbf{175},
   2010--2020 (2011)
+
+\bibitem{Taylor2008}
+Taylor, A.D., Pacelli, A.M.: Mathematics and Politics: Strategy, Voting, Power,
+  and Proof. Springer, New York, 2nd edn. (2008).
+  \doi{10.1007/978-0-387-77645-3}
 
 \bibitem{Tideman1987}
 Tideman, T.N.: Independence of clones as a criterion for voting rules. Social

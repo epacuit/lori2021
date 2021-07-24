@@ -7,45 +7,46 @@ Repeated entry---line 523 of file VotingTheoryLean.bib
  :  @article{Campbell2000
  :                       ,
 I'm skipping whatever remains of this entry
-You've used 30 entries,
+Warning--missing publisher in Avigad2021
+You've used 34 entries,
             2850 wiz_defined-function locations,
-            815 strings with 9176 characters,
-and the built_in function-call counts, 16113 in all, are:
-= -- 1323
-> -- 353
-< -- 38
-+ -- 149
-- -- 113
-* -- 973
-:= -- 1991
-add.period$ -- 36
-call.type$ -- 30
-change.case$ -- 155
+            846 strings with 9842 characters,
+and the built_in function-call counts, 18083 in all, are:
+= -- 1483
+> -- 396
+< -- 42
++ -- 168
+- -- 127
+* -- 1099
+:= -- 2240
+add.period$ -- 43
+call.type$ -- 34
+change.case$ -- 174
 chr.to.int$ -- 0
-cite$ -- 30
-duplicate$ -- 1515
-empty$ -- 1558
-format.name$ -- 130
-if$ -- 3635
+cite$ -- 35
+duplicate$ -- 1698
+empty$ -- 1751
+format.name$ -- 146
+if$ -- 4075
 int.to.chr$ -- 0
-int.to.str$ -- 30
-missing$ -- 287
-newline$ -- 96
-num.names$ -- 70
-pop$ -- 480
+int.to.str$ -- 34
+missing$ -- 325
+newline$ -- 108
+num.names$ -- 78
+pop$ -- 540
 preamble$ -- 1
-purify$ -- 111
+purify$ -- 126
 quote$ -- 0
-skip$ -- 510
+skip$ -- 568
 stack$ -- 0
-substring$ -- 1004
-swap$ -- 872
-text.length$ -- 38
+substring$ -- 1113
+swap$ -- 973
+text.length$ -- 42
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 112
-warning$ -- 0
-while$ -- 137
-width$ -- 32
-write$ -- 304
+type$ -- 124
+warning$ -- 1
+while$ -- 153
+width$ -- 36
+write$ -- 350
 (There was 1 error message)
