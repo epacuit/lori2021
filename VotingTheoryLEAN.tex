@@ -525,7 +525,7 @@ Hence \texttt{to\_path} maps the empty list to itself, and given a list \texttt{
 
 In addition to developing graph-theoretic infrastructure, we formalized a number of general-purpose lemmas for reasoning about majority margins between candidates and the relation between changes in profiles and changes in margins. These lemmas are applicable to all voting methods for which the selection of winners is invariant between profiles with the same majority margins matrices---so-called C2 voting methods \cite{Fishburn1977} (e.g., Minimax, Ranked Pairs, Beat Path, Split Cycle, and even Borda). To take one example, when reasoning about monotonicity (recall Section \ref{VotingAxioms}) for C2 methods, a key fact is that a simple lift of a candidate $x$ cannot  increase the margin of any candidate over~$x$:
 \begin{itemize}
-\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_lt\_margin\_of\_lift}  $\{$V X : \textcolor{blue}{Type}$\}$ (P P$'$ : Prof V X)} \\  \texttt{[fintype V] [profile\_asymmetric P$'$] (y x : X) :} \\
+\item[] \texttt{\textcolor{blue}{lemma} \textcolor{orange}{margin\_lt\_margin\_of\_lift}  $\{$V X : \textcolor{blue}{Type}$\}$ (P P$'$ : Prof V X)} \\  \texttt{[fintype V] (y x : X) :} \\
 \texttt{simple\_lift P$'$ P x $\to$ margin P$'$ y x $\leq$ margin P y x := $\dots$}
 \end{itemize}
 Other general-purpose lemmas about margins that we formalized concern how margins change when adding a voter who ranks $x$ first---for verifying the axiom of positive involvement---or last---for verifying the axiom of negative involvement---or how clones of a candidate all bear the same margins to a given non-clone---for verifying the axiom of independence of clones. These are basic lemmas that anyone wishing to verify the relevant properties of C2 voting methods will need. 
@@ -543,7 +543,7 @@ For some of the most elementary facts, Lean's automation was adequate to complet
   
 \texttt{\textcolor{blue}{end}}
 \end{itemize}
-Similarly, Lean's \texttt{obviously} tactic immediately proves that removing a candidate does not change the margins between remaining candidates. By contrast, proof of lemmas like \texttt{\textcolor{orange}{margin\_lt\_margin\_of\_lift}} required more human input.
+Similarly, Lean's \texttt{obviously} tactic immediately proves that removing a candidate does not change the margins between remaining candidates. By contrast, proofs of lemmas like \texttt{\textcolor{orange}{margin\_lt\_margin\_of\_lift}} required more human input.
 
 
 \subsection{Example: independence of clones}\label{ClonesSection}
