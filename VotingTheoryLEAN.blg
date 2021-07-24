@@ -3,50 +3,50 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: VotingTheoryLEAN.aux
 The style file: splncs04.bst
 Database file #1: VotingTheoryLean.bib
-Repeated entry---line 523 of file VotingTheoryLean.bib
+Repeated entry---line 531 of file VotingTheoryLean.bib
  :  @article{Campbell2000
  :                       ,
 I'm skipping whatever remains of this entry
 Warning--missing publisher in Avigad2021
-You've used 38 entries,
+You've used 39 entries,
             2850 wiz_defined-function locations,
-            871 strings with 10507 characters,
-and the built_in function-call counts, 20557 in all, are:
-= -- 1683
-> -- 462
-< -- 49
-+ -- 194
-- -- 149
-* -- 1257
-:= -- 2541
-add.period$ -- 48
-call.type$ -- 38
-change.case$ -- 197
+            876 strings with 10633 characters,
+and the built_in function-call counts, 21244 in all, are:
+= -- 1738
+> -- 474
+< -- 51
++ -- 200
+- -- 153
+* -- 1296
+:= -- 2614
+add.period$ -- 47
+call.type$ -- 39
+change.case$ -- 202
 chr.to.int$ -- 0
-cite$ -- 39
-duplicate$ -- 1927
-empty$ -- 1978
-format.name$ -- 172
-if$ -- 4632
+cite$ -- 40
+duplicate$ -- 1999
+empty$ -- 2049
+format.name$ -- 177
+if$ -- 4791
 int.to.chr$ -- 0
-int.to.str$ -- 38
-missing$ -- 369
-newline$ -- 120
-num.names$ -- 88
-pop$ -- 611
+int.to.str$ -- 39
+missing$ -- 382
+newline$ -- 123
+num.names$ -- 90
+pop$ -- 638
 preamble$ -- 1
-purify$ -- 143
+purify$ -- 147
 quote$ -- 0
-skip$ -- 646
+skip$ -- 669
 stack$ -- 0
-substring$ -- 1264
-swap$ -- 1116
-text.length$ -- 49
+substring$ -- 1320
+swap$ -- 1152
+text.length$ -- 51
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 140
+type$ -- 144
 warning$ -- 1
-while$ -- 174
-width$ -- 40
-write$ -- 391
+while$ -- 179
+width$ -- 41
+write$ -- 397
 (There was 1 error message)

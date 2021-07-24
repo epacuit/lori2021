@@ -82,7 +82,7 @@ Endriss, U.: Logic and social choice theory. In: Gupta, A., {van Benthem}, J.
 
 \bibitem{Fishburn1977}
 Fishburn, P.C.: Condorcet social choice functions. SIAM Journal on Applied
-  Mathematics  \textbf{33}(3),  469--489 (1977). \doi{10.1137/0133030}
+  Mathematics  \textbf{33}(3),  469--489 (1977)
 
 \bibitem{Geanakoplos2005}
 Geanakoplos, J.: Three brief proofs of {Arrow}'s theorem. Economic Theory
@@ -98,18 +98,24 @@ Grandi, U., Endriss, U.: First-order logic formalisation of impossibility
   theorems in preference aggregation. Journal of Philosophical Logic
   \textbf{42}(4),  595--618 (2013)
 
+\bibitem{HK2020}
+Holliday, W.H., Kelley, M.: A note on {M}urakami's theorems and incomplete
+  social choice without the {P}areto principle. Social Choice and Welfare
+  \textbf{55},  243--253 (2020)
+
 \bibitem{HollidayPacuit2020}
 Holliday, W.H., Pacuit, E.: {A}rrow's decisive coalitions. Social Choice and
   Welfare  \textbf{54},  463--505 (2020)
-
-\bibitem{HP2020}
-Holliday, W.H., Pacuit, E.: Axioms for defeat in democratic elections (2020),
-  \href{https://arxiv.org/abs/2008.08451}{arXiv:2008.08451}
 
 \bibitem{HP2020b}
 Holliday, W.H., Pacuit, E.: Split {C}ycle: {A} new {C}ondorcet consistent
   voting method independent of clones and immune to spoilers (2020),
   \href{https://arxiv.org/abs/2004.02350}{arXiv:2004.02350}
+
+\bibitem{HP2020}
+Holliday, W.H., Pacuit, E.: Axioms for defeat in democratic elections. Journal
+  of Theoretical Politics  (Forthcoming),
+  \href{https://arxiv.org/abs/2008.08451}{arXiv:2008.08451}
 
 \bibitem{MartinLof1984}
 {Margin-L\"{o}f}, P.: Intuitionistic type theory. Bibliopolis, Napoli (1984)
@@ -148,7 +154,7 @@ Rubinstein, A.: The single profile analogues to multi profile theorems:
 \bibitem{Schulze2011}
 Schulze, M.: A new monotonic, clone-independent, reversal symmetric, and
   condorcet-consistent single-winner election method. Social Choice and Welfare
-   \textbf{36},  267--303 (2011). \doi{10.1007/s00355-010-0475-4}
+   \textbf{36},  267--303 (2011)
 
 \bibitem{Sen2017}
 Sen, A.: Collective Choice and Social Welfare: An Expanded Edition. Harvard
@@ -161,8 +167,7 @@ Tang, P., Lin, F.: Discovering theorems in game theory: Two-person games with
 
 \bibitem{Taylor2008}
 Taylor, A.D., Pacelli, A.M.: Mathematics and Politics: Strategy, Voting, Power,
-  and Proof. Springer, New York, 2nd edn. (2008).
-  \doi{10.1007/978-0-387-77645-3}
+  and Proof. Springer, New York, 2nd edn. (2008)
 
 \bibitem{Tideman1987}
 Tideman, T.N.: Independence of clones as a criterion for voting rules. Social
