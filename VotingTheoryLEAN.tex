@@ -96,7 +96,7 @@ Our aim was to use Lean to verify results about axioms for voting methods (e.g.,
  
 \section{Framework}\label{Framework}
 
-In this section, we define the basic objects of voting theory: profiles, social choice correspondences, etc. We first give standard set-theoretic definitions and then their type-theoretic counterparts in Lean syntax.
+In this section, we define the basic objects of voting theory: profiles, social choice correspondences, etc. We first give standard set-theoretic definitions and then their type-theoretic counterparts in Lean syntax. After defining these objects, we discuss our formalization of standard axioms used to evaluate voting procedures.
 
 \subsection{Profiles}
 
@@ -313,7 +313,7 @@ We formalize universal domain as follows:
 
 % Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that \textit{$x$ is a Condorcet winner in $\mathbf{P}$} if $V$ is finite and for each $y\in X(\mathbf{P})\setminus \{x\}$, $Margin_\mathbf{P}(x,y)>0$.  
 
-\begin{example}\label{CondorcetEx1} For $(V,X)$, consider the Condorcet SCC for $(V,X)$ defined as follows:
+\begin{example}\label{CondorcetEx1} For any $V$ and $X$, consider the Condorcet SCC for $(V,X)$ defined by:
 \[\mathrm{Cond}_{(V,X)}(\mathbf{P})=\begin{cases} \{x\} & \mbox{if $x$ is a Condorcet winner in $\mathbf{P}$} \\ X(\mathbf{P}) & \mbox{otherwise}\end{cases}.\]
 The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a Condorcet winner---in which case it is unique---then output the set containing the Condorcet winner, and otherwise output all candidates in \texttt{X}.
 
@@ -439,7 +439,7 @@ After formalizing the basic objects of voting theory, we  formalized a number of
 \begin{itemize}
 \item[] \textbf{Domain axioms}:
 \begin{itemize}
-\item \textit{universal domain} (resp.~finite universal domain): all profiles (resp.~finite profiles) are in the domain of the SCC.\\
+\item \textit{universal domain} (resp.~\textit{finite universal domain}): all profiles (resp.~finite profiles) are in the domain of the VSCC.\\
 \end{itemize}
 \item[] \textbf{Intra-profile axioms}:
 \begin{itemize}
@@ -465,7 +465,7 @@ After formalizing the basic objects of voting theory, we  formalized a number of
 \end{itemize}
 \end{itemize}
 
-Several of these axioms involved formalizing auxiliary relations or operations on profiles. For example, monotonicity requires the ternary relation of one profile being related to another by a \textit{simple lift} of a candidate $x$, meaning that $x$ may go up in voters' rankings but the rest of their rankings remain the same:
+Several of these axioms involved formalizing auxiliary relations or operations on profiles. For example, monotonicity requires the ternary relation of one profile being related to another by a \textit{simple lift} of a candidate $x$, meaning that $x$ may go up in voters' rankings but the rest of their rankings remains the same:
 
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{simple\_lift} $\{$V X : \textcolor{blue}{Type}$\}$ : Prof V X $\to$ Prof V X $\to$ X $\to$ Prop := 
@@ -482,7 +482,7 @@ as in the following definition for removing a voter \texttt{i} from a profile of
 \end{itemize}
 \end{comment}
 
-We stress that the axiom definitions we formalized are the standard ones used throughout the literature, not ones tailored to any particular voting method, so others can immediately use our formalizations to verify results for any SCCs.
+We stress that the axiom definitions we formalized are the standard ones used throughout the literature, not ones tailored to any particular VSCC, so others can immediately use our formalizations to verify results for any VSCCs.
 
 
 \begin{comment}
@@ -586,9 +586,9 @@ The formalization of part (ii) of independence of clones is similar. The proof t
 
 \section{Conclusion}\label{Conclusion}
 
-As usual in formalization, we caught some omitted assumptions (e.g., of nonemptiness) in definitions needed to prove results about the Split Cycle voting method in a draft of \cite{HP2020b}, prompting corrections. A more striking lesson of formalizing these results is how little depends on assumptions about properties of voter preferences. While it was initially assumed in \cite{HP2020b} that voter preference relations are linear orders,\footnote{This assumption was made for its simplifying consequence of rendering the majority margin between two candidates the canonical measure of the strength of majority preference between candidates. Cf.~the following paragraph in the main text.} the full strength of this assumption turned out not to be used in any proofs we formalized. In fact, most results work with no assumptions about voter preferences at all (except the default asymmetry of strict preference). The only exception was the Pareto principle, whose proof used the acyclicity of voter preferences. It would be fascinating to see exactly what properties of voter preferences are needed in formalized proofs of properties of other voting methods.
+Our goal was to set up a general framework for formally verifying results in voting theory. As a proof of concept, we verified results about a particular voting method. What did we learn beyond certifying correctness? As usual in formalization, we caught some omitted assumptions (e.g., of nonemptiness) in definitions needed to prove results about the Split Cycle voting method in a draft of \cite{HP2020b}, prompting corrections. A more striking lesson of formalizing these results is how little depends on assumptions about properties of voter preferences. While it was initially assumed in \cite{HP2020b} that voter preference relations are linear orders,\footnote{This assumption was made for its simplifying consequence of rendering the majority margin between two candidates the canonical measure of the strength of majority preference between candidates. Cf.~the following paragraph in the main text.} the full strength of this assumption turned out not to be used in any proofs we formalized. In fact, most results work with no assumptions about voter preferences at all (except the default asymmetry of strict preference). The only exception was the Pareto principle, whose proof used the acyclicity of voter preferences. It would be fascinating to see exactly what properties of voter preferences are needed in formalized proofs of properties of other voting methods.
 
-It would also be desirable to abstract away from the definition of margin in Definition \ref{MarginDef} to define voting methods and prove theorems in terms of an abstract quaternary relation $(a,b)\succ_\mathbf{P} (c,d)$ expressing that the strength of majority preference for $a$ over $b$ in profile $\mathbf{P}$ is stronger than the strength of majority preference for $c$ over $d$ in $\mathbf{P}$. One definition of $(a,b)\succ_\mathbf{P} (c,d)$ is that $Margin_\mathbf{P}(a,b)>Margin_\mathbf{P}(c,d)$. But if voter preference relations are non-linear, there are alternative, inequivalent definitions of $(a,b)\succ_\mathbf{P} (c,d)$, such as the \textit{winning votes} definition: $|\{i\in V\mid a\mathbf{P}_ib\}| \geq |\{i\in V\mid c\mathbf{P}_id\}|$. Schulze \cite{Schulze2011} considers other definitions besides margins and winning votes, and rather than settling for any one of them, lays down general axioms on the relation of relative strength of majority preference needed for proofs to go through. This is a natural next step in our project, which formalization facilitates: identify which of the properties of the $\succ_\mathbf{P}$ relation are actually used in our formalized proofs and then assume only those properties, rather than the definition of $\succ_\mathbf{P}$ by margins.%\footnote{Another benefit of thinking in terms of the relation $\succ_\mathbf{P}$ is that we can more easily handle social choice with infinite electorates. As subtraction is not defined for infinite cardinals, we cannot calculate margins by $|\{i\in V(\mathbf{P})\mid x\mathbf{P}_iy\}|-|\{i\in V(\mathbf{P})\mid y\mathbf{P}_ix\}|$ if the electorate is infinite.}
+It would also be desirable to abstract away from the definition of margin in Definition \ref{MarginDef} to define voting methods and prove theorems in terms of an abstract relation $(a,b)\succ_\mathbf{P} (c,d)$ expressing that the strength of majority preference for $a$ over $b$ in profile $\mathbf{P}$ is stronger than the strength of majority preference for $c$ over $d$ in $\mathbf{P}$. One definition of $(a,b)\succ_\mathbf{P} (c,d)$ is that $Margin_\mathbf{P}(a,b)>Margin_\mathbf{P}(c,d)$. But if voter preference relations are non-linear, there are alternative, inequivalent definitions of $(a,b)\succ_\mathbf{P} (c,d)$, such as the \textit{winning votes} definition: $\big|\{i\in V(\mathbf{P})\mid a\mathbf{P}_ib\}\big| \geq \big|\{i\in V(\mathbf{P})\mid c\mathbf{P}_id\}\big|$. Schulze \cite{Schulze2011} considers other definitions besides margins and winning votes, and rather than settling for any one of them, lays down general axioms on the relation of relative strength of majority preference needed for proofs to go through. This is a natural next step in our project, which formalization facilitates: identify which of the properties of the $\succ_\mathbf{P}$ relation are actually used in our formalized proofs and then assume only those properties, rather than the definition of $\succ_\mathbf{P}$ by margins.%\footnote{Another benefit of thinking in terms of the relation $\succ_\mathbf{P}$ is that we can more easily handle social choice with infinite electorates. As subtraction is not defined for infinite cardinals, we cannot calculate margins by $|\{i\in V(\mathbf{P})\mid x\mathbf{P}_iy\}|-|\{i\in V(\mathbf{P})\mid y\mathbf{P}_ix\}|$ if the electorate is infinite.}
 
 Another natural next step would be to extend the verification of voting axioms beyond voting methods, such as Split Cycle, that are based on head-to-head majority comparisons to voting methods, such as Instant Runoff, that are based on iterative elimination procedures. Instant Runoff can be defined \textit{recursively}: the Instant Runoff winners in a profile $\mathbf{P}$ are the Instant Runoff winners in the profile $\mathbf{P}_{-Y}$ obtained from $\mathbf{P}$ by removing the set $Y$ of candidates who receive the fewest first-place votes in $\mathbf{P}$, if $Y\subsetneq X(\mathbf{P})$; otherwise all candidates win.\footnote{While this definition of Instant Runoff, based on \cite[p.~7]{Taylor2008}, eliminates all candidates who receive the fewest first-place votes at a given stage, an alternative ``parallel universe'' definition states that $x$ is an Instant Runoff winner in a profile $\mathbf{P}$ if either $x$ is the only candidate in $\mathbf{P}$ or there is some candidate $y$ who receives the fewest first-place votes in $\mathbf{P}$, and $x$ is an Instant Runoff winner in $\mathbf{P}_{-y}$.} As Lean offer natural ways of defining functions recursively and writing proofs by induction \cite[\S~8]{Avigad2021}, we expect Lean to be well suited to verifying properties of recursively definable voting methods such as Instant Runoff.
 
