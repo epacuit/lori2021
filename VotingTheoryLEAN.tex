@@ -118,7 +118,7 @@ For our set-theoretic definitions, we fix infinite sets $\mathcal{V}$ and $\math
 
 
 
-Depending on the application, one can interpret $x\mathbf{Q}_i y$ to mean either (i) that voter $i$ strictly prefers $x$ to $y$ or (ii) that voter $i$ strictly prefers $x$ to $y$ or is indifferent between $x$ and $y$. Under interpretation (i), we use `$\mathbf{P}$' for a profile; under interpretation (ii), we use `$\mathbf{R}$' for a profile.\footnote{\label{VoterNote}Approach (ii) is more general, since it allows one to distinguish between voter $i$ being \textit{indifferent} between $x$ and $y$, defined as $x\mathbf{R}_iy$ and $y\mathbf{R}_ix$, vs. $x$ and $y$ being \textit{noncomparable} for $i$, defined as \textit{neither} $x\mathbf{R}_iy$ \textit{nor} $y\mathbf{R}_ix$. When the distinction between voter indifference and noncomparability is not needed, approach (i) can be simpler.} A profile $\mathbf{Q}$ is said to be \emph{asymmetric} (\emph{transitive}, etc.) if for every $i\in V$, $\mathbf{Q}_i$ is asymmetric (transitive, etc.). Of course, asymmetric profiles only make sense under interpretation (i), whereas under interpretation (ii), profiles should be reflexive.
+Depending on the application, one can interpret $x\mathbf{Q}_i y$ to mean either (i) that voter $i$ strictly prefers $x$ to $y$ or (ii) that voter $i$ strictly prefers $x$ to $y$ or is indifferent between $x$ and $y$. We allow either interpretation for the sake of generality, as different voting theorist select different primitives. Under interpretation (i), we use `$\mathbf{P}$' for a profile; under interpretation (ii), we use `$\mathbf{R}$' for a profile.\footnote{\label{VoterNote}Approach (ii) is more general, since it allows one to distinguish between voter $i$ being \textit{indifferent} between $x$ and $y$, defined as $x\mathbf{R}_iy$ and $y\mathbf{R}_ix$, vs. $x$ and $y$ being \textit{noncomparable} for $i$, defined as \textit{neither} $x\mathbf{R}_iy$ \textit{nor} $y\mathbf{R}_ix$. When the distinction between voter indifference and noncomparability is not needed, approach (i) can be simpler.} A profile $\mathbf{Q}$ is said to be \emph{asymmetric} (\emph{transitive}, etc.) if for every $i\in V$, $\mathbf{Q}_i$ is asymmetric (transitive, etc.). Of course, asymmetric profiles only make sense under interpretation (i), whereas under interpretation (ii), profiles should be reflexive.
 
 To translate Definition \ref{ProfileDef} into Lean, we first think of $V$ and $X$ as types, rather than sets, and then represent the function \textsf{Prof} from Definition \ref{ProfileDef} as follows:\footnote{When writing type expressions, arrows associate to the right, so, e.g., the expression  `\texttt{V $\to$ X $\to$ X $\to$ Prop}' stands for \texttt{V $\to$ (X $\to$ (X $\to$ Prop))}.}
 %\begin{itemize}
@@ -147,7 +147,7 @@ cardinal.mk $\{$v : V // P v y x$\}$}
 Here `\texttt{$\{$V X : \textcolor{blue}{Type}$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments\footnote{See \href{https://leanprover.github.io/reference/expressions.html\#implicit-arguments}{Section 3.3} of the Lean documentation on implicit arguments.} to the function \texttt{majority\_preferred} of type \texttt{Type}. Then \texttt{majority\_preferred} takes in explicit arguments of a $(V,X)$-profile and two candidates  and returns the proposition stating that the cardinality of the set of voters who prefer \texttt{x} to \texttt{y} is greater than the cardinality of the set of voters who prefer \texttt{y} to \texttt{x}. Here the `\texttt{//}' notation indicates that we are identifying the subtype of voters with a certain property, and \texttt{cardinal.mk} gives us the cardinality of the subtype.
 
 
-We are often concerned not only with whether one candidate is majority preferred to another but also, if so, what is the margin of majority preference.
+Voting theorists are often concerned not only with whether one candidate is majority preferred to another but also, if so, by what margin.
 
 \begin{definition}\label{MarginDef} \textnormal{Given a profile $\mathbf{P}$ and $x,y\in X(\mathbf{P})$, the \textit{margin of $x$ over $y$ in $\mathbf{P}$}, denoted $Margin_\mathbf{P}(x,y)$, is $|\{i\in V(\mathbf{P})\mid x\mathbf{P}_iy\}|-|\{i\in V(\mathbf{P})\mid y\mathbf{P}_ix\}|$.}
 \end{definition}
@@ -286,7 +286,7 @@ To prove \texttt{n} $<$ \texttt{m}, the key move on line \texttt{4} is to prove 
 
 \subsection{Functions on profiles}
 
-Next we define two kinds of functions that take profiles as inputs. The first, called a \textit{social choice correspondence} (SCC), assign to a given profile a set of candidates, who are considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the SCC is defined. Thus, one may define an SCC as a function $F$ on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our formalization purposes, it is more convenient to use the following equivalent approach.
+Next we define two standard kinds of functions in voting theory that input profiles. The first, a \textit{social choice correspondence} (SCC), assigns to a profile a set of candidates, considered tied for winning the election. It is common to consider ``domain restrictions'' on the set of profiles for which the SCC is defined \cite{Gaertner2001}. Thus, one may define an SCC as a function $F$ on some set $\mathcal{D}$ of profiles such that for all $\mathbf{Q}\in\mathcal{D}$, we have ${\emptyset\neq F(\mathbf{Q})\subseteq X(\mathbf{Q})}$. However, for our formalization purposes, it is more convenient to use the following equivalent approach.
 
 %\begin{definition} \textnormal{A \emph{voting method} is a function $F$ on $\mathsf{Prof}$ such that for each $\mathbf{Q}\in\mathsf{Prof}$, we have $F(\mathbf{Q})\subseteq X(\mathbf{Q})$. We abuse terminology and call the set $\{\mathbf{Q}\mid F(\mathbf{Q})\neq\emptyset\}$ the \emph{domain} of the voting method.}
 %\end{definition}
@@ -356,6 +356,7 @@ We formalize (finite) universal domain as follows:
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_VSCC} : VSCC := \textcolor{blue}{$\lambda$} V X, condorcet\_SCC}
 \end{itemize}
 \end{example}
+Similarly, we may define VSCCs for Plurality voting, Borda, Instant Runoff, etc. 
 
 The second type of function we consider assigns to a given profile a binary relation on the set of candidates in the profile. %We call such functions \textit{variable-election collective choice rules}.\footnote{About CCRs...}  
 
@@ -386,7 +387,7 @@ Now we are ready to define the Split Cycle $(V,X)$-CCR in Lean:
     \texttt{$\neg$ ($\exists$ (c : list X), x $\in$ c $\wedge$ y $\in$ c $\wedge$}\\
     \texttt{cycle (\textcolor{blue}{$\lambda$} a b, @margin V X n P x y $\leq$ @margin V X n P a b) c)}
 \end{itemize}
-Recall that the \texttt{margin} function takes as implicit arguments the set \texttt{V} of voters, the set \texttt{X} of candidates, and a proof that \texttt{V} is finite. The \texttt{@} symbol is used when explicitly supplying these implicit arguments. Thus, the definition states that given a profile \texttt{P} and two candidates \texttt{x} and \texttt{y}, the binary relation outputted by \texttt{split\_cycle\_CCR} holds of \texttt{x}, \texttt{y} if for any proof \texttt{n} that \texttt{V} is finite, the margin of \texttt{x} over \texttt{y} in \texttt{P} (supplying the \texttt{margin} function with \texttt{V}, \texttt{X}, and \texttt{n}) is greater than 0 and there is no list \texttt{c} of elements containing \texttt{x} and \texttt{y} such that \texttt{c} is a majority cycle for which the margin of \texttt{x} over \texttt{y} is less than or equal to every margin in the cycle, i.e., \texttt{c} is a cycle in the binary relation \texttt{R} that holds of \texttt{a}, \texttt{b} just in case the margin of \texttt{x} over \texttt{y} is less than or equal to the margin of \texttt{a} over \texttt{b}.
+Recall that the \texttt{margin} function takes as implicit arguments the set \texttt{V} of voters, the set \texttt{X} of candidates, and a proof that \texttt{V} is finite. The \texttt{@} symbol is used when explicitly supplying these implicit arguments. Thus, the definition states that given a profile \texttt{P} and two candidates \texttt{x} and \texttt{y}, the binary relation output by \texttt{split\_cycle\_CCR} holds of \texttt{x}, \texttt{y} if for any proof \texttt{n} that \texttt{V} is finite, the margin of \texttt{x} over \texttt{y} in \texttt{P} (supplying the \texttt{margin} function with \texttt{V}, \texttt{X}, and \texttt{n}) is greater than 0 and there is no list \texttt{c} of elements containing \texttt{x} and \texttt{y} such that \texttt{c} is a majority cycle for which the margin of \texttt{x} over \texttt{y} is less than or equal to every margin in the cycle, i.e., \texttt{c} is a cycle in the binary relation \texttt{R} that holds of \texttt{a}, \texttt{b} just in case the margin of \texttt{x} over \texttt{y} is less than or equal to the margin of \texttt{a} over \texttt{b}.
 
 \end{example}
 
@@ -437,7 +438,7 @@ The proof can be found in our online repository.
 
 \subsection{Voting axioms}\label{VotingAxioms}
 
-After formalizing the basic objects of voting theory, we  formalized a number of standard axioms by which voting procedures are evaluated:
+After formalizing the basic objects of voting theory, we  formalized a number of standard axioms by which voting procedures are evaluated (and then proved that the axioms are satisfied by Split Cycle, as explained in Section \ref{Theorems}):
 \begin{itemize}
 \item[] \textbf{Domain axioms}:
 \begin{itemize}
@@ -455,15 +456,15 @@ After formalizing the basic objects of voting theory, we  formalized a number of
 \item \textit{monotonicity}: if $x$ wins in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by voters moving $x$ up in their rankings, then $x$ still wins in $\mathbf{P}'$.
 \item \textit{reversal symmetry}: if $x$ is the unique winner in a profile $\mathbf{P}$, then $x$ is not a winner in the profile $\mathbf{P}^r$ obtained from $\mathbf{P}$ by reversing all voters' rankings.\\
 \end{itemize}
-\item[] \textbf{Variable-candidate inter-profile axioms}:
-\begin{itemize}
-\item \textit{independence of clones}: see Section \ref{ClonesSection}.
-\item \textit{strong stability for winners}: if $x$ wins in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new candidate $y$ who does not beat $x$ in a head-to-head majority comparison, then $x$ is still a winner in $\mathbf{P}'$. \\
-\end{itemize}
 \item[] \textbf{Variable-voter inter-profile axioms}:
 \begin{itemize}
 \item \textit{positive involvement}: if $x$ wins in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new voter who ranks $x$ as their unique first choice, then $x$ still wins in $\mathbf{P}'$.
-\item \textit{negative involvement}: if $x$ does not win in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new voter who ranks $x$ as their unique last choice, then $x$ still does not win in $\mathbf{P}'$.
+\item \textit{negative involvement}: if $x$ does not win in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new voter who ranks $x$ as their unique last choice, then $x$ still does not win in $\mathbf{P}'$.\\
+\end{itemize}
+\item[] \textbf{Variable-candidate inter-profile axioms}:
+\begin{itemize}
+\item \textit{strong stability for winners}: if $x$ wins in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new candidate $y$ who does not beat $x$ in a head-to-head majority comparison, then $x$ is still a winner in $\mathbf{P}'$. 
+\item \textit{independence of clones}: see Section \ref{ClonesSection}.
 \end{itemize}
 \end{itemize}
 
@@ -474,7 +475,7 @@ Several of these axioms involved formalizing auxiliary relations or operations o
     $\lambda$ P$'$ P x, ($\forall$ (a $\neq$ x) (b $\neq$ x) i, P i a b $\leftrightarrow$ P$'$ i a b) 
     $\wedge$  \\$\forall$ a i, ((P i x a $\to$ P$'$ i x a) $\wedge$ (P$'$ i a x $\to$ P i a x))}
  \end{itemize}
-The variable-candidate and variable-voter axioms involve moving from one profile to another with a different set of candidates or voters. In fact, it is most convenient to formalize these axioms using the operations of \textit{removing} a candidate or voter from a profile, moving from a profile of type \texttt{Prof V X} to a profile of type  \texttt{Prof V $\{$x : X // x $\neq$ b$\}$}, in the case of removing a candidate \texttt{b}, or of type  \texttt{ Prof $\{$v : V // v $\neq$ i$\}$ X}, in the case of removing a voter \texttt{i}. See Section~\ref{ClonesSection} for the definition of the \textcolor{orange}{\texttt{minus\_candidate}} operation.
+The variable-voter and variable-candidate axioms involve moving from one profile to another with a different set of voters or candidates. In fact, it is most convenient to formalize these axioms using the operations of \textit{removing} a voter or candidate from a profile, moving from a profile of type \texttt{Prof V X} to a profile of type  \texttt{ Prof $\{$v : V // v $\neq$ i$\}$ X}, in the case of removing a voter \texttt{i}, or of type \texttt{Prof V $\{$x : X // x $\neq$ b$\}$}, in the case of removing a candidate \texttt{b}. See Section~\ref{ClonesSection} for the definition of the \textcolor{orange}{\texttt{minus\_candidate}} operation.
 
 \begin{comment}
 as in the following definition for removing a voter \texttt{i} from a profile of type \texttt{Prof V X} to obtain a profile of type  \texttt{ Prof $\{$v : V // v $\neq$ i$\}$ X} (cf.~Section \ref{ClonesSection} for the analogue for candidates):
