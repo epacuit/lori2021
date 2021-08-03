@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  3 AUG 2021 09:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  3 AUG 2021 09:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1075,10 +1075,149 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 66.
- [1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
- [4]
+
+LaTeX Warning: Citation `Arrow2014' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `Sen2017' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `Murakami1968' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `Rubinstein1984' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `Parikh1985' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `Pauly2008' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `AgotnesVanDerHoekWooldridge2009' on page 1 undefined o
+n input line 74.
+
+
+LaTeX Warning: Citation `Nipkow2009' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `Tang2011' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `TroquardVanDerHoekWooldridge2011' on page 1 undefined 
+on input line 74.
+
+
+LaTeX Warning: Citation `Endriss2011' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `GrandiEndriss2013' on page 1 undefined on input line 7
+4.
+
+
+LaTeX Warning: Citation `CinaEndriss2016' on page 1 undefined on input line 74.
+
+
+
+LaTeX Warning: Citation `PacuitYang2016' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Citation `HollidayPacuit2020' on page 1 undefined on input line 
+74.
+
+
+LaTeX Warning: Citation `Geist2017' on page 1 undefined on input line 85.
+
+
+LaTeX Warning: Citation `Nipkow2009' on page 1 undefined on input line 85.
+
+
+LaTeX Warning: Citation `Wiedijk2007' on page 1 undefined on input line 85.
+
+
+LaTeX Warning: Citation `Geanakoplos2005' on page 1 undefined on input line 85.
+
+
+
+LaTeX Warning: Citation `Brandt2018b' on page 1 undefined on input line 85.
+
+
+LaTeX Warning: Citation `Eberl2019' on page 1 undefined on input line 85.
+
+
+LaTeX Warning: Citation `Brandt2018' on page 1 undefined on input line 85.
+
+
+LaTeX Warning: Citation `Brandl2018' on page 1 undefined on input line 85.
+
+
+LaTeX Warning: Citation `Nipkow2009' on page 1 undefined on input line 85.
+
+[1
+
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Citation `Arrow1951' on page 2 undefined on input line 87.
+
+
+LaTeX Warning: Citation `Baigent1987' on page 2 undefined on input line 87.
+
+
+LaTeX Warning: Citation `Routley1979' on page 2 undefined on input line 87.
+
+
+LaTeX Warning: Citation `Blau1957' on page 2 undefined on input line 87.
+
+
+LaTeX Warning: Citation `Campbell2000' on page 2 undefined on input line 87.
+
+
+LaTeX Warning: Citation `Blau1979' on page 2 undefined on input line 87.
+
+
+LaTeX Warning: Citation `Lean' on page 2 undefined on input line 91.
+
+
+LaTeX Warning: Citation `Coquand1988' on page 2 undefined on input line 91.
+
+
+LaTeX Warning: Citation `MartinLof1984' on page 2 undefined on input line 91.
+
+
+LaTeX Warning: Reference `Framework' on page 2 undefined on input line 93.
+
+
+LaTeX Warning: Reference `Theorems' on page 2 undefined on input line 93.
+
+
+LaTeX Warning: Citation `HP2020b' on page 2 undefined on input line 93.
+
+
+LaTeX Warning: Reference `SplitCycleEx1' on page 2 undefined on input line 93.
+
+
+LaTeX Warning: Reference `Conclusion' on page 2 undefined on input line 93.
+
+[2]
+
+LaTeX Warning: Reference `ProfileDef' on page 3 undefined on input line 123.
+
+
+LaTeX Warning: Reference `ProfileDef' on page 3 undefined on input line 123.
+
+
+LaTeX Warning: Reference `MajPrefDef' on page 3 undefined on input line 137.
+
+[3]
+
+LaTeX Warning: Reference `MarginDef' on page 4 undefined on input line 154.
+
+[4]
+
+LaTeX Warning: Reference `CondorcetDef' on page 5 undefined on input line 217.
+
+
 Overfull \hbox (1.46655pt too wide) in paragraph at lines 230--233
 [][]\OT1/cmtt/m/n/10 theorem[] []cardinal.mk[]subtype[]mono[] $\OMS/cmsy/m/n/10
  f$$\OML/cmm/m/it/10 $ \OT1/cmtt/m/n/10 : Type u$\OMS/cmsy/m/n/10 g$ $f$$\OML/
@@ -1086,7 +1225,55 @@ cmm/m/it/10 '$ $ $ \OT1/cmtt/m/n/10 : $\OML/cmm/m/it/10 $ $\OMS/cmsy/m/n/10 !$
  \OT1/cmtt/m/n/10 Prop$\OMS/cmsy/m/n/10 g$ 
  []
 
-[5] [6] [7] [8] [9]
+[5]
+
+LaTeX Warning: Citation `Gaertner2001' on page 6 undefined on input line 289.
+
+[6]
+
+LaTeX Warning: Citation `HP2020b' on page 7 undefined on input line 335.
+
+
+LaTeX Warning: Reference `VSCC' on page 7 undefined on input line 335.
+
+[7]
+
+LaTeX Warning: Reference `CondorcetEx1' on page 8 undefined on input line 354.
+
+
+LaTeX Warning: Reference `VoterNote' on page 8 undefined on input line 365.
+
+
+LaTeX Warning: Citation `HK2020' on page 8 undefined on input line 365.
+
+
+LaTeX Warning: Citation `HP2020' on page 8 undefined on input line 372.
+
+[8]
+
+LaTeX Warning: Citation `HP2020' on page 9 undefined on input line 399.
+
+
+LaTeX Warning: Reference `VCCR' on page 9 undefined on input line 399.
+
+
+LaTeX Warning: Reference `SplitCycleEx1' on page 9 undefined on input line 405.
+
+
+[9]
+
+LaTeX Warning: Reference `InducedDef' on page 10 undefined on input line 415.
+
+
+LaTeX Warning: Citation `HP2020b' on page 10 undefined on input line 421.
+
+
+LaTeX Warning: Reference `SCVCCR' on page 10 undefined on input line 421.
+
+
+LaTeX Warning: Reference `Theorems' on page 10 undefined on input line 441.
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 445--446
 
  []
@@ -1107,6 +1294,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 462--463
  []
 
 
+LaTeX Warning: Reference `ClonesSection' on page 11 undefined on input line 467
+.
+
+
 Overfull \hbox (2.40398pt too wide) in paragraph at lines 476--477
 [][]\OT1/cmtt/m/n/10 def[] []simple[]lift[] $\OMS/cmsy/m/n/10 f$\OT1/cmtt/m/n/1
 0 V X : []Type[]$\OMS/cmsy/m/n/10 g$ \OT1/cmtt/m/n/10 : Prof V X $\OMS/cmsy/m/n
@@ -1114,10 +1305,35 @@ Overfull \hbox (2.40398pt too wide) in paragraph at lines 476--477
 cmsy/m/n/10 !$ \OT1/cmtt/m/n/10 Prop
  []
 
-[11] [12]
+
+LaTeX Warning: Reference `ClonesSection' on page 11 undefined on input line 478
+.
+
+
+LaTeX Warning: Citation `HP2020b' on page 11 undefined on input line 508.
+
+
+LaTeX Warning: Reference `VotingAxioms' on page 11 undefined on input line 508.
+
+
+[11]
+
+LaTeX Warning: Citation `Fishburn1977' on page 12 undefined on input line 527.
+
+
+LaTeX Warning: Reference `VotingAxioms' on page 12 undefined on input line 527.
+
+
+[12]
 Underfull \hbox (badness 10000) in paragraph at lines 537--538
 
  []
+
+
+LaTeX Warning: Citation `HP2020b' on page 13 undefined on input line 552.
+
+
+LaTeX Warning: Citation `Tideman1987' on page 13 undefined on input line 552.
 
 [13]
 Overfull \hbox (2.65155pt too wide) in paragraph at lines 585--587
@@ -1126,10 +1342,28 @@ Overfull \hbox (2.65155pt too wide) in paragraph at lines 585--587
 /m/n/10 c$\OMS/cmsy/m/n/10 g$\OT1/cmtt/m/n/10 ) :
  []
 
+
+LaTeX Warning: Citation `HP2020b' on page 14 undefined on input line 594.
+
+
+LaTeX Warning: Citation `HP2020b' on page 14 undefined on input line 594.
+
 [14]
+
+LaTeX Warning: Reference `MarginDef' on page 15 undefined on input line 596.
+
+
+LaTeX Warning: Citation `Schulze2011' on page 15 undefined on input line 596.
+
+
+LaTeX Warning: Citation `Taylor2008' on page 15 undefined on input line 598.
+
+
+LaTeX Warning: Citation `Avigad2021' on page 15 undefined on input line 598.
+
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 598.
- (./VotingTheoryLEAN.bbl [15]
+(./VotingTheoryLEAN.bbl [15]
 Underfull \hbox (badness 1748) in paragraph at lines 21--24
 []\OT1/cmr/m/n/9 Avigad, J., de Moura, L., Kong, S.: The-o-rem Prov-ing in Lean
 . Re-lease
@@ -1149,19 +1383,31 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 618.
  (./VotingTheoryLEAN.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 618.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 618.
-Package rerunfilecheck Info: File `VotingTheoryLEAN.out' has not changed.
-(rerunfilecheck)             Checksum: 7A76C7377ADE38457B0879C080EBD100;75.
 
+
+Package rerunfilecheck Warning: File `VotingTheoryLEAN.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `VotingTheoryLEAN.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  7A76C7377ADE38457B0879C080EBD100;75.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 618.
  ) 
 Here is how much of TeX's memory you used:
- 26830 strings out of 493014
- 507512 string characters out of 6133351
- 569961 words of memory out of 5000000
- 29897 multiletter control sequences out of 15000+600000
+ 26828 strings out of 493014
+ 507499 string characters out of 6133351
+ 567813 words of memory out of 5000000
+ 29895 multiletter control sequences out of 15000+600000
  13735 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  78i,9n,94p,10406b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1188,10 +1434,10 @@ ist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2016/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2016/texmf-dist/f
 onts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on VotingTheoryLEAN.pdf (17 pages, 334661 bytes).
+Output written on VotingTheoryLEAN.pdf (17 pages, 332429 bytes).
 PDF statistics:
- 431 PDF objects out of 1000 (max. 8388607)
- 336 compressed objects within 4 object streams
+ 306 PDF objects out of 1000 (max. 8388607)
+ 261 compressed objects within 3 object streams
  100 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
