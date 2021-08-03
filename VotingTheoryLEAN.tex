@@ -144,7 +144,7 @@ In Lean, we formalize Definition \ref{MajPrefDef} as follows:
 \texttt{cardinal.mk $\{$v : V // P v x y$\}$ >
 cardinal.mk $\{$v : V // P v y x$\}$}
 \end{itemize}
-Here `\texttt{$\{$V X : \textcolor{blue}{Type}$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments\footnote{See \href{https://leanprover.github.io/reference/expressions.html\#implicit-arguments}{Section 3.3} of the Lean documentation on implicit arguments.} to the function \texttt{majority\_preferred} of type \texttt{\textcolor{blue}{Type}}. Then \texttt{majority\_preferred} takes in explicit arguments of a $(V,X)$-profile and two candidates  and returns the proposition stating that the cardinality of the set of voters who prefer \texttt{x} to \texttt{y} is greater than the cardinality of the set of voters who prefer \texttt{y} to \texttt{x}. Here the `\texttt{//}' notation indicates that we are identifying the subtype of voters with a certain property, and \texttt{cardinal.mk} gives us the cardinality of the subtype.
+Here `\texttt{$\{$V X : \textcolor{blue}{Type}$\}$}' indicates that \texttt{V} and \texttt{X} are implicit arguments\footnote{See \href{https://leanprover.github.io/reference/expressions.html\#implicit-arguments}{Section 3.3} of the Lean documentation on implicit arguments.} to the function \texttt{majority\_preferred} of type \texttt{Type}. Then \texttt{majority\_preferred} takes in explicit arguments of a $(V,X)$-profile and two candidates  and returns the proposition stating that the cardinality of the set of voters who prefer \texttt{x} to \texttt{y} is greater than the cardinality of the set of voters who prefer \texttt{y} to \texttt{x}. Here the `\texttt{//}' notation indicates that we are identifying the subtype of voters with a certain property, and \texttt{cardinal.mk} gives us the cardinality of the subtype.
 
 
 Voting theorists are often concerned not only with whether one candidate is majority preferred to another but also, if so, by what margin.
@@ -315,7 +315,7 @@ We formalize universal domain as follows:
 
 % Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that \textit{$x$ is a Condorcet winner in $\mathbf{P}$} if $V$ is finite and for each $y\in X(\mathbf{P})\setminus \{x\}$, $Margin_\mathbf{P}(x,y)>0$.  
 
-\begin{example}\label{CondorcetEx1} For any $V$ and $X$, consider the Condorcet SCC for $(V,X)$ defined by:
+\begin{example}\label{CondorcetEx1} For any $V$, $X$, consider the Condorcet SCC for $(V,X)$ defined by:
 \[\mathrm{Cond}_{(V,X)}(\mathbf{P})=\begin{cases} \{x\} & \mbox{if there is a Condorcet winner $x$ in $\mathbf{P}$} \\ X(\mathbf{P}) & \mbox{otherwise}\end{cases}.\]
 The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a Condorcet winner---in which case it is unique---then output the set containing the Condorcet winner, and otherwise output all candidates in $X$.
 
@@ -463,7 +463,7 @@ After formalizing the basic objects of voting theory, we  formalized a number of
 \end{itemize}
 \item[] \textbf{Variable-candidate inter-profile axioms}:
 \begin{itemize}
-\item \textit{strong stability for winners}: if $x$ wins in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new candidate $y$ who does not beat $x$ in a head-to-head majority comparison, then $x$ is still a winner in $\mathbf{P}'$. 
+\item \textit{strong stability for winners}: if $x$ wins in a profile $\mathbf{P}$, and $\mathbf{P}'$ is obtained from $\mathbf{P}$ by adding a new candidate $y$ who does not beat $x$ in a head-to-head majority comparison, then $x$ still wins in $\mathbf{P}'$. 
 \item \textit{independence of clones}: see Section \ref{ClonesSection}.
 \end{itemize}
 \end{itemize}
@@ -472,7 +472,7 @@ Several of these axioms involved formalizing auxiliary relations or operations o
 
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{simple\_lift} $\{$V X : \textcolor{blue}{Type}$\}$ : Prof V X $\to$ Prof V X $\to$ X $\to$ Prop := 
-    $\lambda$ P$'$ P x, ($\forall$ (a $\neq$ x) (b $\neq$ x) i, P i a b $\leftrightarrow$ P$'$ i a b) 
+    \textcolor{blue}{$\lambda$} P$'$ P x, ($\forall$ (a $\neq$ x) (b $\neq$ x) i, P i a b $\leftrightarrow$ P$'$ i a b) 
     $\wedge$  \\$\forall$ a i, ((P i x a $\to$ P$'$ i x a) $\wedge$ (P$'$ i a x $\to$ P i a x))}
  \end{itemize}
 The variable-voter and variable-candidate axioms involve moving from one profile to another with a different set of voters or candidates. In fact, it is most convenient to formalize these axioms using the operations of \textit{removing} a voter or candidate from a profile, moving from a profile of type \texttt{Prof V X} to a profile of type  \texttt{ Prof $\{$v : V // v $\neq$ i$\}$ X}, in the case of removing a voter \texttt{i}, or of type \texttt{Prof V $\{$x : X // x $\neq$ b$\}$}, in the case of removing a candidate \texttt{b}. See Section~\ref{ClonesSection} for the definition of the \textcolor{orange}{\texttt{minus\_candidate}} operation.

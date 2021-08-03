@@ -68,8 +68,8 @@ Coquand, T., Huet, G.: The calculus of constructions. Information and
 
 \bibitem{Lean}
 {de Moura}, L., Kong, S., Avigad, J., {van Doorn}, F., {von Raumer}, J.: The
-  lean theorem prover. In: 25th International Conference on Automated Deduction
-  (CADE-25) (2015)
+  {L}ean {T}heorem {P}rover. In: 25th International Conference on Automated
+  Deduction (CADE-25) (2015)
 
 \bibitem{Eberl2019}
 Eberl, M.: Verifying randomised social choice. In: International Symposium on
@@ -122,7 +122,7 @@ Holliday, W.H., Pacuit, E.: Axioms for defeat in democratic elections. Journal
   \href{https://arxiv.org/abs/2008.08451}{arXiv:2008.08451}
 
 \bibitem{MartinLof1984}
-{Margin-L\"{o}f}, P.: Intuitionistic type theory. Bibliopolis, Napoli (1984)
+{Martin-L\"{o}f}, P.: Intuitionistic type theory. Bibliopolis, Napoli (1984)
 
 \bibitem{Murakami1968}
 Murakami, Y.: Logic and Social Choice. Dover Publications, New York (1968)
@@ -146,7 +146,7 @@ Pauly, M.: On the role of language in social choice theory. Social Choice and
   Welfare  \textbf{163},  227--243 (2008)
 
 \bibitem{Routley1979}
-Routley, R.: Repairing proofs of arrow's general impossibility theorem and
+Routley, R.: Repairing proofs of {A}rrow's general impossibility theorem and
   enlarging the scope of the theorem. Notre Dame Journal of Formal Logic
   \textbf{20}(4),  879--890 (1979)
 
@@ -165,9 +165,9 @@ Sen, A.: Collective Choice and Social Welfare: An Expanded Edition. Harvard
   University Press, Cambridge, Mass. (2017)
 
 \bibitem{Tang2011}
-Tang, P., Lin, F.: Discovering theorems in game theory: Two-person games with
-  unique pure nash equilibrium payoffs. Artificial Intelligence  \textbf{175},
-  2010--2020 (2011)
+Tang, P., Lin, F.: Discovering theorems in game theory: {T}wo-person games with
+  unique pure {N}ash equilibrium payoffs. Artificial Intelligence
+  \textbf{175},  2010--2020 (2011)
 
 \bibitem{Taylor2008}
 Taylor, A.D., Pacelli, A.M.: Mathematics and Politics: Strategy, Voting, Power,
