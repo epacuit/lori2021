@@ -8,45 +8,45 @@ Repeated entry---line 537 of file VotingTheoryLean.bib
  :                       ,
 I'm skipping whatever remains of this entry
 Warning--missing publisher in Avigad2021
-You've used 40 entries,
+You've used 41 entries,
             2850 wiz_defined-function locations,
-            883 strings with 10762 characters,
-and the built_in function-call counts, 21587 in all, are:
-= -- 1761
-> -- 481
+            887 strings with 10850 characters,
+and the built_in function-call counts, 21921 in all, are:
+= -- 1789
+> -- 493
 < -- 51
-+ -- 203
-- -- 155
-* -- 1313
-:= -- 2660
++ -- 208
+- -- 159
+* -- 1334
+:= -- 2710
 add.period$ -- 48
-call.type$ -- 40
-change.case$ -- 205
+call.type$ -- 41
+change.case$ -- 211
 chr.to.int$ -- 0
-cite$ -- 41
-duplicate$ -- 2034
-empty$ -- 2092
-format.name$ -- 179
-if$ -- 4868
+cite$ -- 42
+duplicate$ -- 2065
+empty$ -- 2119
+format.name$ -- 184
+if$ -- 4935
 int.to.chr$ -- 0
-int.to.str$ -- 40
-missing$ -- 390
-newline$ -- 126
-num.names$ -- 92
-pop$ -- 654
+int.to.str$ -- 41
+missing$ -- 396
+newline$ -- 129
+num.names$ -- 94
+pop$ -- 664
 preamble$ -- 1
-purify$ -- 150
+purify$ -- 154
 quote$ -- 0
-skip$ -- 677
+skip$ -- 683
 stack$ -- 0
-substring$ -- 1333
-swap$ -- 1165
+substring$ -- 1348
+swap$ -- 1178
 text.length$ -- 51
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 146
+type$ -- 150
 warning$ -- 1
-while$ -- 182
-width$ -- 42
-write$ -- 406
+while$ -- 185
+width$ -- 43
+write$ -- 414
 (There was 1 error message)
