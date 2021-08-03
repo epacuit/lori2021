@@ -316,8 +316,8 @@ We formalize universal domain as follows:
 % Given a profile $\mathbf{P}$ and $x\in X(\mathbf{P})$, we say that \textit{$x$ is a Condorcet winner in $\mathbf{P}$} if $V$ is finite and for each $y\in X(\mathbf{P})\setminus \{x\}$, $Margin_\mathbf{P}(x,y)>0$.  
 
 \begin{example}\label{CondorcetEx1} For any $V$ and $X$, consider the Condorcet SCC for $(V,X)$ defined by:
-\[\mathrm{Cond}_{(V,X)}(\mathbf{P})=\begin{cases} \{x\} & \mbox{if $x$ is a Condorcet winner in $\mathbf{P}$} \\ X(\mathbf{P}) & \mbox{otherwise}\end{cases}.\]
-The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a Condorcet winner---in which case it is unique---then output the set containing the Condorcet winner, and otherwise output all candidates in \texttt{X}.
+\[\mathrm{Cond}_{(V,X)}(\mathbf{P})=\begin{cases} \{x\} & \mbox{if there is a Condorcet winner $x$ in $\mathbf{P}$} \\ X(\mathbf{P}) & \mbox{otherwise}\end{cases}.\]
+The definition states that given a $(V,X)$-profile $\mathbf{P}$, if there is a Condorcet winner---in which case it is unique---then output the set containing the Condorcet winner, and otherwise output all candidates in $X$.
 
 We represent this $(V,X)$-SCC in Lean as follows:
 \begin{itemize}
