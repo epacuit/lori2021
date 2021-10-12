@@ -372,7 +372,7 @@ cardinal.mk $\{$v : V // P v y x$\}$}
 
 \begin{frame}
 
-We make use of the following theorem from mathlib: 
+Lean has a very well-developed library of mathematical results called mathlib.   For instance, we made  use of the following theorem from mathlib: 
 
 \bigskip
 
@@ -436,13 +436,13 @@ We make use of the following theorem from mathlib:
 Let $\mathsf{SCC}$ be a function that assigns to each pair $(V,X)$ of $V\subseteq\mathcal{V}$ and $X\subseteq\mathcal{X}$ the set of all $(V,X)$-SCCs.
 \end{definition}
 
-\vfill 
 \pause 
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{SCC} := \textcolor{blue}{$\lambda$} (V X : \textcolor{blue}{Type}), Prof V X $\to$ set X}
 \end{itemize}
 
-\vfill 
+ 
+\vspace{.25in}
 \pause
 
 \begin{itemize}
@@ -472,14 +472,39 @@ The Condorcet SCC: \\[4pt]
 \end{definition}
 
 
-\vfill 
-
+\pause
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VSCC} : \textcolor{blue}{Type 1} := $\Pi$ (V X : \textcolor{blue}{Type}), SCC V X}
 \end{itemize}
 
+\vspace{.25in}
+
+
+Given \texttt{$\alpha$~:~Type} and \texttt{$\beta$~:~$\alpha$ $\to$ Type}, the type 
+\begin{center}\texttt{$\Pi$ y z~:~$\alpha$, $\beta$ y z}\end{center} is the type of functions \texttt{f} such that for each \texttt{a b~:~$\alpha$}, we have that \texttt{f a b} is an element of \texttt{$\beta$~a~b}. %In the definition of \texttt{VSCC} above, $\alpha$ is \texttt{Type} and $\beta$ is \texttt{SCC}.  %Thus, the definition states that an element of the type \texttt{VSCC} is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{SCC V X}, i.e., a $(V,X)$-SCC. 
+
+
+ 
+
+
+\end{frame}
+
+\begin{frame}{Variable-Election Framework}
+
+\begin{definition}\label{VSCC} A \textit{variable-election social choice correspondence} (VSCC) is a function $F$ that assigns to each pair $(V,X)$ of a $V\subseteq \mathcal{V}$ and $X\subseteq\mathcal{X}$ a $(V,X)$-SCC. %We abuse terminology and call the set $\{\mathbf{Q}\in\mathsf{PROF}\mid F(V(\mathbf{Q}),X(\mathbf{Q}))(\mathbf{Q})\neq\emptyset \}$ the \textit{domain} of  $F$. 
+%We say that $F$ satisfies  (\textit{finite}) \textit{universal domain} if the domain of $F$ includes $\{\mathbf{P}\in \mathsf{PROF}\mid V(\mathbf{P}) \mbox{ and }X(\mathbf{P}) \mbox{ nonempty and finite}\}$.
+\end{definition}
+
+ 
+\begin{itemize}
+\item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VSCC} : \textcolor{blue}{Type 1} := $\Pi$ (V X : \textcolor{blue}{Type}), SCC V X}
+\end{itemize}
+
+
+
 \vfill 
-\pause 
+\vfill 
+
 Example: Condorcet VSCC\\
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{condorcet\_VSCC} : VSCC := \textcolor{blue}{$\lambda$} V X, condorcet\_SCC}
@@ -578,7 +603,7 @@ We verified  all the results about a new voting method, {\em Split Cycle}, from
  %\vfill
  %\item Can we generalize the definition of margin? E.g.,  $(a,b)\succ_\mathbf{P} (c,d)$ means that the strength of majority preference for $a$ over $b$ in profile $\mathbf{P}$ is {\em stronger} than the strength of majority preference for $c$ over $d$ in $\mathbf{P}$.
  %\vfill
- \item Verify axioms of other voting methods: Not just margin-based methods (e.g., Split Cycle and Beat Path), but also  scoring rules (e.g., Plurality and Borda), and {\em recursive} voting methods (e.g., Instant Runoff).
+ \item Verify axioms of other voting methods: Not just margin-based methods (e.g., Split Cycle, Beat Path), but also  scoring rules (e.g., Plurality, Borda), and {\em recursive} voting methods (e.g., Instant Runoff, Stable Voting).
  \vfill
  \item Formalize characterization theorems (e.g., Arrow's Theorem characterizing dictatorship, May's Theorem characterizing majority rule, Young's Theorem characterizing scoring rules, $\ldots$).
  \vfill
