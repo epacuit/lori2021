@@ -341,7 +341,7 @@ In Lean, we define the type of VSCCs as a \textit{dependent function type}:
 \begin{itemize}
 \item[] \texttt{\textcolor{blue}{def} \textcolor{orange}{VSCC} : \textcolor{blue}{Type 1} := $\Pi$ (V X : \textcolor{blue}{Type}), SCC V X}
 \end{itemize}
-Given \texttt{$\alpha$: Type} and \texttt{$\beta$: $\alpha$ $\to$ Type}, the type \texttt{$\Pi$ y z : $\alpha$, $\beta$ y z} is the type of functions \texttt{f} such that for each \texttt{a b : $\alpha$}, we have that \texttt{f a b} is an element of \texttt{$\beta$~a~b}. In the definition of \texttt{VSCC} above, $\alpha$ is \texttt{Type} and $\beta$ is \texttt{SCC}.  Thus, the definition states that an element of the type \texttt{VSCC} is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{SCC V X}, i.e., a $(V,X)$-SCC. 
+Given \texttt{$\alpha$ : Type 1} and \texttt{$\beta$ : $\alpha$ $\to$ $\alpha$ $\to$ Type}, the type \texttt{$\Pi$ y z : $\alpha$, $\beta$ y z} is the type of functions \texttt{f} such that for each \texttt{a b : $\alpha$}, we have that \texttt{f a b} is an element of \texttt{$\beta$~a~b}. In the definition of \texttt{VSCC} above, $\alpha$ is \texttt{Type} and $\beta$ is \texttt{SCC}.  Thus, the definition states that an element of the type \texttt{VSCC} is a function that for any types \texttt{V} and \texttt{X} returns a function of the type \texttt{SCC V X}, i.e., a $(V,X)$-SCC. 
 
 We formalize (finite) universal domain as follows:
 \begin{itemize}
